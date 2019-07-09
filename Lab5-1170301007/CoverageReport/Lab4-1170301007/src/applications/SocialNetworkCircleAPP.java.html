@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>SocialNetworkCircleAPP.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">applications</a> &gt; <span class="el_source">SocialNetworkCircleAPP.java</span></div><h1>SocialNetworkCircleAPP.java</h1><pre class="source lang-java linenums">package applications;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import APIs.CircularOrbitAPIs;
+import APIs.CircularOrbitHelper;
+import MyException.AtomElectronNumException;
+import MyException.AtomElementException;
+import MyException.AtomTrackNumException;
+import MyException.DataScientificNumberException;
+import MyException.DataSyntaxException;
+import MyException.IllegalIntimacyInSocialTieException;
+import MyException.IntermediaryNotExistException;
+import MyException.NoObjectOnTrackException;
+import centralObject.Person;
+import circularOrbit.CircularOrbit;
+import circularOrbit.Edge;
+import circularOrbit.SocialNetworkCircleFactory;
+import circularOrbit.circularOrbitFactory;
+import physicalObject.ConcreteFriendFactory;
+import physicalObject.FriendFactory;
+import physicalObject.PhysicalObject;
+import track.Track;
+import track.TrackFactory;
+
+/**
+ * SocialNetworkCircleAPP provides a static method for client to call in
+ * Main.java. This static method is the mainly function method for social
+ * network circle applications.
+ * 
+ * @author Shen
+ *
+ */
+<span class="nc bnc" id="L47" title="All 2 branches missed.">public class SocialNetworkCircleAPP {</span>
+
+<span class="nc" id="L49">	private static FriendFactory friendFactory = new ConcreteFriendFactory();</span>
+<span class="nc" id="L50">	private static TrackFactory trackFactory = new TrackFactory();</span>
+<span class="nc" id="L51">	private static Scanner in = new Scanner(System.in);</span>
+	private static Pattern pattern;
+	private static Matcher matcher;
+	private static final String labelRegex = &quot;([a-zA-Z0-9]*)&quot;;
+	private static final String commaRegex = &quot;\\s*,\\s*&quot;;
+<span class="nc" id="L56">	private static Logger socialNetworkCircleLogger = Logger.getLogger(&quot;SocialNetworkCircle Log&quot;);</span>
+
+	/**
+	 * Social network circle application method
+	 */
+	public static void application() {
+<span class="nc" id="L62">		CircularOrbitAPIs&lt;Person, PhysicalObject&gt; apis = new CircularOrbitAPIs&lt;Person, PhysicalObject&gt;();</span>
+<span class="nc" id="L63">		circularOrbitFactory&lt;Person, PhysicalObject&gt; factory = new SocialNetworkCircleFactory();</span>
+<span class="nc" id="L64">		CircularOrbit&lt;Person, PhysicalObject&gt; socialNetworkCircle = factory.produce();</span>
+<span class="nc" id="L65">		socialNetworkCircleLogger.setUseParentHandlers(false);</span>
+<span class="nc" id="L66">		while (true) {</span>
+<span class="nc" id="L67">			menu();</span>
+<span class="nc" id="L68">			int choose = 0;</span>
+			try {
+<span class="nc" id="L70">				choose = in.nextInt();</span>
+<span class="nc" id="L71">				in.nextLine();</span>
+<span class="nc" id="L72">			} catch (InputMismatchException e) {</span>
+<span class="nc" id="L73">				System.err.println(e.getClass() + &quot; Please input again.&quot;);</span>
+<span class="nc" id="L74">				in.nextLine();</span>
+<span class="nc" id="L75">				continue;</span>
+			}
+<span class="nc bnc" id="L77" title="All 13 branches missed.">			switch (choose) {</span>
+			case 1: // Read from file to generate a social network circle
+<span class="nc" id="L79">				readMenu();</span>
+<span class="nc" id="L80">				File file = null;</span>
+<span class="nc" id="L81">				int choose1 = 0;</span>
+				try {
+<span class="nc" id="L83">					choose1 = in.nextInt();</span>
+<span class="nc" id="L84">					in.nextLine();</span>
+<span class="nc" id="L85">				} catch (InputMismatchException e) {</span>
+<span class="nc" id="L86">					System.err.println(e.getMessage() + &quot;Please run again.&quot;);</span>
+<span class="nc" id="L87">					in.nextLine();</span>
+<span class="nc" id="L88">					break;</span>
+				}
+				try {
+<span class="nc bnc" id="L91" title="All 5 branches missed.">					switch (choose1) {</span>
+					case 1:
+<span class="nc" id="L93">						socialNetworkCircleLogger.info(&quot;Read from input/SocialNetworkCircle.txt&quot;);</span>
+<span class="nc" id="L94">						file = new File(&quot;input/SocialNetworkCircle.txt&quot;);</span>
+<span class="nc" id="L95">						socialNetworkCircle.readFromFile(file);</span>
+<span class="nc" id="L96">						socialNetworkCircleLogger.info(&quot;Success: Read from input/SocialNetworkCircle.txt&quot;);</span>
+<span class="nc" id="L97">						break;</span>
+					case 2:
+<span class="nc" id="L99">						socialNetworkCircleLogger.info(&quot;Read from input/SocialNetworkCircle_Medium.txt&quot;);</span>
+<span class="nc" id="L100">						file = new File(&quot;input/SocialNetworkCircle_Medium.txt&quot;);</span>
+<span class="nc" id="L101">						socialNetworkCircle.readFromFile(file);</span>
+<span class="nc" id="L102">						socialNetworkCircleLogger.info(&quot;Success: Read from input/SocialNetworkCircle_Medium.txt&quot;);</span>
+<span class="nc" id="L103">						break;</span>
+					case 3:
+<span class="nc" id="L105">						socialNetworkCircleLogger.info(&quot;Read from input/SocialNetworkCircle_Larger.txt&quot;);</span>
+<span class="nc" id="L106">						file = new File(&quot;input/SocialNetworkCircle_Larger.txt&quot;);</span>
+<span class="nc" id="L107">						socialNetworkCircle.readFromFile(file);</span>
+<span class="nc" id="L108">						socialNetworkCircleLogger.info(&quot;Success: Read from input/SocialNetworkCircle_Larger.txt&quot;);</span>
+<span class="nc" id="L109">						break;</span>
+					case 4:
+<span class="nc" id="L111">						System.out.println(&quot;Please input absolute file path.&quot;);</span>
+<span class="nc" id="L112">						String absolutePath = in.nextLine();</span>
+<span class="nc" id="L113">						file = new File(absolutePath);</span>
+<span class="nc" id="L114">						socialNetworkCircle.readFromFile(file);</span>
+<span class="nc" id="L115">						socialNetworkCircleLogger</span>
+<span class="nc" id="L116">								.info(&quot;Success: Read from &quot; + absolutePath + &quot;. Restore present state.&quot;);</span>
+<span class="nc" id="L117">						break;</span>
+					default:
+<span class="nc" id="L119">						System.err.println(&quot;Wrong input&quot;);</span>
+						break;
+					}
+<span class="nc" id="L122">				} catch (FileNotFoundException e) {</span>
+<span class="nc" id="L123">					socialNetworkCircleLogger.log(Level.SEVERE,</span>
+<span class="nc" id="L124">							&quot;File not found. File: &quot; + file.getPath() + &quot;. &quot; + e.getMessage(), e);</span>
+<span class="nc" id="L125">					System.err.println(&quot;File not found. File: &quot; + file.getPath() + &quot;. &quot; + e.getMessage());</span>
+<span class="nc" id="L126">				} catch (DataSyntaxException e) {</span>
+<span class="nc" id="L127">					socialNetworkCircleLogger.log(Level.SEVERE, e.getMessage(), e);</span>
+<span class="nc" id="L128">					System.err.println(e.getMessage());</span>
+<span class="nc" id="L129">				} catch (IllegalIntimacyInSocialTieException e) {</span>
+<span class="nc" id="L130">					socialNetworkCircleLogger.log(Level.SEVERE, e.getMessage(), e);</span>
+<span class="nc" id="L131">					System.err.println(e.getMessage());</span>
+<span class="nc" id="L132">				} catch (IOException e) {</span>
+<span class="nc" id="L133">					e.printStackTrace();</span>
+<span class="nc" id="L134">				} catch (NumberFormatException e) {</span>
+<span class="nc" id="L135">					e.printStackTrace();</span>
+				} catch (AtomElementException | AtomTrackNumException | AtomElectronNumException
+<span class="nc" id="L137">						| DataScientificNumberException e) {</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">					assert false : &quot;shouldn't have this exception.&quot;;</span>
+				}
+				break;
+			case 2: // Visualize
+<span class="nc" id="L142">				socialNetworkCircleLogger.info(&quot;Visualize.&quot;);</span>
+<span class="nc" id="L143">				CircularOrbitHelper.visualize(socialNetworkCircle);</span>
+<span class="nc" id="L144">				socialNetworkCircleLogger.info(&quot;Success: Visualize.&quot;);</span>
+<span class="nc" id="L145">				break;</span>
+			case 3: // Add a track
+<span class="nc" id="L147">				socialNetworkCircleLogger.info(&quot;Add a track.&quot;);</span>
+<span class="nc" id="L148">				System.out.println(&quot;What's the radius(integer) of the added track?&quot;);</span>
+<span class="nc" id="L149">				int addTrackRadius = 0;</span>
+				try {
+<span class="nc" id="L151">					addTrackRadius = in.nextInt();</span>
+<span class="nc" id="L152">					in.nextLine();</span>
+<span class="nc" id="L153">				} catch (InputMismatchException e) {</span>
+<span class="nc" id="L154">					System.err.println(e.getMessage() + &quot;Please run again.&quot;);</span>
+<span class="nc" id="L155">					in.nextLine();</span>
+<span class="nc" id="L156">					break;</span>
+				}
+<span class="nc" id="L158">				socialNetworkCircle.addTrack(trackFactory.produce((double) addTrackRadius));</span>
+<span class="nc" id="L159">				socialNetworkCircleLogger.info(&quot;Success: Add a &quot; + addTrackRadius + &quot; track.&quot;);</span>
+<span class="nc" id="L160">				break;</span>
+			case 4: // Add an object to a track
+<span class="nc" id="L162">				socialNetworkCircleLogger.info(&quot;Add an object to a track.&quot;);</span>
+<span class="nc" id="L163">				System.out.println(&quot;Please input information of the added friend in order below:&quot;);</span>
+<span class="nc" id="L164">				System.out.println(&quot;Friend ::= &lt;NAME,AGE,SEX&gt;&quot;);</span>
+<span class="nc" id="L165">				System.out.println(&quot;All data must obey the specification.&quot;);</span>
+<span class="nc" id="L166">				String addData = in.nextLine();</span>
+<span class="nc" id="L167">				System.out.println(&quot;What's the radius(decimal) of the target track?&quot;);</span>
+<span class="nc" id="L168">				int addRadius = 0;</span>
+				try {
+<span class="nc" id="L170">					addRadius = in.nextInt();</span>
+<span class="nc" id="L171">					in.nextLine();</span>
+<span class="nc" id="L172">				} catch (InputMismatchException e) {</span>
+<span class="nc" id="L173">					System.err.println(e.getMessage() + &quot;Please run again.&quot;);</span>
+<span class="nc" id="L174">					in.nextLine();</span>
+<span class="nc" id="L175">					break;</span>
+				}
+<span class="nc" id="L177">				pattern = Pattern.compile(</span>
+<span class="nc" id="L178">						&quot;Friend\\s*::=\\s*&lt;&quot; + labelRegex + commaRegex + &quot;(\\d*)&quot; + commaRegex + &quot;([M|F]{1})&quot; + &quot;&gt;&quot;);</span>
+<span class="nc" id="L179">				matcher = pattern.matcher(addData);</span>
+<span class="nc" id="L180">				boolean find = matcher.find();</span>
+<span class="nc bnc" id="L181" title="All 2 branches missed.">				if (find) {</span>
+<span class="nc" id="L182">					String name = matcher.group(1);</span>
+<span class="nc" id="L183">					int age = Integer.valueOf(matcher.group(2));</span>
+<span class="nc" id="L184">					char sex = matcher.group(3).charAt(0);</span>
+<span class="nc" id="L185">					socialNetworkCircle.addPhysicalObjectToTrack(friendFactory.produce(name, age, sex),</span>
+<span class="nc" id="L186">							trackFactory.produce((double) addRadius));</span>
+<span class="nc" id="L187">					socialNetworkCircleLogger.info(&quot;Success: Add a friend &quot; + name + &quot; to &quot; + addRadius + &quot; track.&quot;);</span>
+<span class="nc" id="L188">				} else {</span>
+<span class="nc" id="L189">					socialNetworkCircleLogger.log(Level.SEVERE, &quot;Friend syntax doesn't match!&quot;);</span>
+<span class="nc" id="L190">					System.err.println(&quot;Friend syntax doesn't match!&quot;);</span>
+<span class="nc" id="L191">					break;</span>
+				}
+				break;
+			case 5: // Delete a track
+<span class="nc" id="L195">				socialNetworkCircleLogger.info(&quot;Delete a track.&quot;);</span>
+<span class="nc" id="L196">				System.out.println(&quot;What's the radius(integer) of the deleted track?&quot;);</span>
+<span class="nc" id="L197">				int deleteTrackRadius = 0;</span>
+				try {
+<span class="nc" id="L199">					deleteTrackRadius = in.nextInt();</span>
+<span class="nc" id="L200">					in.nextLine();</span>
+<span class="nc" id="L201">				} catch (InputMismatchException e) {</span>
+<span class="nc" id="L202">					System.err.println(e.getMessage() + &quot;Please run again.&quot;);</span>
+<span class="nc" id="L203">					in.nextLine();</span>
+<span class="nc" id="L204">					break;</span>
+				}
+<span class="nc" id="L206">				socialNetworkCircle.deleteTrack(trackFactory.produce((double) deleteTrackRadius));</span>
+<span class="nc" id="L207">				socialNetworkCircleLogger.info(&quot;Success: Delete a &quot; + deleteTrackRadius + &quot; track.&quot;);</span>
+<span class="nc" id="L208">				break;</span>
+			case 6: // Delete an object in a track
+<span class="nc" id="L210">				socialNetworkCircleLogger.info(&quot;Delete an object in a track.&quot;);</span>
+<span class="nc" id="L211">				System.out.println(&quot;Please input information of the deleted friend in order below:&quot;);</span>
+<span class="nc" id="L212">				System.out.println(&quot;Friend ::= &lt;NAME,AGE,SEX&gt;&quot;);</span>
+<span class="nc" id="L213">				System.out.println(&quot;All data must obey the specification.&quot;);</span>
+<span class="nc" id="L214">				String deleteData = in.nextLine();</span>
+<span class="nc" id="L215">				System.out.println(&quot;What's the radius(integer) of the target track?&quot;);</span>
+<span class="nc" id="L216">				int deleteRadius = 0;</span>
+				try {
+<span class="nc" id="L218">					deleteRadius = in.nextInt();</span>
+<span class="nc" id="L219">					in.nextLine();</span>
+<span class="nc" id="L220">				} catch (InputMismatchException e) {</span>
+<span class="nc" id="L221">					System.err.println(e.getMessage() + &quot;Please run again.&quot;);</span>
+<span class="nc" id="L222">					in.nextLine();</span>
+<span class="nc" id="L223">					break;</span>
+				}
+<span class="nc" id="L225">				pattern = Pattern.compile(</span>
+<span class="nc" id="L226">						&quot;Friend\\s*::=\\s*&lt;&quot; + labelRegex + commaRegex + &quot;(\\d*)&quot; + commaRegex + &quot;([M|F]{1})&quot; + &quot;&gt;&quot;);</span>
+<span class="nc" id="L227">				matcher = pattern.matcher(deleteData);</span>
+<span class="nc" id="L228">				boolean find1 = matcher.find();</span>
+<span class="nc bnc" id="L229" title="All 2 branches missed.">				if (find1) {</span>
+<span class="nc" id="L230">					String name = matcher.group(1);</span>
+<span class="nc" id="L231">					int age = Integer.valueOf(matcher.group(2));</span>
+<span class="nc" id="L232">					char sex = matcher.group(3).charAt(0);</span>
+					try {
+<span class="nc" id="L234">						socialNetworkCircleLogger</span>
+<span class="nc" id="L235">								.info(&quot;Success: Delete friend &quot; + name + &quot; from &quot; + deleteRadius + &quot; track.&quot;);</span>
+<span class="nc" id="L236">						socialNetworkCircle.deletePhysicalObjectFromTrack(friendFactory.produce(name, age, sex),</span>
+<span class="nc" id="L237">								trackFactory.produce((double) deleteRadius));</span>
+<span class="nc" id="L238">					} catch (NoObjectOnTrackException e) {</span>
+<span class="nc" id="L239">						socialNetworkCircleLogger.log(Level.SEVERE, e.getMessage(), e);</span>
+<span class="nc" id="L240">						System.err.println(e.getMessage());</span>
+<span class="nc" id="L241">						break;</span>
+					}
+				} else {
+<span class="nc" id="L244">					socialNetworkCircleLogger.log(Level.SEVERE, &quot;Friend syntax doesn't match!&quot;);</span>
+<span class="nc" id="L245">					System.err.println(&quot;Friend syntax doesn't match!&quot;);</span>
+<span class="nc" id="L246">					break;</span>
+				}
+				break;
+			case 7: // Calculate the information entropy of the system
+<span class="nc" id="L250">				socialNetworkCircleLogger.info(&quot;Calculate the information entropy of the system.&quot;);</span>
+<span class="nc" id="L251">				double entropy = apis.getObjectDistributionEntropy(socialNetworkCircle);</span>
+<span class="nc" id="L252">				System.out.println(&quot;Information entropy: &quot; + entropy);</span>
+<span class="nc" id="L253">				socialNetworkCircleLogger.info(&quot;Success: Calculate the information entropy: &quot; + entropy + &quot;.&quot;);</span>
+<span class="nc" id="L254">				break;</span>
+			case 8: // Calculate information diffusivity of someone in the first track
+<span class="nc" id="L256">				socialNetworkCircleLogger.info(&quot;Calculate information diffusivity of someone in the first track.&quot;);</span>
+<span class="nc" id="L257">				System.out.println(</span>
+<span class="nc" id="L258">						&quot;Information diffusivity: the number of whom can be aquainted via someone in the first track by the center person.&quot;);</span>
+<span class="nc" id="L259">				System.out.println(</span>
+<span class="nc" id="L260">						&quot;Aquainted rule: The intimacy between intermediary and target should be no less than intimacy between center and intermediary.&quot;);</span>
+<span class="nc" id="L261">				System.out.println(&quot;Please input information of intermediary in the first track in order below:&quot;);</span>
+<span class="nc" id="L262">				System.out.println(&quot;Friend ::= &lt;NAME,AGE,SEX&gt;&quot;);</span>
+<span class="nc" id="L263">				System.out.println(&quot;All data must obey the specification.&quot;);</span>
+<span class="nc" id="L264">				String intermediaryData = in.nextLine();</span>
+<span class="nc" id="L265">				int diffusivity = 0;</span>
+<span class="nc" id="L266">				PhysicalObject intermediary = null;</span>
+<span class="nc" id="L267">				double intimacy = 0;</span>
+<span class="nc" id="L268">				boolean existIntermediary = false;</span>
+<span class="nc" id="L269">				pattern = Pattern.compile(</span>
+<span class="nc" id="L270">						&quot;Friend\\s*::=\\s*&lt;&quot; + labelRegex + commaRegex + &quot;(\\d*)&quot; + commaRegex + &quot;([M|F]{1})&quot; + &quot;&gt;&quot;);</span>
+<span class="nc" id="L271">				matcher = pattern.matcher(intermediaryData);</span>
+<span class="nc" id="L272">				boolean find2 = matcher.find();</span>
+<span class="nc bnc" id="L273" title="All 2 branches missed.">				if (find2) {</span>
+<span class="nc" id="L274">					String name = matcher.group(1);</span>
+<span class="nc" id="L275">					int age = Integer.valueOf(matcher.group(2));</span>
+<span class="nc" id="L276">					char sex = matcher.group(3).charAt(0);</span>
+<span class="nc" id="L277">					intermediary = friendFactory.produce(name, age, sex);</span>
+<span class="nc" id="L278">				} else {</span>
+<span class="nc" id="L279">					socialNetworkCircleLogger.log(Level.SEVERE, &quot;Intermediary syntax doesn't match!&quot;);</span>
+<span class="nc" id="L280">					System.err.println(&quot;Intermediary syntax doesn't match!&quot;);</span>
+<span class="nc" id="L281">					break;</span>
+				}
+<span class="nc bnc" id="L283" title="All 2 branches missed.">				for (PhysicalObject friend : socialNetworkCircle.getRelationBetweenCentralAndObject()[0].keySet()) {</span>
+<span class="nc bnc" id="L284" title="All 2 branches missed.">					if (friend.equals(intermediary)) {</span>
+<span class="nc" id="L285">						existIntermediary = true;</span>
+<span class="nc" id="L286">						break;</span>
+					}
+				}
+				try {
+<span class="nc bnc" id="L290" title="All 2 branches missed.">					if (!existIntermediary) {</span>
+<span class="nc" id="L291">						throw new IntermediaryNotExistException(&quot;This intermediary doesn't exist!&quot;);</span>
+					}
+<span class="nc" id="L293">				} catch (IntermediaryNotExistException e) {</span>
+<span class="nc" id="L294">					socialNetworkCircleLogger.log(Level.SEVERE, e.getMessage(), e);</span>
+<span class="nc" id="L295">					System.err.println(e.getMessage());</span>
+<span class="nc" id="L296">					break;</span>
+				}
+<span class="nc" id="L298">				intimacy = socialNetworkCircle.getRelationBetweenCentralAndObject()[0].get(intermediary);</span>
+<span class="nc bnc" id="L299" title="All 2 branches missed.">				for (Edge&lt;PhysicalObject&gt; edge : socialNetworkCircle.getRelationBetweenObjects()) {</span>
+<span class="nc bnc" id="L300" title="All 2 branches missed.">					if (edge.getSource().equals(intermediary)</span>
+<span class="nc" id="L301">							&amp;&amp; !socialNetworkCircle.getRelationBetweenCentralAndObject()[0].keySet()</span>
+<span class="nc bnc" id="L302" title="All 2 branches missed.">									.contains(edge.getTarget())</span>
+<span class="nc bnc" id="L303" title="All 2 branches missed.">							&amp;&amp; edge.getWeight() &lt;= intimacy) {</span>
+<span class="nc" id="L304">						diffusivity++;</span>
+					}
+				}
+<span class="nc" id="L307">				System.out.println(&quot;The diffusivity via &quot; + intermediary.getName() + &quot; is: &quot; + diffusivity);</span>
+<span class="nc" id="L308">				socialNetworkCircleLogger</span>
+<span class="nc" id="L309">						.info(&quot;Success: Calculate diffusivity via &quot; + intermediary.getName() + &quot; is: &quot; + diffusivity);</span>
+<span class="nc" id="L310">				break;</span>
+			case 9: // Add/Delete a social relationship
+<span class="nc" id="L312">				socialNetworkCircleLogger.info(&quot;Add/Delete a social relationship.&quot;);</span>
+<span class="nc" id="L313">				System.out.println(&quot;Add(Y/y) or delete(N/n)?&quot;);</span>
+<span class="nc" id="L314">				String c = in.nextLine();</span>
+<span class="nc bnc" id="L315" title="All 4 branches missed.">				if (!c.equalsIgnoreCase(&quot;Y&quot;) &amp;&amp; !c.equalsIgnoreCase(&quot;N&quot;)) {</span>
+<span class="nc" id="L316">					System.err.println(&quot;Wrong input!&quot;);</span>
+<span class="nc" id="L317">					socialNetworkCircleLogger.log(Level.SEVERE, &quot;Wrong input(Y/y N/n)&quot;);</span>
+<span class="nc" id="L318">					break;</span>
+				}
+<span class="nc" id="L320">				System.out.println(&quot;The two friends in this relationship must have existed in the circle.&quot;);</span>
+<span class="nc" id="L321">				System.out.println(&quot;Please input information of the social relationship information in order below:&quot;);</span>
+<span class="nc" id="L322">				System.out.println(&quot;SocialTie ::= &lt;NAME1, NAME2, INTIMACY&gt;&quot;);</span>
+<span class="nc" id="L323">				System.out.println(&quot;All data must obey the specification.&quot;);</span>
+<span class="nc" id="L324">				String socialTie = in.nextLine();</span>
+<span class="nc" id="L325">				pattern = Pattern.compile(</span>
+<span class="nc" id="L326">						&quot;SocialTie\\s*::=\\s*&lt;&quot; + labelRegex + commaRegex + labelRegex + commaRegex + &quot;(0.\\d{1,3})&gt;&quot;);</span>
+<span class="nc" id="L327">				matcher = pattern.matcher(socialTie);</span>
+<span class="nc" id="L328">				boolean find3 = matcher.find();</span>
+<span class="nc bnc" id="L329" title="All 2 branches missed.">				if (find3) {</span>
+<span class="nc" id="L330">					double infimacy = Double.valueOf(matcher.group(3));</span>
+<span class="nc" id="L331">					String name1 = matcher.group(1);</span>
+<span class="nc" id="L332">					String name2 = matcher.group(2);</span>
+<span class="nc" id="L333">					boolean exist1 = false, exist2 = false;</span>
+<span class="nc" id="L334">					PhysicalObject friend1 = null, friend2 = null;</span>
+<span class="nc bnc" id="L335" title="All 2 branches missed.">					for (Track track : socialNetworkCircle.getObjectsInTrack().keySet()) {</span>
+<span class="nc bnc" id="L336" title="All 2 branches missed.">						for (PhysicalObject friend : socialNetworkCircle.getObjectsInTrack().get(track)) {</span>
+<span class="nc bnc" id="L337" title="All 2 branches missed.">							if (friend.getName().equals(name1)) {</span>
+<span class="nc" id="L338">								friend1 = friend;</span>
+<span class="nc" id="L339">								exist1 = true;</span>
+							}
+<span class="nc bnc" id="L341" title="All 2 branches missed.">							if (friend.getName().equals(name2)) {</span>
+<span class="nc" id="L342">								friend2 = friend;</span>
+<span class="nc" id="L343">								exist2 = true;</span>
+							}
+						}
+					}
+<span class="nc bnc" id="L347" title="All 4 branches missed.">					if (!exist1 || !exist2) {</span>
+<span class="nc" id="L348">						System.err.println(&quot;Both friends must have existed!&quot;);</span>
+<span class="nc" id="L349">						socialNetworkCircleLogger.log(Level.SEVERE, &quot;Both friend in socialtie must have existed!&quot;);</span>
+<span class="nc" id="L350">						break;</span>
+<span class="nc bnc" id="L351" title="All 2 branches missed.">					} else if (c.equalsIgnoreCase(&quot;Y&quot;)) {</span>
+<span class="nc" id="L352">						socialNetworkCircle.addRelationshipBetweenPhysicalAndPhysical(friend1, friend2, infimacy);</span>
+<span class="nc" id="L353">					} else {</span>
+<span class="nc" id="L354">						socialNetworkCircle.deleteRelationshipBetweenPhysicalAndPhysical(friend1, friend2);</span>
+					}
+<span class="nc" id="L356">				} else {</span>
+<span class="nc" id="L357">					socialNetworkCircleLogger.log(Level.SEVERE, &quot;SocialTie syntax doesn't match!&quot;);</span>
+<span class="nc" id="L358">					System.err.println(&quot;SocialTie syntax doesn't match!&quot;);</span>
+<span class="nc" id="L359">					break;</span>
+				}
+<span class="nc" id="L361">				List&lt;PhysicalObject&gt; friends = new ArrayList&lt;PhysicalObject&gt;();</span>
+<span class="nc bnc" id="L362" title="All 2 branches missed.">				for (PhysicalObject friend : socialNetworkCircle) {</span>
+<span class="nc" id="L363">					friends.add(friend);</span>
+				}
+<span class="nc" id="L365">				List&lt;Edge&lt;PhysicalObject&gt;&gt; physicalEdges = socialNetworkCircle.getRelationBetweenObjects();</span>
+				@SuppressWarnings(&quot;unchecked&quot;)
+<span class="nc" id="L367">				Map&lt;PhysicalObject, Double&gt;[] centralEdges = new Map[2];</span>
+<span class="nc" id="L368">				centralEdges[0] = socialNetworkCircle.getRelationBetweenCentralAndObject()[0];</span>
+<span class="nc" id="L369">				centralEdges[1] = socialNetworkCircle.getRelationBetweenCentralAndObject()[1];</span>
+<span class="nc" id="L370">				socialNetworkCircle.resetObjectsAndTrack();</span>
+<span class="nc" id="L371">				socialNetworkCircle.constructSocialNetworkCircle(friends, physicalEdges, centralEdges);</span>
+<span class="nc" id="L372">				socialNetworkCircleLogger.info(&quot;Success: Add/Delete a social relationship.&quot;);</span>
+<span class="nc" id="L373">				break;</span>
+			case 10: // Calculate logical distance of two friends
+<span class="nc" id="L375">				socialNetworkCircleLogger.info(&quot;Calculate logical distance of two friends.&quot;);</span>
+<span class="nc" id="L376">				PhysicalObject friend1 = null, friend2 = null;</span>
+<span class="nc" id="L377">				System.out.println(&quot;Please input information of friend 1 in order below:&quot;);</span>
+<span class="nc" id="L378">				System.out.println(&quot;Friend ::= &lt;NAME,AGE,SEX&gt;&quot;);</span>
+<span class="nc" id="L379">				System.out.println(&quot;All data must obey the specification.&quot;);</span>
+<span class="nc" id="L380">				String friend1Data = in.nextLine();</span>
+<span class="nc" id="L381">				pattern = Pattern.compile(</span>
+<span class="nc" id="L382">						&quot;Friend\\s*::=\\s*&lt;&quot; + labelRegex + commaRegex + &quot;(\\d*)&quot; + commaRegex + &quot;([M|F]{1})&quot; + &quot;&gt;&quot;);</span>
+<span class="nc" id="L383">				matcher = pattern.matcher(friend1Data);</span>
+<span class="nc" id="L384">				boolean find4 = matcher.find();</span>
+<span class="nc bnc" id="L385" title="All 2 branches missed.">				if (find4) {</span>
+<span class="nc" id="L386">					String name = matcher.group(1);</span>
+<span class="nc" id="L387">					int age = Integer.valueOf(matcher.group(2));</span>
+<span class="nc" id="L388">					char sex = matcher.group(3).charAt(0);</span>
+<span class="nc" id="L389">					friend1 = friendFactory.produce(name, age, sex);</span>
+<span class="nc" id="L390">				} else {</span>
+<span class="nc" id="L391">					socialNetworkCircleLogger.log(Level.SEVERE, &quot;Friend syntax doens't match!&quot;);</span>
+<span class="nc" id="L392">					System.err.println(&quot;Friend syntax doens't match!&quot;);</span>
+<span class="nc" id="L393">					break;</span>
+				}
+<span class="nc" id="L395">				System.out.println(&quot;Please input information of friend 2 in order below:&quot;);</span>
+<span class="nc" id="L396">				System.out.println(&quot;Friend ::= &lt;NAME,AGE,SEX&gt;&quot;);</span>
+<span class="nc" id="L397">				System.out.println(&quot;All data must obey the specification.&quot;);</span>
+<span class="nc" id="L398">				String friend2Data = in.nextLine();</span>
+<span class="nc" id="L399">				pattern = Pattern.compile(</span>
+<span class="nc" id="L400">						&quot;Friend\\s*::=\\s*&lt;&quot; + labelRegex + commaRegex + &quot;(\\d*)&quot; + commaRegex + &quot;([M|F]{1})&quot; + &quot;&gt;&quot;);</span>
+<span class="nc" id="L401">				matcher = pattern.matcher(friend2Data);</span>
+<span class="nc" id="L402">				boolean find5 = matcher.find();</span>
+<span class="nc bnc" id="L403" title="All 2 branches missed.">				if (find5) {</span>
+<span class="nc" id="L404">					String name = matcher.group(1);</span>
+<span class="nc" id="L405">					int age = Integer.valueOf(matcher.group(2));</span>
+<span class="nc" id="L406">					char sex = matcher.group(3).charAt(0);</span>
+<span class="nc" id="L407">					friend2 = friendFactory.produce(name, age, sex);</span>
+<span class="nc" id="L408">				} else {</span>
+<span class="nc" id="L409">					socialNetworkCircleLogger.log(Level.SEVERE, &quot;Friend syntax doesn't match!&quot;);</span>
+<span class="nc" id="L410">					System.err.println(&quot;Friend syntax doens't match!&quot;);</span>
+<span class="nc" id="L411">					break;</span>
+				}
+<span class="nc" id="L413">				System.out.println(&quot;The logical distance from friend 1 to friend 2: &quot;</span>
+<span class="nc" id="L414">						+ apis.getLogicalDistance(socialNetworkCircle, friend1, friend2));</span>
+<span class="nc" id="L415">				socialNetworkCircleLogger.info(&quot;Success: The logical distance from friend 1 to friend 2: &quot;</span>
+<span class="nc" id="L416">						+ apis.getLogicalDistance(socialNetworkCircle, friend1, friend2));</span>
+<span class="nc" id="L417">				break;</span>
+			case 11:
+<span class="nc" id="L419">				apis.logSearch(new File(&quot;log/socialNetworkCircleLog.log&quot;));</span>
+<span class="nc" id="L420">				break;</span>
+			case 12: // Check legality
+<span class="nc" id="L422">				socialNetworkCircleLogger.info(&quot;Check legality.&quot;);</span>
+<span class="nc bnc" id="L423" title="All 2 branches missed.">				for (int i = 1; i &lt;= socialNetworkCircle.getTracks().size(); i++) {</span>
+<span class="nc" id="L424">					Track track = socialNetworkCircle.getTracks().get(i - 1);</span>
+<span class="nc bnc" id="L425" title="All 2 branches missed.">					for (PhysicalObject friend : socialNetworkCircle.getObjectsInTrack().get(track)) {</span>
+<span class="nc bnc" id="L426" title="All 2 branches missed.">						if (apis.getLogicalDistance(socialNetworkCircle, friendFactory.produce(&quot;center&quot;, 1, 'M'),</span>
+<span class="nc" id="L427">								friend) != i) {</span>
+<span class="nc" id="L428">							System.err.println(&quot;The length of shortest path from &quot; + friend.getName()</span>
+<span class="nc" id="L429">									+ &quot; to center is: &quot; + apis.getLogicalDistance(socialNetworkCircle,</span>
+<span class="nc" id="L430">											friendFactory.produce(&quot;center&quot;, 1, 'M'), friend));</span>
+<span class="nc" id="L431">							System.err.println(friend.getName() + &quot; is on the &quot; + i + &quot;-th track.&quot;);</span>
+<span class="nc" id="L432">							socialNetworkCircleLogger.log(Level.SEVERE, &quot;The length of shortest path from &quot;</span>
+<span class="nc" id="L433">									+ friend.getName() + &quot; to center is: &quot;</span>
+<span class="nc" id="L434">									+ apis.getLogicalDistance(socialNetworkCircle,</span>
+<span class="nc" id="L435">											friendFactory.produce(&quot;center&quot;, 1, 'M'), friend)</span>
+<span class="nc" id="L436">									+ &quot;. But &quot; + friend.getName() + &quot; is on the &quot; + i + &quot;-th track. &quot;</span>
+<span class="nc" id="L437">									+ &quot;If a friend in on the i-th track, then the shortest length from he/she to center must be i!&quot;);</span>
+<span class="nc bnc" id="L438" title="All 2 branches missed.">							assert false : &quot;If a friend in on the i-th track, then the shortest length from he/she to center must be i!&quot;;</span>
+						}
+					}
+				}
+<span class="nc" id="L442">				socialNetworkCircleLogger.info(&quot;Legality checked!&quot;);</span>
+<span class="nc" id="L443">				break;</span>
+			default:
+<span class="nc" id="L445">				in.close();</span>
+<span class="nc" id="L446">				socialNetworkCircleLogger.info(&quot;SocialNetworkCircle application deactivate.&quot;);</span>
+<span class="nc" id="L447">				System.exit(0);</span>
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Menu in social network circle application which indicates users' choices.
+	 */
+	private static void menu() {
+<span class="nc" id="L457">		System.out.println(&quot;1. Read from file to generate a social network circle.&quot;);</span>
+<span class="nc" id="L458">		System.out.println(&quot;2. Visualize.&quot;);</span>
+<span class="nc" id="L459">		System.out.println(&quot;3. Add a track.&quot;);</span>
+<span class="nc" id="L460">		System.out.println(&quot;4. Add an object to a track.&quot;);</span>
+<span class="nc" id="L461">		System.out.println(&quot;5. Delete a track.&quot;);</span>
+<span class="nc" id="L462">		System.out.println(&quot;6. Delete an object in a track.&quot;);</span>
+<span class="nc" id="L463">		System.out.println(&quot;7. Calculate the information entropy of the system.&quot;);</span>
+<span class="nc" id="L464">		System.out.println(&quot;8. Calculate information diffusivity of someone in the first track.&quot;);</span>
+<span class="nc" id="L465">		System.out.println(&quot;9. Add/Delete a social relationship.&quot;);</span>
+<span class="nc" id="L466">		System.out.println(&quot;10. Calculate logical distance of two friends.&quot;);</span>
+<span class="nc" id="L467">		System.out.println(&quot;11. Log search.&quot;);</span>
+<span class="nc" id="L468">		System.out.println(&quot;12. Check legality.&quot;);</span>
+<span class="nc" id="L469">	}</span>
+
+	/**
+	 * Menu in read-from-file function which indicates which file can be read from.
+	 */
+	private static void readMenu() {
+<span class="nc" id="L475">		System.out.println(&quot;1. SocialNetworkCircle.txt&quot;);</span>
+<span class="nc" id="L476">		System.out.println(&quot;2. SocialNetworkCircle_Medium.txt&quot;);</span>
+<span class="nc" id="L477">		System.out.println(&quot;3. SocialNetworkCircle_Larger.txt&quot;);</span>
+<span class="nc" id="L478">		System.out.println(&quot;4. Other file(Absolute path).&quot;);</span>
+<span class="nc" id="L479">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>

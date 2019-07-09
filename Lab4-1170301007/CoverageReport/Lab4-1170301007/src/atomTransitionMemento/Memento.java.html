@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Memento.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">atomTransitionMemento</a> &gt; <span class="el_source">Memento.java</span></div><h1>Memento.java</h1><pre class="source lang-java linenums">package atomTransitionMemento;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import circularOrbit.Edge;
+import track.Track;
+
+/**
+ * Memento stores a historical state of atom structure.
+ * 
+ * @author Shen
+ *
+ * @param &lt;L&gt; class of central object which is supposed to be Nucleus
+ * @param &lt;E&gt; class of physical object which is supposed to be PhysicalObject
+ */
+public class Memento&lt;L, E&gt; {
+
+	private L centralObject;
+<span class="fc" id="L22">	private List&lt;Track&gt; tracks = new ArrayList&lt;Track&gt;();</span>
+<span class="fc" id="L23">	private Map&lt;Track, List&lt;E&gt;&gt; objectsInTrack = new HashMap&lt;Track, List&lt;E&gt;&gt;();</span>
+	@SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L25">	private Map&lt;E, Double&gt;[] relationBetweenCentralAndObject = new Map[2];</span>
+<span class="fc" id="L26">	private List&lt;Edge&lt;E&gt;&gt; relationBetweenObjects = new ArrayList&lt;Edge&lt;E&gt;&gt;();</span>
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param centralObject                   central object in this historical
+	 *                                        state.
+	 * @param tracks                          tracks in this historical state.
+	 * @param objectsInTrack                  objects in tracks in this historical
+	 *                                        state.
+	 * @param relationBetweenCentralAndObject relationship between central and
+	 *                                        physical objects in this historical
+	 *                                        state.
+	 * @param relationBetweenObjects          relationship between physical objects
+	 *                                        in this historical state.
+	 */
+<span class="fc" id="L42">	public Memento(L centralObject, List&lt;Track&gt; tracks, Map&lt;Track, List&lt;E&gt;&gt; objectsInTrack,</span>
+			Map&lt;E, Double&gt;[] relationBetweenCentralAndObject, List&lt;Edge&lt;E&gt;&gt; relationBetweenObjects) {
+<span class="fc" id="L44">		this.centralObject = centralObject;</span>
+<span class="fc" id="L45">		List&lt;Track&gt; copyTracks = new ArrayList&lt;Track&gt;();</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">		for (Track track : tracks) {</span>
+<span class="fc" id="L47">			copyTracks.add(track);</span>
+		}
+<span class="fc" id="L49">		this.tracks = copyTracks;</span>
+<span class="fc" id="L50">		Map&lt;Track, List&lt;E&gt;&gt; copyObjectsInTrack = new HashMap&lt;Track, List&lt;E&gt;&gt;();</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">		for (Track track : objectsInTrack.keySet()) {</span>
+<span class="fc" id="L52">			List&lt;E&gt; copyObjects = new ArrayList&lt;E&gt;();</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">			for (E e : objectsInTrack.get(track)) {</span>
+<span class="fc" id="L54">				copyObjects.add(e);</span>
+			}
+<span class="fc" id="L56">			copyObjectsInTrack.put(track, copyObjects);</span>
+		}
+<span class="fc" id="L58">		this.objectsInTrack = copyObjectsInTrack;</span>
+<span class="fc" id="L59">		this.relationBetweenCentralAndObject = relationBetweenCentralAndObject;</span>
+<span class="fc" id="L60">		List&lt;Edge&lt;E&gt;&gt; copyRelationBetweenObjects = new ArrayList&lt;Edge&lt;E&gt;&gt;();</span>
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">		for (Edge&lt;E&gt; edge : relationBetweenObjects) {</span>
+<span class="nc" id="L62">			copyRelationBetweenObjects.add(edge);</span>
+		}
+<span class="fc" id="L64">		this.relationBetweenObjects = copyRelationBetweenObjects;</span>
+<span class="fc" id="L65">	}</span>
+
+	/**
+	 * Observer. Get central object.
+	 * 
+	 * @return central object of this atom structure state.
+	 */
+	public L getCentralObject() {
+<span class="fc" id="L73">		return this.centralObject;</span>
+	}
+
+	/**
+	 * Observer. Get a defensive copy of tracks.
+	 * 
+	 * @return a defensive copy of a list of tracks in this atom structure state.
+	 */
+	public List&lt;Track&gt; getTracks() {
+<span class="fc" id="L82">		List&lt;Track&gt; copyTracks = new ArrayList&lt;Track&gt;();</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">		for (Track track : this.tracks) {</span>
+<span class="fc" id="L84">			copyTracks.add(track);</span>
+		}
+<span class="fc" id="L86">		return copyTracks;</span>
+	}
+
+	/**
+	 * Observer. Get a defensive copy of objects in tracks.
+	 * 
+	 * @return a defensive copy of a map from tracks to lists of objects in this
+	 *         atom structure state.
+	 */
+	public Map&lt;Track, List&lt;E&gt;&gt; getObjectsInTrack() {
+<span class="fc" id="L96">		Map&lt;Track, List&lt;E&gt;&gt; copyObjectsInTrack = new HashMap&lt;Track, List&lt;E&gt;&gt;();</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">		for (Track track : this.objectsInTrack.keySet()) {</span>
+<span class="fc" id="L98">			List&lt;E&gt; copyObjects = new ArrayList&lt;E&gt;();</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">			for (E e : this.objectsInTrack.get(track)) {</span>
+<span class="fc" id="L100">				copyObjects.add(e);</span>
+			}
+<span class="fc" id="L102">			copyObjectsInTrack.put(track, copyObjects);</span>
+		}
+<span class="fc" id="L104">		return copyObjectsInTrack;</span>
+	}
+
+	/**
+	 * Observer. Get two maps from physical objects to intimacy in this atom
+	 * structure state. Map[0] is about adjacency from central object and Map[1] is
+	 * about adjacency to central object.
+	 * 
+	 * @return two maps from physical objects to intimacy in this atom structure
+	 *         state.
+	 */
+	public Map&lt;E, Double&gt;[] getRelationBetweenCentralAndObject() {
+<span class="fc" id="L116">		return this.relationBetweenCentralAndObject;</span>
+	}
+
+	/**
+	 * Observer. Get a defensive copy of list of adjacency edges in this atom
+	 * structure state.
+	 * 
+	 * @return a defensive copy of list of adjacency edges in this atom structure
+	 *         state.
+	 */
+	public List&lt;Edge&lt;E&gt;&gt; getRelationBetweenObjects() {
+<span class="fc" id="L127">		List&lt;Edge&lt;E&gt;&gt; copyRelationBetweenObjects = new ArrayList&lt;Edge&lt;E&gt;&gt;();</span>
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">		for (Edge&lt;E&gt; edge : this.relationBetweenObjects) {</span>
+<span class="nc" id="L129">			copyRelationBetweenObjects.add(edge);</span>
+		}
+<span class="fc" id="L131">		return copyRelationBetweenObjects;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>

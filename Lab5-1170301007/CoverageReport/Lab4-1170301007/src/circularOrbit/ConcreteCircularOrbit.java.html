@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ConcreteCircularOrbit.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">circularOrbit</a> &gt; <span class="el_source">ConcreteCircularOrbit.java</span></div><h1>ConcreteCircularOrbit.java</h1><pre class="source lang-java linenums">package circularOrbit;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import APIs.CircularOrbitAPIs;
+import MyException.AtomElectronNumException;
+import MyException.AtomElementException;
+import MyException.AtomTrackNumException;
+import MyException.DataNonScientificNumberException;
+import MyException.DataScientificNumberException;
+import MyException.DataSyntaxException;
+import MyException.IllegalIntimacyInSocialTieException;
+import MyException.NoObjectOnTrackException;
+import MyException.PlanetConflictException;
+import atomTransitionMemento.Memento;
+import centralObject.Person;
+import physicalObject.ConcreteFriendFactory;
+import physicalObject.FriendFactory;
+import physicalObject.PhysicalObject;
+import track.Track;
+
+/**
+ * 
+ * @author Shen
+ *
+ * @param &lt;L&gt; class of central object in circular orbit which is one of Star,
+ *        Person and Nucleus.
+ * @param &lt;E&gt; class of physical object in circular orbit which is mostly
+ *        PhysicalObject.
+ */
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">public class ConcreteCircularOrbit&lt;L, E&gt; implements CircularOrbit&lt;L, E&gt; {</span>
+
+	protected L centralObject;
+<span class="fc" id="L43">	protected List&lt;Track&gt; tracks = new ArrayList&lt;Track&gt;();</span>
+<span class="fc" id="L44">	protected Map&lt;Track, List&lt;E&gt;&gt; objectsInTrack = new HashMap&lt;Track, List&lt;E&gt;&gt;();</span>
+	@SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L46">	protected Map&lt;E, Double&gt;[] relationBetweenCentralAndObject = new Map[2];</span>
+<span class="fc" id="L47">	protected List&lt;Edge&lt;E&gt;&gt; relationBetweenObjects = new ArrayList&lt;Edge&lt;E&gt;&gt;();</span>
+
+	/*
+	 * Abstraction function:
+	 * 	AF(centralObject) = central object of this circular orbit
+	 * 	AF(tracks) = a list of tracks of this circular orbit
+	 * 	AF(objectsInTrack) = a map from tracks to objects indicating that on which track should each object be
+	 * 	AF(relationBetweenCentralAndObject) = two map from physical objects to intimacy indicating that adjacency from and to central object
+	 * 	AF(relationBetweenObjects) = a list of edges indicating adjacency between all physical objects.
+	 * 
+	 * Representation invariant:
+	 * 	tracks in tracks must be in ascend order of radius.
+	 * 	values in realtionBetweenCentralAndObject is more than 0 and no more than 1.
+	 *  
+	 * Safety from rep exposure:
+	 * 	All representation are defined private and final.
+	 * 	All mutable rep Observer has a defensive copy.
+	 * 
+	 */
+	// checkRep
+	private void checkRep() {
+<span class="fc bfc" id="L68" title="All 2 branches covered.">		for (int i = 1; i &lt; tracks.size(); i++) {</span>
+<span class="pc bpc" id="L69" title="2 of 4 branches missed.">			assert tracks.get(i - 1).getRadius() &lt;= tracks.get(i).getRadius();</span>
+		}
+<span class="fc bfc" id="L71" title="All 2 branches covered.">		for (Double intimacy : this.relationBetweenCentralAndObject[0].values()) {</span>
+<span class="pc bpc" id="L72" title="3 of 6 branches missed.">			assert intimacy &gt; 0 &amp;&amp; intimacy &lt;= 1;</span>
+		}
+<span class="fc bfc" id="L74" title="All 2 branches covered.">		for (Double intimacy : this.relationBetweenCentralAndObject[1].values()) {</span>
+<span class="pc bpc" id="L75" title="3 of 6 branches missed.">			assert intimacy &gt; 0 &amp;&amp; intimacy &lt;= 1;</span>
+		}
+//		if (this.centralObject != null &amp;&amp; this.centralObject.getClass() == Person.class) {
+//			CircularOrbitAPIs&lt;L, E&gt; apis = new CircularOrbitAPIs&lt;L, E&gt;();
+//			FriendFactory friendFactory = new ConcreteFriendFactory();
+//			for (int i = 1; i &lt;= this.tracks.size(); i++) {
+//				Track track = this.tracks.get(i - 1);
+//				for (E friend : this.objectsInTrack.get(track)) {
+//					assert apis.getLogicalDistance(this, (E) friendFactory.produce(&quot;center&quot;, 1, 'M'),
+//							friend) != i : &quot;If a friend in on the i-th track, then the shortest length from he/she to center must be i!&quot;;
+//				}
+//			}
+//		}
+<span class="fc" id="L88">	}</span>
+
+	/**
+	 * Constructor
+	 */
+<span class="fc" id="L93">	public ConcreteCircularOrbit() {</span>
+<span class="fc" id="L94">		relationBetweenCentralAndObject[0] = new HashMap&lt;E, Double&gt;();</span>
+<span class="fc" id="L95">		relationBetweenCentralAndObject[1] = new HashMap&lt;E, Double&gt;();</span>
+<span class="fc" id="L96">		checkRep();</span>
+<span class="fc" id="L97">	}</span>
+
+	@Override
+	public void addTrack(Track track) {
+<span class="fc" id="L101">		int index = 0;</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">		for (Track t : this.tracks) {</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">			if (track.getRadius() &gt; t.getRadius()) {</span>
+<span class="fc" id="L104">				index++;</span>
+			}
+		}
+<span class="fc" id="L107">		this.tracks.add(index, track);</span>
+<span class="fc" id="L108">		List&lt;E&gt; objects = new ArrayList&lt;E&gt;();</span>
+<span class="fc" id="L109">		objectsInTrack.put(track, objects);</span>
+<span class="fc" id="L110">		checkRep();</span>
+<span class="fc" id="L111">	}</span>
+
+	@Override
+	public void deleteTrack(Track track) {
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">		for (int i = 0; i &lt; tracks.size(); i++) {</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">			if (track.equals(tracks.get(i))) {</span>
+<span class="fc" id="L117">				this.objectsInTrack.remove(this.tracks.get(i));</span>
+<span class="fc" id="L118">				this.tracks.remove(i);</span>
+<span class="fc" id="L119">				checkRep();</span>
+<span class="fc" id="L120">				break;</span>
+			}
+		}
+<span class="fc" id="L123">		checkRep();</span>
+<span class="fc" id="L124">	}</span>
+
+	@Override
+	public void addCentralObject(L centralObject) {
+<span class="fc" id="L128">		this.centralObject = centralObject;</span>
+<span class="fc" id="L129">		checkRep();</span>
+<span class="fc" id="L130">	}</span>
+
+	@Override
+	public void addPhysicalObjectToTrack(E physicalObject, Track track) {
+<span class="fc" id="L134">		int index = 0;</span>
+<span class="pc bpc" id="L135" title="1 of 2 branches missed.">		for (Track t : this.tracks) {</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">			if (track.equals(t)) {</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">				for (E e : this.objectsInTrack.get(t)) {</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">					if (((PhysicalObject) physicalObject).getDegree() &gt; ((PhysicalObject) e).getDegree()) {</span>
+<span class="fc" id="L139">						index++;</span>
+					}
+				}
+<span class="fc" id="L142">				objectsInTrack.get(t).add(index, physicalObject);</span>
+<span class="fc" id="L143">				checkRep();</span>
+<span class="fc" id="L144">				break;</span>
+			}
+		}
+<span class="fc" id="L147">		checkRep();</span>
+<span class="fc" id="L148">	}</span>
+
+	@Override
+	public void addRelationshipBetweenCentralAndPhysical(E physicalObject, boolean fromCenctral, double weight) {
+<span class="fc bfc" id="L152" title="All 2 branches covered.">		if (fromCenctral) {</span>
+<span class="fc" id="L153">			this.relationBetweenCentralAndObject[0].put(physicalObject, weight);</span>
+<span class="fc" id="L154">		} else {</span>
+<span class="fc" id="L155">			this.relationBetweenCentralAndObject[1].put(physicalObject, weight);</span>
+		}
+<span class="fc" id="L157">		checkRep();</span>
+<span class="fc" id="L158">	}</span>
+
+	@Override
+	public void addRelationshipBetweenPhysicalAndPhysical(E physicalObjectA, E physicalObjectB, double weight) {
+<span class="fc" id="L162">		this.relationBetweenObjects.add(new Edge&lt;E&gt;(physicalObjectA, physicalObjectB, weight));</span>
+<span class="fc" id="L163">		this.relationBetweenObjects.add(new Edge&lt;E&gt;(physicalObjectB, physicalObjectA, weight));</span>
+<span class="fc" id="L164">		checkRep();</span>
+<span class="fc" id="L165">	}</span>
+
+	@Override
+	public void deleteRelationshipBetweenPhysicalAndPhysical(E physicalObjectA, E physicalObjectB) {
+<span class="fc" id="L169">		Iterator&lt;Edge&lt;E&gt;&gt; iterator = this.relationBetweenObjects.iterator();</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">		while (iterator.hasNext()) {</span>
+<span class="fc" id="L171">			Edge&lt;E&gt; edge = iterator.next();</span>
+<span class="pc bpc" id="L172" title="1 of 4 branches missed.">			if (edge.getSource().equals(physicalObjectA) &amp;&amp; edge.getTarget().equals(physicalObjectB)) {</span>
+<span class="fc" id="L173">				iterator.remove();</span>
+			}
+<span class="fc bfc" id="L175" title="All 4 branches covered.">			if (edge.getSource().equals(physicalObjectB) &amp;&amp; edge.getTarget().equals(physicalObjectA)) {</span>
+<span class="fc" id="L176">				iterator.remove();</span>
+			}
+		}
+<span class="fc" id="L179">		checkRep();</span>
+<span class="fc" id="L180">	}</span>
+
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public void readFromFile(File file) throws FileNotFoundException, NumberFormatException, IOException,
+			AtomElementException, AtomTrackNumException, AtomElectronNumException, DataSyntaxException,
+			DataScientificNumberException, IllegalIntimacyInSocialTieException {
+<span class="fc" id="L187">		this.centralObject = null;</span>
+<span class="fc" id="L188">		this.tracks = new ArrayList&lt;Track&gt;();</span>
+<span class="fc" id="L189">		this.objectsInTrack = new HashMap&lt;Track, List&lt;E&gt;&gt;();</span>
+<span class="fc" id="L190">		this.relationBetweenCentralAndObject = new Map[2];</span>
+<span class="fc" id="L191">		this.relationBetweenCentralAndObject[0] = new HashMap&lt;E, Double&gt;();</span>
+<span class="fc" id="L192">		this.relationBetweenCentralAndObject[1] = new HashMap&lt;E, Double&gt;();</span>
+<span class="fc" id="L193">		this.relationBetweenObjects = new ArrayList&lt;Edge&lt;E&gt;&gt;();</span>
+<span class="fc" id="L194">		checkRep();</span>
+<span class="fc" id="L195">	}</span>
+
+	@Override
+	public void constructSocialNetworkCircle(List&lt;PhysicalObject&gt; friends, List&lt;Edge&lt;PhysicalObject&gt;&gt; physicalEdges,
+			Map&lt;PhysicalObject, Double&gt;[] centralEdges) {
+
+<span class="nc" id="L201">	}</span>
+
+	@Override
+	public L getCentralObject() {
+<span class="fc" id="L205">		return this.centralObject;</span>
+	}
+
+	@Override
+	public List&lt;Track&gt; getTracks() {
+<span class="fc" id="L210">		List&lt;Track&gt; copyTracks = new ArrayList&lt;Track&gt;();</span>
+<span class="fc bfc" id="L211" title="All 2 branches covered.">		for (Track track : this.tracks) {</span>
+<span class="fc" id="L212">			copyTracks.add(track);</span>
+		}
+<span class="fc" id="L214">		checkRep();</span>
+<span class="fc" id="L215">		return this.tracks;</span>
+	}
+
+	@Override
+	public Map&lt;Track, List&lt;E&gt;&gt; getObjectsInTrack() {
+<span class="fc" id="L220">		Map&lt;Track, List&lt;E&gt;&gt; copyObjectsInTrack = new HashMap&lt;Track, List&lt;E&gt;&gt;();</span>
+<span class="fc bfc" id="L221" title="All 2 branches covered.">		for (Track track : this.objectsInTrack.keySet()) {</span>
+<span class="fc" id="L222">			List&lt;E&gt; copyObjectsList = new ArrayList&lt;E&gt;();</span>
+<span class="fc bfc" id="L223" title="All 2 branches covered.">			for (E e : objectsInTrack.get(track)) {</span>
+<span class="fc" id="L224">				copyObjectsList.add(e);</span>
+			}
+<span class="fc" id="L226">			copyObjectsInTrack.put(track, copyObjectsList);</span>
+		}
+<span class="fc" id="L228">		checkRep();</span>
+<span class="fc" id="L229">		return copyObjectsInTrack;</span>
+	}
+
+	@Override
+	public void deletePhysicalObjectFromTrack(E physicalObject, Track track) throws NoObjectOnTrackException {
+<span class="fc" id="L234">		boolean exist = false;</span>
+<span class="fc bfc" id="L235" title="All 2 branches covered.">		for (Track t : this.tracks) {</span>
+<span class="fc bfc" id="L236" title="All 2 branches covered.">			if (t.equals(track)) {</span>
+<span class="fc" id="L237">				exist = true;</span>
+<span class="fc" id="L238">				this.objectsInTrack.get(t).remove(physicalObject);</span>
+<span class="fc" id="L239">				this.relationBetweenCentralAndObject[0].remove(physicalObject);</span>
+<span class="fc" id="L240">				this.relationBetweenCentralAndObject[1].remove(physicalObject);</span>
+			}
+		}
+<span class="pc bpc" id="L243" title="1 of 2 branches missed.">		if (!exist) {</span>
+<span class="nc" id="L244">			throw new NoObjectOnTrackException(&quot;Delete fail! This track has no such object!&quot;);</span>
+		}
+<span class="fc" id="L246">		Iterator&lt;Edge&lt;E&gt;&gt; iterator = this.relationBetweenObjects.iterator();</span>
+<span class="fc bfc" id="L247" title="All 2 branches covered.">		while (iterator.hasNext()) {</span>
+<span class="fc" id="L248">			Edge&lt;E&gt; edge = iterator.next();</span>
+<span class="fc bfc" id="L249" title="All 4 branches covered.">			if (edge.getSource().equals(physicalObject) || edge.getTarget().equals(physicalObject)) {</span>
+<span class="fc" id="L250">				iterator.remove();</span>
+			}
+		}
+<span class="fc" id="L253">		checkRep();</span>
+<span class="fc" id="L254">	}</span>
+
+	@Override
+	public void resetObjectsAndTrack() {
+<span class="fc" id="L258">		this.objectsInTrack = new HashMap&lt;Track, List&lt;E&gt;&gt;();</span>
+<span class="fc" id="L259">		this.tracks = new ArrayList&lt;Track&gt;();</span>
+<span class="fc" id="L260">		checkRep();</span>
+<span class="fc" id="L261">	}</span>
+
+	@Override
+	public Map&lt;E, Double&gt;[] getRelationBetweenCentralAndObject() {
+		@SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L266">		Map&lt;E, Double&gt;[] copyRelationBetweenCentralAndObject = new Map[2];</span>
+<span class="fc" id="L267">		copyRelationBetweenCentralAndObject[0] = new HashMap&lt;E, Double&gt;();</span>
+<span class="fc" id="L268">		copyRelationBetweenCentralAndObject[1] = new HashMap&lt;E, Double&gt;();</span>
+<span class="fc bfc" id="L269" title="All 2 branches covered.">		for (E e : this.relationBetweenCentralAndObject[0].keySet()) {</span>
+<span class="fc" id="L270">			copyRelationBetweenCentralAndObject[0].put(e, this.relationBetweenCentralAndObject[0].get(e));</span>
+		}
+<span class="fc bfc" id="L272" title="All 2 branches covered.">		for (E e : this.relationBetweenCentralAndObject[1].keySet()) {</span>
+<span class="fc" id="L273">			copyRelationBetweenCentralAndObject[1].put(e, this.relationBetweenCentralAndObject[1].get(e));</span>
+		}
+<span class="fc" id="L275">		checkRep();</span>
+<span class="fc" id="L276">		return copyRelationBetweenCentralAndObject;</span>
+	}
+
+	@Override
+	public List&lt;Edge&lt;E&gt;&gt; getRelationBetweenObjects() {
+<span class="fc" id="L281">		List&lt;Edge&lt;E&gt;&gt; copyRelationBetweenObjects = new ArrayList&lt;Edge&lt;E&gt;&gt;();</span>
+<span class="fc bfc" id="L282" title="All 2 branches covered.">		for (Edge&lt;E&gt; edge : this.relationBetweenObjects) {</span>
+<span class="fc" id="L283">			copyRelationBetweenObjects.add(edge);</span>
+		}
+<span class="fc" id="L285">		checkRep();</span>
+<span class="fc" id="L286">		return copyRelationBetweenObjects;</span>
+	}
+
+	@Override
+	public Memento&lt;L, E&gt; save() {
+<span class="nc" id="L291">		return null;</span>
+	}
+
+	@Override
+	public void restore(Memento&lt;L, E&gt; m) {
+
+<span class="nc" id="L297">	}</span>
+
+	@Override
+	public Iterator&lt;E&gt; iterator() {
+<span class="fc" id="L301">		return new MyIterator();</span>
+	}
+
+	/**
+	 * This class provides an iterator for iteration in circular orbit. This
+	 * iterator can iterate physical objects in circular orbit. The iteration order
+	 * is ascending radius of tracks and ascending degrees of objects in each track.
+	 * 
+	 * @author Shen
+	 *
+	 */
+<span class="pc bpc" id="L312" title="1 of 2 branches missed.">	private class MyIterator implements Iterator&lt;E&gt; {</span>
+
+<span class="fc" id="L314">		int trackIndex = 0, objectIndex = 0;</span>
+
+		@Override
+		public boolean hasNext() {
+<span class="fc bfc" id="L318" title="All 4 branches covered.">			if (trackIndex &gt;= tracks.size() || objectIndex &gt;= objectsInTrack.get(tracks.get(trackIndex)).size()) {</span>
+<span class="fc" id="L319">				return false;</span>
+			} else {
+<span class="fc" id="L321">				return true;</span>
+			}
+		}
+
+		@Override
+		public void remove() {
+<span class="nc bnc" id="L327" title="All 2 branches missed.">			assert false : &quot;doesn't support remove&quot;;</span>
+<span class="nc" id="L328">		}</span>
+
+		@Override
+		public E next() {
+<span class="fc" id="L332">			List&lt;E&gt; objects = objectsInTrack.get(tracks.get(trackIndex));</span>
+<span class="fc" id="L333">			E e = objects.get(objectIndex);</span>
+<span class="fc" id="L334">			objectIndex++;</span>
+<span class="fc bfc" id="L335" title="All 4 branches covered.">			if (trackIndex &lt; tracks.size() - 1 &amp;&amp; objectIndex &gt;= objects.size()) {</span>
+<span class="fc" id="L336">				trackIndex++;</span>
+<span class="fc" id="L337">				objectIndex = 0;</span>
+			}
+<span class="fc" id="L339">			return e;</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>FindMedianSortedArrays.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">debug</a> &gt; <span class="el_source">FindMedianSortedArrays.java</span></div><h1>FindMedianSortedArrays.java</h1><pre class="source lang-java linenums">package debug;
+
+/**
+ * Given two ordered integer arrays nums1 and nums2, with size m and n Find out
+ * the median (double) of the two arrays. You may suppose nums1 and nums2 cannot
+ * be null at the same time.
+ *
+ * Example 1: nums1 = [1, 3] nums2 = [2] The output would be 2.0
+ * 
+ * Example 2: nums1 = [1, 2] nums2 = [3, 4] The output would be 2.5
+ * 
+ * Example 3: nums1 = [1, 1, 1] nums2 = [5, 6, 7] The output would be 3.0
+ * 
+ * Example 4: nums1 = [1, 1] nums2 = [1, 2, 3] The output would be 1.0
+ */
+
+<span class="fc" id="L17">public class FindMedianSortedArrays {</span>
+
+	public double findMedianSortedArrays(int[] A, int[] B) {
+<span class="fc" id="L20">		int m = A.length;</span>
+<span class="fc" id="L21">		int n = B.length;</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">		if (m &gt; n) {</span>
+<span class="fc" id="L23">			int[] temp = A;</span>
+<span class="fc" id="L24">			A = B;</span>
+<span class="fc" id="L25">			B = temp;</span>
+<span class="fc" id="L26">			int tmp = m;</span>
+<span class="fc" id="L27">			m = n;</span>
+<span class="fc" id="L28">			n = tmp;</span>
+		}
+<span class="fc" id="L30">		int iMin = 0, iMax = m, halfLen = (1 + m + n) / 2; // halfLen = (m + n) / 2</span>
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">		while (iMin &lt;= iMax) {</span>
+<span class="fc" id="L32">			int i = (iMin + iMax) / 2; // int i = (iMin + iMax + 1) / 2</span>
+<span class="fc" id="L33">			int j = halfLen - i;</span>
+<span class="fc bfc" id="L34" title="All 4 branches covered.">			if (i &lt; iMax &amp;&amp; B[j - 1] &gt; A[i]) {</span>
+<span class="fc" id="L35">				iMin = i + 1;</span>
+<span class="fc bfc" id="L36" title="All 4 branches covered.">			} else if (i &gt; iMin &amp;&amp; A[i - 1] &gt; B[j]) {</span>
+<span class="fc" id="L37">				iMax = i - 1;</span>
+<span class="fc" id="L38">			} else { // iMin=iMax=i</span>
+<span class="fc" id="L39">				int maxLeft = 0;</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">				if (i == 0) {</span>
+<span class="fc" id="L41">					maxLeft = B[j - 1];</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">				} else if (j == 0) {</span>
+<span class="fc" id="L43">					maxLeft = A[i - 1];</span>
+<span class="fc" id="L44">				} else {</span>
+<span class="fc" id="L45">					maxLeft = Math.max(A[i - 1], B[j - 1]);</span>
+				}
+<span class="fc bfc" id="L47" title="All 2 branches covered.">				if ((m + n) % 2 == 1) { // if((m + n + 1) % 2 == 1)</span>
+<span class="fc" id="L48">					return maxLeft;</span>
+				}
+<span class="fc" id="L50">				int minRight = 0;</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">				if (i == m) {</span>
+<span class="fc" id="L52">					minRight = B[j];</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">				} else if (j == n) {</span>
+<span class="nc" id="L54">					minRight = A[i];</span>
+<span class="nc" id="L55">				} else {</span>
+<span class="fc" id="L56">					minRight = Math.min(B[j], A[i]);</span>
+				}
+<span class="fc" id="L58">				return (maxLeft + minRight) / 2.0;</span>
+			}
+		}
+<span class="nc" id="L61">		return 0.0;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>

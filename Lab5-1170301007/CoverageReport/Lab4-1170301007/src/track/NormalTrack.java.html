@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>NormalTrack.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">track</a> &gt; <span class="el_source">NormalTrack.java</span></div><h1>NormalTrack.java</h1><pre class="source lang-java linenums">package track;
+
+/**
+ * A normal circular track.
+ * 
+ * @author Shen
+ *
+ */
+<span class="pc bpc" id="L9" title="1 of 2 branches missed.">public class NormalTrack implements Track {</span>
+	// IMMUTABLE
+	// factory method
+
+	private final double radius;
+
+	/*
+	 * Abstraction function:
+	 *  AF(radius) = radius of this track
+	 *  
+	 * Representation invariant:
+	 * 	radius must be positive
+	 * 
+	 * Safety from rep exposure:
+	 * 	All representations are defined private and final.
+	 * 	All representations in Observer are immutable.
+	 */
+
+	// checkRep
+	private void checkRep() {
+<span class="pc bpc" id="L29" title="2 of 4 branches missed.">		assert this.radius &gt; 0;</span>
+<span class="fc" id="L30">	}</span>
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param radius radius of track, must be positive.
+	 */
+<span class="fc" id="L37">	public NormalTrack(double radius) {</span>
+<span class="fc" id="L38">		this.radius = radius;</span>
+<span class="fc" id="L39">		checkRep();</span>
+<span class="fc" id="L40">	}</span>
+
+	@Override
+	public double getRadius() {
+<span class="fc" id="L44">		double radius = this.radius;</span>
+<span class="fc" id="L45">		checkRep();</span>
+<span class="fc" id="L46">		return radius;</span>
+	}
+
+	/**
+	 * Two tracks are equals only when they have the same radius.
+	 */
+	@Override
+	public boolean equals(Object track) {
+<span class="pc bpc" id="L54" title="2 of 4 branches missed.">		return track != null &amp;&amp; track.getClass() == NormalTrack.class</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">				&amp;&amp; Double.doubleToLongBits(this.radius) == Double.doubleToLongBits(((NormalTrack) track).radius);</span>
+	}
+
+	@Override
+	public int hashCode() {
+<span class="fc" id="L60">		long longbits = Double.doubleToLongBits(this.radius);</span>
+<span class="fc" id="L61">		int hashcode = new Long(longbits).intValue();</span>
+<span class="fc" id="L62">		checkRep();</span>
+<span class="fc" id="L63">		return hashcode;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>

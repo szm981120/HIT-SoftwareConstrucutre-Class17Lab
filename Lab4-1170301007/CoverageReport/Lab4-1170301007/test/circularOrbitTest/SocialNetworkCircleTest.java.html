@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>SocialNetworkCircleTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">test</a> &gt; <a href="index.source.html" class="el_package">circularOrbitTest</a> &gt; <span class="el_source">SocialNetworkCircleTest.java</span></div><h1>SocialNetworkCircleTest.java</h1><pre class="source lang-java linenums">package circularOrbitTest;
+
+import static org.junit.Assert.*;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import MyException.AtomElectronNumException;
+import MyException.AtomElementException;
+import MyException.AtomTrackNumException;
+import MyException.DataScientificNumberException;
+import MyException.DataSyntaxException;
+import MyException.IllegalIntimacyInSocialTieException;
+import centralObject.Person;
+import circularOrbit.CircularOrbit;
+import circularOrbit.Edge;
+import circularOrbit.SocialNetworkCircleFactory;
+import physicalObject.ConcreteFriendFactory;
+import physicalObject.FriendFactory;
+import physicalObject.PhysicalObject;
+import track.Track;
+import track.TrackFactory;
+
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">public class SocialNetworkCircleTest {</span>
+
+<span class="fc" id="L33">	private static SocialNetworkCircleFactory socialNetworkCircleFactory = new SocialNetworkCircleFactory();</span>
+<span class="fc" id="L34">	private static TrackFactory trackFactory = new TrackFactory();</span>
+<span class="fc" id="L35">	private static CircularOrbit&lt;Person, PhysicalObject&gt; socialNetworkCircle = socialNetworkCircleFactory.produce();</span>
+<span class="fc" id="L36">	private static FriendFactory friendFactory = new ConcreteFriendFactory();</span>
+<span class="fc" id="L37">	private static PhysicalObject frankLee = friendFactory.produce(&quot;FrankLee&quot;, 42, 'M');</span>
+<span class="fc" id="L38">	private static PhysicalObject lisaWong = friendFactory.produce(&quot;LisaWong&quot;, 25, 'F');</span>
+<span class="fc" id="L39">	private static PhysicalObject tomWong = friendFactory.produce(&quot;TomWong&quot;, 61, 'M');</span>
+<span class="fc" id="L40">	private static PhysicalObject davidChen = friendFactory.produce(&quot;DavidChen&quot;, 55, 'M');</span>
+
+	/*
+	 * Test strategy
+	 * 	All tests below are about tests in social network circle. 
+	 * 	@Before readFromFile
+	 * 		Before any test, atomStructure should be initialized from SocialNetworkCircle.txt.
+	 * 		The test is all about atom structure from SocialNetworkCircle.txt.
+	 * 	testAddTrack
+	 * 		This tests addTrack.
+	 * 		Add a track to atom structure to see the change before and after adding.
+	 * 		Call getTracks to see if the test track is added.
+	 * 	testDeleteTrack
+	 * 		This tests deleteTrack.
+	 * 		Delete a track in atom structure to see the change before and after deleting.
+	 * 		Call getTracks to see if the track in test position is missed.
+	 * 	testAddCentralObject
+	 * 		This tests addCentralObject.
+	 * 		Add a central object to see the change before and after adding.
+	 * 		Call getCentralObject to see if the central object is the test one after adding.
+	 * 	testAddPhysicalObjectToTrack
+	 * 		This tests addPhysicalObjectToTrack.
+	 * 		Add a physical object to track to see the change before and after adding.
+	 * 		Call getObjectsInTrack to see if the number of objects in corresponding track changes after adding.
+	 * 	testAddRelationshipBetweenCentralAndPhysical
+	 * 		This tests addRelationshipBetweenCentralAndPhysical.
+	 * 		Add a relationship between the central person and a friend. Use FrankLee as the test friend.
+	 * 		This relationship shouldn't exist before adding. See if the relationship shows after adding.
+	 * 	testAddRelationshipBetweenPhysicalAndPhysical
+	 * 		This tests addRelationshipBetweenPhysicalAndPhysical.
+	 * 		Add a relationship between two friends. Use LisaWong and TomWong as the test friends.
+	 * 		This relationship shouldn't exist before adding. See if the relationship shows after adding.
+	 * 	testDeleteRelationshipFromPhysicalToPhysical
+	 * 		This tests deleteRelationshipFromPhysicalToPhysical.
+	 * 		Delete a relationship between two friends. Use TomWong and FrankLee as the test friends.
+	 * 		This relationship should exist before adding. See if the relationship disappears after adding.
+	 * 	testResetObjectsAndTrack
+	 * 		This tests resetObjectsAndTrack.
+	 * 		Call resetObjectsAndTrack and then see if the tracks and objectInTracks is empty.
+	 * 	testGetCentralObject
+	 * 		This tests getCentralObject.
+	 * 		See if the central object fits the data in file.
+	 * 	testGetTracks
+	 * 		This tests getTracks.
+	 * 		See if the tracks fit the data in file.
+	 * 	testGetObjectsInTrack
+	 * 		This tests getObjectInTrack.
+	 * 		See if the objects in tracks fit the data in file.
+	 * 	testGetRelationBetweenCentralAndObject
+	 * 		This tests getRelationBetweenCentralAndObject.
+	 * 		See if all the relationship between the central person and friends fit the data in file.
+	 * 	testGetRelationBetweenObjects
+	 * 		This tests getRelationBetweenObjects.
+	 * 		See if all the relationship between friends fit the data in file.
+	 * 	testSave
+	 * 		Test that social network circle shouldn't have save method.
+	 * 	testRestore
+	 * 		Test that social network circle shouldn't have restore method.
+	 */
+	@Test(expected = AssertionError.class)
+	public void testAssertionsEnabled() {
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">		assert false;</span>
+<span class="nc" id="L102">	}</span>
+
+	@Before
+	public void readFromFile() {
+<span class="fc" id="L106">		File file = new File(&quot;input/SocialNetworkCircle.txt&quot;);</span>
+		try {
+<span class="fc" id="L108">			socialNetworkCircle.readFromFile(file);</span>
+<span class="pc" id="L109">		} catch (NumberFormatException e) {</span>
+<span class="nc" id="L110">			e.printStackTrace();</span>
+<span class="nc" id="L111">		} catch (FileNotFoundException e) {</span>
+<span class="nc" id="L112">			System.out.println(&quot;File not found. File: &quot; + file.getPath() + &quot;. &quot; + e.getMessage());</span>
+<span class="nc" id="L113">			e.printStackTrace();</span>
+<span class="nc" id="L114">		} catch (IOException e) {</span>
+<span class="nc" id="L115">			e.printStackTrace();</span>
+<span class="nc" id="L116">		} catch (DataSyntaxException e) {</span>
+<span class="nc" id="L117">			System.out.println(e.getMessage());</span>
+<span class="nc" id="L118">			e.printStackTrace();</span>
+<span class="nc" id="L119">		} catch (IllegalIntimacyInSocialTieException e) {</span>
+<span class="nc" id="L120">			System.out.println(e.getMessage());</span>
+<span class="nc" id="L121">			e.printStackTrace();</span>
+		} catch (AtomElementException | AtomTrackNumException | AtomElectronNumException
+<span class="nc" id="L123">				| DataScientificNumberException e) {</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">			assert false : &quot;shouldn't have this exception.&quot;;</span>
+<span class="nc" id="L125">			e.printStackTrace();</span>
+		}
+<span class="fc" id="L127">	}</span>
+
+	@Test
+	public void testAddTrack() {
+<span class="fc" id="L131">		assertEquals(&quot;expected 2&quot;, 2, socialNetworkCircle.getTracks().size());</span>
+<span class="fc" id="L132">		socialNetworkCircle.addTrack(trackFactory.produce(10));</span>
+<span class="fc" id="L133">		assertEquals(&quot;expected 3&quot;, 3, socialNetworkCircle.getTracks().size());</span>
+<span class="fc" id="L134">		assertEquals(10.0, socialNetworkCircle.getTracks().get(2).getRadius(), 0.001);</span>
+<span class="fc" id="L135">	}</span>
+
+	@Test
+	public void testDeleteTrack() {
+<span class="fc" id="L139">		assertEquals(&quot;expected 2&quot;, 2, socialNetworkCircle.getTracks().size());</span>
+<span class="fc" id="L140">		socialNetworkCircle.deleteTrack(trackFactory.produce(2.0));</span>
+<span class="fc" id="L141">		assertEquals(&quot;expected 1&quot;, 1, socialNetworkCircle.getTracks().size());</span>
+<span class="fc" id="L142">		assertEquals(1.0, socialNetworkCircle.getTracks().get(0).getRadius(), 0.001);</span>
+<span class="fc" id="L143">	}</span>
+
+	@Test
+	public void testAddCentralObject() {
+<span class="fc" id="L147">		Person person = new Person(&quot;Wanghang&quot;, 20, 'M');</span>
+<span class="fc" id="L148">		assertEquals(&quot;expected TommyWong&quot;, &quot;TommyWong&quot;, socialNetworkCircle.getCentralObject().getName());</span>
+<span class="fc" id="L149">		socialNetworkCircle.addCentralObject(person);</span>
+<span class="fc" id="L150">		assertEquals(&quot;expected Wanghang&quot;, &quot;Wanghang&quot;, socialNetworkCircle.getCentralObject().getName());</span>
+<span class="fc" id="L151">	}</span>
+
+	@Test
+	public void testAddPhysicalObjectToTrack() {
+<span class="fc" id="L155">		assertEquals(&quot;expected 3&quot;, 3,</span>
+<span class="fc" id="L156">				socialNetworkCircle.getObjectsInTrack().get(socialNetworkCircle.getTracks().get(0)).size());</span>
+<span class="fc" id="L157">		socialNetworkCircle.addPhysicalObjectToTrack(friendFactory.produce(&quot;Hanxiao&quot;, 20, 'M'),</span>
+<span class="fc" id="L158">				socialNetworkCircle.getTracks().get(0));</span>
+<span class="fc" id="L159">		assertEquals(&quot;expected 4&quot;, 4,</span>
+<span class="fc" id="L160">				socialNetworkCircle.getObjectsInTrack().get(socialNetworkCircle.getTracks().get(0)).size());</span>
+<span class="fc" id="L161">		assertTrue(socialNetworkCircle.getObjectsInTrack().get(socialNetworkCircle.getTracks().get(0))</span>
+<span class="fc" id="L162">				.contains(friendFactory.produce(&quot;Hanxiao&quot;, 20, 'M')));</span>
+<span class="fc" id="L163">	}</span>
+
+	@Test
+	public void testAddRelationshipBetweenCentralAndPhysical() {
+<span class="fc" id="L167">		assertFalse(socialNetworkCircle.getRelationBetweenCentralAndObject()[0].keySet().contains(frankLee));</span>
+<span class="fc" id="L168">		assertFalse(socialNetworkCircle.getRelationBetweenCentralAndObject()[1].keySet().contains(frankLee));</span>
+<span class="fc" id="L169">		socialNetworkCircle.addRelationshipBetweenCentralAndPhysical(frankLee, true, 0.5);</span>
+<span class="fc" id="L170">		socialNetworkCircle.addRelationshipBetweenCentralAndPhysical(frankLee, false, 0.5);</span>
+<span class="fc" id="L171">		assertTrue(socialNetworkCircle.getRelationBetweenCentralAndObject()[0].keySet().contains(frankLee));</span>
+<span class="fc" id="L172">		assertTrue(socialNetworkCircle.getRelationBetweenCentralAndObject()[1].keySet().contains(frankLee));</span>
+<span class="fc" id="L173">	}</span>
+
+	@Test
+	public void testAddRelationshipBetweenPhysicalAndPhysical() {
+<span class="fc" id="L177">		assertFalse(socialNetworkCircle.getRelationBetweenObjects()</span>
+<span class="fc" id="L178">				.contains(new Edge&lt;PhysicalObject&gt;(lisaWong, tomWong, 0.5)));</span>
+<span class="fc" id="L179">		socialNetworkCircle.addRelationshipBetweenPhysicalAndPhysical(lisaWong, tomWong, 0.5);</span>
+<span class="fc" id="L180">		assertTrue(socialNetworkCircle.getRelationBetweenObjects()</span>
+<span class="fc" id="L181">				.contains(new Edge&lt;PhysicalObject&gt;(lisaWong, tomWong, 0.5)));</span>
+<span class="fc" id="L182">	}</span>
+
+	@Test
+	public void testDeleteRelationshipFromPhysicalToPhysical() {
+<span class="fc" id="L186">		assertTrue(socialNetworkCircle.getRelationBetweenObjects()</span>
+<span class="fc" id="L187">				.contains(new Edge&lt;PhysicalObject&gt;(tomWong, frankLee, 0.71)));</span>
+<span class="fc" id="L188">		socialNetworkCircle.deleteRelationshipBetweenPhysicalAndPhysical(tomWong, frankLee);</span>
+<span class="fc" id="L189">		assertFalse(socialNetworkCircle.getRelationBetweenObjects()</span>
+<span class="fc" id="L190">				.contains(new Edge&lt;PhysicalObject&gt;(tomWong, frankLee, 0.71)));</span>
+<span class="fc" id="L191">	}</span>
+
+	@Test
+	public void testResetObjectsAndTrack() {
+<span class="fc" id="L195">		assertEquals(&quot;expected 3&quot;, 3,</span>
+<span class="fc" id="L196">				socialNetworkCircle.getObjectsInTrack().get(socialNetworkCircle.getTracks().get(0)).size());</span>
+<span class="fc" id="L197">		assertEquals(&quot;expected 2&quot;, 2, socialNetworkCircle.getTracks().size());</span>
+<span class="fc" id="L198">		socialNetworkCircle.resetObjectsAndTrack();</span>
+<span class="fc" id="L199">		assertTrue(socialNetworkCircle.getTracks().isEmpty());</span>
+<span class="fc" id="L200">		assertTrue(socialNetworkCircle.getObjectsInTrack().isEmpty());</span>
+<span class="fc" id="L201">	}</span>
+
+	@Test
+	public void testGetCentralObject() {
+<span class="fc" id="L205">		assertEquals(&quot;expected TommyWong&quot;, new Person(&quot;TommyWong&quot;, 30, 'M'), socialNetworkCircle.getCentralObject());</span>
+<span class="fc" id="L206">	}</span>
+
+	@Test
+	public void testGetTracks() {
+<span class="fc" id="L210">		List&lt;Track&gt; tracks = socialNetworkCircle.getTracks();</span>
+<span class="fc" id="L211">		assertEquals(&quot;expected 2&quot;, 2, tracks.size());</span>
+<span class="fc" id="L212">		assertEquals(1, tracks.get(0).getRadius(), 0);</span>
+<span class="fc" id="L213">		assertEquals(2, tracks.get(1).getRadius(), 0);</span>
+<span class="fc" id="L214">	}</span>
+
+	@Test
+	public void testGetObjectsInTrack() {
+<span class="fc" id="L218">		Map&lt;Track, List&lt;PhysicalObject&gt;&gt; objectsInTrack = socialNetworkCircle.getObjectsInTrack();</span>
+<span class="fc" id="L219">		assertTrue(objectsInTrack.get(socialNetworkCircle.getTracks().get(0)).contains(lisaWong));</span>
+<span class="fc" id="L220">		assertTrue(objectsInTrack.get(socialNetworkCircle.getTracks().get(0)).contains(tomWong));</span>
+<span class="fc" id="L221">		assertTrue(objectsInTrack.get(socialNetworkCircle.getTracks().get(0)).contains(davidChen));</span>
+<span class="fc" id="L222">		assertTrue(objectsInTrack.get(socialNetworkCircle.getTracks().get(1)).contains(frankLee));</span>
+<span class="fc" id="L223">	}</span>
+
+	@Test
+	public void testGetRelationBetweenCentralAndObject() {
+<span class="fc" id="L227">		Map&lt;PhysicalObject, Double&gt;[] relationBetweenCentralAndObject = socialNetworkCircle</span>
+<span class="fc" id="L228">				.getRelationBetweenCentralAndObject();</span>
+<span class="fc" id="L229">		assertEquals(&quot;expected 3&quot;, 3, relationBetweenCentralAndObject[0].size());</span>
+<span class="fc" id="L230">		assertEquals(&quot;expected 3&quot;, 3, relationBetweenCentralAndObject[1].size());</span>
+<span class="fc" id="L231">		assertEquals(0.98, relationBetweenCentralAndObject[0].get(lisaWong), 0.001);</span>
+<span class="fc" id="L232">		assertEquals(0.2, relationBetweenCentralAndObject[0].get(tomWong), 0.01);</span>
+<span class="fc" id="L233">		assertEquals(0.342, relationBetweenCentralAndObject[0].get(davidChen), 0.0001);</span>
+<span class="fc" id="L234">		assertEquals(0.98, relationBetweenCentralAndObject[1].get(lisaWong), 0.001);</span>
+<span class="fc" id="L235">		assertEquals(0.2, relationBetweenCentralAndObject[1].get(tomWong), 0.01);</span>
+<span class="fc" id="L236">		assertEquals(0.342, relationBetweenCentralAndObject[1].get(davidChen), 0.0001);</span>
+<span class="fc" id="L237">	}</span>
+
+	@Test
+	public void testGetRelationBetweenObjects() {
+<span class="fc" id="L241">		List&lt;Edge&lt;PhysicalObject&gt;&gt; relationBetweenObjects = socialNetworkCircle.getRelationBetweenObjects();</span>
+<span class="fc" id="L242">		assertTrue(relationBetweenObjects.contains(new Edge&lt;PhysicalObject&gt;(tomWong, frankLee, 0.71)));</span>
+<span class="fc" id="L243">		assertTrue(relationBetweenObjects.contains(new Edge&lt;PhysicalObject&gt;(frankLee, davidChen, 0.02)));</span>
+<span class="fc" id="L244">		assertTrue(relationBetweenObjects.contains(new Edge&lt;PhysicalObject&gt;(frankLee, tomWong, 0.71)));</span>
+<span class="fc" id="L245">		assertTrue(relationBetweenObjects.contains(new Edge&lt;PhysicalObject&gt;(davidChen, frankLee, 0.02)));</span>
+<span class="fc" id="L246">	}</span>
+
+	@Test(expected = AssertionError.class)
+	public void testSave() {
+<span class="nc" id="L250">		socialNetworkCircle.save();</span>
+<span class="nc" id="L251">	}</span>
+
+	@Test(expected = AssertionError.class)
+	public void testRestore() {
+<span class="nc" id="L255">		socialNetworkCircle.restore(null);</span>
+<span class="nc" id="L256">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>

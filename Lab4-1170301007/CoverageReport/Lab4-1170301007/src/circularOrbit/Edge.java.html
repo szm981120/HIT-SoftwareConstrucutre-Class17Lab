@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Edge.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">circularOrbit</a> &gt; <span class="el_source">Edge.java</span></div><h1>Edge.java</h1><pre class="source lang-java linenums">package circularOrbit;
+
+/**
+ * Edge represents an adjacency with weight.
+ * 
+ * @author Shen
+ *
+ * @param &lt;E&gt; class of physical object
+ */
+<span class="pc bpc" id="L10" title="1 of 2 branches missed.">public class Edge&lt;E&gt; {</span>
+
+	// IMMUTABLE
+	private final E source;
+	private final E target;
+	private final double weight;
+
+	/* Abstraction function:
+	 * 	AF(source, target, weight) = {an edge weighing weight from source to target}
+	 * 
+	 * Representation invariant:
+	 * 	source which represents an edge's start, shouldn't be null
+	 * 	target which represents an edge's end, shouldn't be null
+	 * 	weight which represents an edge's weight, should be a decimal from 0 to 1
+	 * 
+	 * Safety from rep exposure:
+	 * 	all representations are defined private and final.
+	 * 	E(type) is immutable according to spec so all reps are immutable.
+	 */
+
+	/**
+	 * Constructor
+	 * 
+	 * @param s source physical object, mustn't be null
+	 * @param t target physical object, mustn't be null
+	 * @param w weight of this edge, must be a decimal greater than 0 and no more
+	 *          than 1.
+	 */
+<span class="fc" id="L38">	public Edge(E s, E t, double w) {</span>
+<span class="fc" id="L39">		this.source = s;</span>
+<span class="fc" id="L40">		this.target = t;</span>
+<span class="fc" id="L41">		this.weight = w;</span>
+<span class="fc" id="L42">	}</span>
+
+	// checkRep
+	private void checkRep() {
+<span class="pc bpc" id="L46" title="3 of 6 branches missed.">		assert weight &gt; 0 &amp;&amp; weight &lt;= 1;</span>
+<span class="pc bpc" id="L47" title="2 of 4 branches missed.">		assert source != null;</span>
+<span class="pc bpc" id="L48" title="2 of 4 branches missed.">		assert target != null;</span>
+<span class="fc" id="L49">	}</span>
+
+	/**
+	 * Observer
+	 *
+	 * @return source physical object of this edge
+	 */
+	public E getSource() {
+<span class="fc" id="L57">		E source = this.source;</span>
+<span class="fc" id="L58">		checkRep();</span>
+<span class="fc" id="L59">		return source;</span>
+	}
+
+	/**
+	 * Observer
+	 * 
+	 * @return target physical object of this edge
+	 */
+	public E getTarget() {
+<span class="fc" id="L68">		E target = this.target;</span>
+<span class="fc" id="L69">		checkRep();</span>
+<span class="fc" id="L70">		return target;</span>
+	}
+
+	/**
+	 * Observer
+	 * 
+	 * @return weight of this edge
+	 */
+	public double getWeight() {
+<span class="fc" id="L79">		double weight = this.weight;</span>
+<span class="fc" id="L80">		checkRep();</span>
+<span class="fc" id="L81">		return weight;</span>
+	}
+
+	/**
+	 * Two edges are equal only when they have the same source and the same target.
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public boolean equals(Object obj) {
+<span class="pc bpc" id="L90" title="2 of 6 branches missed.">		return obj != null &amp;&amp; obj.getClass() == Edge.class &amp;&amp; ((Edge&lt;E&gt;) obj).getSource().equals(this.source)</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">				&amp;&amp; ((Edge&lt;E&gt;) obj).getTarget().equals(this.target);</span>
+	}
+
+	/**
+	 * Because the equality of edges links with equality of source and target, hash
+	 * code of edge should be a particular combination of source's and target's hash
+	 * code.
+	 */
+	@Override
+	public int hashCode() {
+<span class="nc" id="L101">		int result = 17;</span>
+<span class="nc" id="L102">		result = 31 * result + this.source.hashCode();</span>
+<span class="nc" id="L103">		result = 31 * result + this.target.hashCode();</span>
+<span class="nc" id="L104">		return result;</span>
+	}
+
+	/**
+	 * Override toString. Print the Edge.
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L112">		StringBuilder edge = new StringBuilder();</span>
+<span class="nc" id="L113">		edge.append(this.source.toString() + &quot;--&quot; + String.valueOf(this.weight) + &quot;--&gt;&quot; + this.target.toString());</span>
+<span class="nc" id="L114">		checkRep();</span>
+<span class="nc" id="L115">		return edge.toString();</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>

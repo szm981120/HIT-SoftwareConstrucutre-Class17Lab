@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>RemoveCommentsTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">test</a> &gt; <a href="index.source.html" class="el_package">debug</a> &gt; <span class="el_source">RemoveCommentsTest.java</span></div><h1>RemoveCommentsTest.java</h1><pre class="source lang-java linenums">package debug;
+
+import static org.junit.Assert.*;
+
+import java.util.List;
+import java.util.ArrayList;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
+<span class="pc bpc" id="L12" title="1 of 2 branches missed.">public class RemoveCommentsTest {</span>
+
+	/*
+	 * Test strategy
+	 * 	Overall, the test strategy tests default cases that the example indicates in spec, a few equivalence cases, 
+	 * 	and a few assertion cases.
+	 * 
+	 * 	testDefault
+	 * 		A case that example 1 indicates in spec.
+	 * 	testDefault2
+	 * 		A case that example 2 indicates in spec.
+	 * 	testBlockNestInLine
+	 * 		Block comment nests in line comment.
+	 * 	testLineNestInBlock
+	 * 		Line comment nests in block comment.
+	 * 	testLineNestInLine
+	 * 		Line comment nests in line comment. In fact, only the first // works as comment notation. The rests are all comments.
+	 * 	testBlockNestInBlock
+	 * 		Block comment nests in block comment. In fact, only the first pair of block comment notation works. The rests are all comments.
+	 * 	testSourceLengthAssertion
+	 * 		Test AssertionError when the length of source is greater than 100.
+	 * 	testSourceContentLengthAssertion
+	 * 		Test AssertionError when the length of source[i] is greater than 80.
+	 * 	testDoubleQuoteCharacterAssertion
+	 * 		Test AssertionError when double-quote shows in source[i].
+	 * 	testSingleQuoteCharacterAssertion
+	 * 		Test AssertionError when single-quote shows in source[i].
+	 * 	testControlCharacterAssertion
+	 * 		Test AssertionError when control character shows in source[i].
+	 * 	testBlockClosedAssertion
+	 * 		Test AssertionError when a block comment has no end notation.
+	 */
+
+	@Test(expected = AssertionError.class)
+	public void testAssertionsEnabled() {
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">		assert false;</span>
+<span class="nc" id="L48">	}</span>
+
+	@Test
+	public void testDefault() {
+<span class="fc" id="L52">		RemoveComments rc = new RemoveComments();</span>
+<span class="fc" id="L53">		List&lt;String&gt; ans = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L54">		ans.add(&quot;int main()&quot;);</span>
+<span class="fc" id="L55">		ans.add(&quot;{ &quot;);</span>
+<span class="fc" id="L56">		ans.add(&quot;  &quot;);</span>
+<span class="fc" id="L57">		ans.add(&quot;int a, b, c;&quot;);</span>
+<span class="fc" id="L58">		ans.add(&quot;a = b + c;&quot;);</span>
+<span class="fc" id="L59">		ans.add(&quot;}&quot;);</span>
+<span class="fc" id="L60">		String[] source = { &quot;/*Test program */&quot;, &quot;int main()&quot;, &quot;{ &quot;, &quot;  // variable declaration &quot;, &quot;int a, b, c;&quot;,</span>
+<span class="fc" id="L61">				&quot;/* This is a test&quot;, &quot;   multiline  &quot;, &quot;   comment for &quot;, &quot;   testing */&quot;, &quot;a = b + c;&quot;, &quot;}&quot; };</span>
+<span class="fc" id="L62">		assertEquals(ans, rc.removeComments(source));</span>
+<span class="fc" id="L63">	}</span>
+
+	@Test
+	public void testDefault2() {
+<span class="fc" id="L67">		RemoveComments rc = new RemoveComments();</span>
+<span class="fc" id="L68">		List&lt;String&gt; ans = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L69">		ans.add(&quot;ab&quot;);</span>
+<span class="fc" id="L70">		String[] source = { &quot;a/*comment&quot;, &quot;line&quot;, &quot;{ &quot;, &quot;more_comment*/b&quot; };</span>
+<span class="fc" id="L71">		assertEquals(ans, rc.removeComments(source));</span>
+<span class="fc" id="L72">	}</span>
+
+	@Test
+	public void testBlockNestInLine() {
+<span class="fc" id="L76">		RemoveComments rc = new RemoveComments();</span>
+<span class="fc" id="L77">		List&lt;String&gt; ans = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L78">		ans.add(&quot;j&quot;);</span>
+<span class="fc" id="L79">		ans.add(&quot;kk&quot;);</span>
+<span class="fc" id="L80">		String[] source = { &quot;// /* a b c*/&quot;, &quot;/* bb&quot;, &quot;//abc&quot;, &quot;rr*/j&quot;, &quot;kk&quot; };</span>
+<span class="fc" id="L81">		assertEquals(ans, rc.removeComments(source));</span>
+<span class="fc" id="L82">	}</span>
+
+	@Test
+	public void testLineNestInBlock() {
+<span class="fc" id="L86">		RemoveComments rc = new RemoveComments();</span>
+<span class="fc" id="L87">		List&lt;String&gt; ans = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L88">		ans.add(&quot;j&quot;);</span>
+<span class="fc" id="L89">		ans.add(&quot;kk&quot;);</span>
+<span class="fc" id="L90">		String[] source = { &quot;// /* a b c*/&quot;, &quot;/* bb&quot;, &quot;a//bc&quot;, &quot;rr*/j&quot;, &quot;kk&quot; };</span>
+<span class="fc" id="L91">		assertEquals(ans, rc.removeComments(source));</span>
+<span class="fc" id="L92">	}</span>
+
+	public void testLineNestInLine() {
+<span class="nc" id="L95">		RemoveComments rc = new RemoveComments();</span>
+<span class="nc" id="L96">		List&lt;String&gt; ans = new ArrayList&lt;String&gt;();</span>
+<span class="nc" id="L97">		ans.add(&quot;j&quot;);</span>
+<span class="nc" id="L98">		ans.add(&quot;kk&quot;);</span>
+<span class="nc" id="L99">		String[] source = { &quot;//// /* a b c*/&quot;, &quot;/* bb&quot;, &quot;a//bc&quot;, &quot;rr*/j&quot;, &quot;kk&quot; };</span>
+<span class="nc" id="L100">		assertEquals(ans, rc.removeComments(source));</span>
+<span class="nc" id="L101">	}</span>
+
+	@Test
+	public void testBlockNestInBlock() {
+<span class="fc" id="L105">		RemoveComments rc = new RemoveComments();</span>
+<span class="fc" id="L106">		List&lt;String&gt; ans = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L107">		ans.add(&quot;j&quot;);</span>
+<span class="fc" id="L108">		ans.add(&quot;kk&quot;);</span>
+<span class="fc" id="L109">		String[] source = { &quot;//// /* a b c*/&quot;, &quot;/* bb&quot;, &quot;/*a//b/*c&quot;, &quot;rr*/j&quot;, &quot;kk&quot; };</span>
+<span class="fc" id="L110">		assertEquals(ans, rc.removeComments(source));</span>
+<span class="fc" id="L111">	}</span>
+
+	@Rule
+<span class="fc" id="L114">	public ExpectedException exception = ExpectedException.none();</span>
+
+	@Test
+	public void testSourceLengthAssertion() {
+<span class="fc" id="L118">		exception.expect(AssertionError.class);</span>
+<span class="fc" id="L119">		exception.expectMessage(&quot;The length of source is in the range [1,100].&quot;);</span>
+<span class="fc" id="L120">		RemoveComments rc = new RemoveComments();</span>
+<span class="fc" id="L121">		List&lt;String&gt; ans = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L122">		ans.add(&quot;j&quot;);</span>
+<span class="fc" id="L123">		ans.add(&quot;kk&quot;);</span>
+<span class="fc" id="L124">		String[] source = new String[101];</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">		for (int i = 0; i &lt; 101; i++) {</span>
+<span class="fc" id="L126">			source[i] = &quot;a&quot;;</span>
+		}
+<span class="nc" id="L128">		assertEquals(ans, rc.removeComments(source));</span>
+<span class="nc" id="L129">	}</span>
+
+	@Test
+	public void testSourceContentLengthAssertion() {
+<span class="fc" id="L133">		exception.expect(AssertionError.class);</span>
+<span class="fc" id="L134">		exception.expectMessage(&quot;The length of source[i] is in the range [0,80].&quot;);</span>
+<span class="fc" id="L135">		RemoveComments rc = new RemoveComments();</span>
+<span class="fc" id="L136">		List&lt;String&gt; ans = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L137">		String moreThanAHundredString = &quot;Java comments are notes in a Java code file that are ignored by the compiler and runtime engine. &quot;</span>
+				+ &quot;They are used to annotate the code in order to clarify its design and purpose. &quot;
+				+ &quot;You can add an unlimited number of comments to a Java file, &quot;
+				+ &quot;but there are some best practices to follow when using comments.&quot;;
+<span class="fc" id="L141">		ans.add(&quot;j&quot;);</span>
+<span class="fc" id="L142">		ans.add(&quot;kk&quot;);</span>
+<span class="fc" id="L143">		String[] source = { moreThanAHundredString, &quot;kk&quot; };</span>
+<span class="nc" id="L144">		assertEquals(ans, rc.removeComments(source));</span>
+<span class="nc" id="L145">	}</span>
+
+	@Test
+	public void testDoubleQuoteCharacterAssertion() {
+<span class="fc" id="L149">		exception.expect(AssertionError.class);</span>
+<span class="fc" id="L150">		exception.expectMessage(&quot;There are no single-quote, double-quote, or control characters in the source code.&quot;);</span>
+<span class="fc" id="L151">		RemoveComments rc = new RemoveComments();</span>
+<span class="fc" id="L152">		List&lt;String&gt; ans = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L153">		ans.add(&quot;j&quot;);</span>
+<span class="fc" id="L154">		ans.add(&quot;kk&quot;);</span>
+<span class="fc" id="L155">		String[] source = { &quot;/* a\&quot; b c*/&quot;, &quot;rrj&quot;, &quot;kk&quot; };</span>
+<span class="nc" id="L156">		assertEquals(ans, rc.removeComments(source));</span>
+<span class="nc" id="L157">	}</span>
+
+	@Test
+	public void testSingleQuoteCharacterAssertion() {
+<span class="fc" id="L161">		exception.expect(AssertionError.class);</span>
+<span class="fc" id="L162">		exception.expectMessage(&quot;There are no single-quote, double-quote, or control characters in the source code.&quot;);</span>
+<span class="fc" id="L163">		RemoveComments rc = new RemoveComments();</span>
+<span class="fc" id="L164">		List&lt;String&gt; ans = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L165">		ans.add(&quot;j&quot;);</span>
+<span class="fc" id="L166">		ans.add(&quot;kk&quot;);</span>
+<span class="fc" id="L167">		String[] source = { &quot;/* a\' b c*/&quot;, &quot;rrj&quot;, &quot;kk&quot; };</span>
+<span class="nc" id="L168">		assertEquals(ans, rc.removeComments(source));</span>
+<span class="nc" id="L169">	}</span>
+
+	@Test
+	public void testControlCharacterAssertion() {
+<span class="fc" id="L173">		exception.expect(AssertionError.class);</span>
+<span class="fc" id="L174">		exception.expectMessage(&quot;There are no single-quote, double-quote, or control characters in the source code.&quot;);</span>
+<span class="fc" id="L175">		RemoveComments rc = new RemoveComments();</span>
+<span class="fc" id="L176">		List&lt;String&gt; ans = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L177">		ans.add(&quot;j&quot;);</span>
+<span class="fc" id="L178">		ans.add(&quot;kk&quot;);</span>
+<span class="fc" id="L179">		String[] source = { &quot;/* a\n b c*/&quot;, &quot;rrj&quot;, &quot;kk&quot; };</span>
+<span class="nc" id="L180">		assertEquals(ans, rc.removeComments(source));</span>
+<span class="nc" id="L181">	}</span>
+
+	@Test
+	public void testBlockClosedAssertion() {
+<span class="fc" id="L185">		exception.expect(AssertionError.class);</span>
+<span class="fc" id="L186">		exception.expectMessage(&quot;Every open block comment is eventually closed.&quot;);</span>
+<span class="fc" id="L187">		RemoveComments rc = new RemoveComments();</span>
+<span class="fc" id="L188">		List&lt;String&gt; ans = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L189">		ans.add(&quot;j&quot;);</span>
+<span class="fc" id="L190">		ans.add(&quot;kk&quot;);</span>
+<span class="fc" id="L191">		String[] source = { &quot;/* a b c*/&quot;, &quot;/* bb&quot;, &quot;/*a//b/*c&quot;, &quot;rrj&quot;, &quot;kk&quot; };</span>
+<span class="nc" id="L192">		assertEquals(ans, rc.removeComments(source));</span>
+<span class="nc" id="L193">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>

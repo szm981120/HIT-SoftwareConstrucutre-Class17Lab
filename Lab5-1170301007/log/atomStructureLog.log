@@ -1,0 +1,102 @@
+[2019-05-18 15:53:20] applications.Main main
+INFO: AtomStructure application activate.
+[2019-05-18 15:53:22] applications.AtomStructureAPP application
+INFO: Read from input/AtomicStructure.txt. Restore present state.
+[2019-05-18 15:53:22] applications.AtomStructureAPP application
+INFO: Success: Read from input/AtomicStructure.txt. Restore present state.
+[2019-05-18 15:53:25] applications.AtomStructureAPP application
+INFO: Restore transition.
+[2019-05-18 15:53:28] applications.AtomStructureAPP application
+INFO: Success: Roll back 2 transition versions.
+[2019-05-20 15:01:39] applications.Main main
+INFO: AtomStructure application activate.
+[2019-05-20 15:01:40] applications.AtomStructureAPP application
+INFO: Visualize.
+[2019-05-20 15:01:40] applications.AtomStructureAPP application
+INFO: Success: Visualize.
+[2019-05-20 15:02:26] applications.Main main
+INFO: AtomStructure application activate.
+[2019-05-20 15:02:28] applications.AtomStructureAPP application
+INFO: Read from input/AtomicStructure.txt. Restore present state.
+[2019-05-20 15:02:28] applications.AtomStructureAPP application
+INFO: Success: Read from input/AtomicStructure.txt. Restore present state.
+[2019-05-20 15:02:29] applications.AtomStructureAPP application
+INFO: Visualize.
+[2019-05-20 15:02:29] applications.AtomStructureAPP application
+INFO: Success: Visualize.
+[2019-05-20 15:06:15] applications.Main main
+INFO: AtomStructure application activate.
+[2019-05-23 23:27:09] application.Main main
+INFO: AtomStructure application activate.
+[2019-05-23 23:27:34] application.AtomStructureApp application
+INFO: Read from input/AtomicStructure.txt. Restore present state.
+[2019-05-23 23:27:34] application.AtomStructureApp application
+INFO: Success: Read from input/AtomicStructure.txt. Restore present state.
+[2019-05-23 23:27:38] application.AtomStructureApp application
+INFO: Transition.
+[2019-05-23 23:27:43] application.AtomStructureApp application
+INFO: Success: Transition an electron from track 1 to track2. Restore present state.
+[2019-05-23 23:27:45] application.AtomStructureApp application
+INFO: Write the current atom structure to file.
+[2019-05-23 23:28:08] application.AtomStructureApp application
+INFO: Success: Write the current atom structure to savefiles/transitionElectronFrom1To2.txt.
+[2019-05-23 23:28:12] application.AtomStructureApp application
+INFO: AtomStructure application deactivate.
+[2019-05-23 23:29:23] application.Main main
+INFO: AtomStructure application activate.
+[2019-05-23 23:29:25] application.AtomStructureApp application
+INFO: Read from input/AtomicStructure.txt. Restore present state.
+[2019-05-23 23:29:25] application.AtomStructureApp application
+INFO: Success: Read from input/AtomicStructure.txt. Restore present state.
+[2019-05-23 23:29:28] application.AtomStructureApp application
+INFO: Transition.
+[2019-05-23 23:29:29] application.AtomStructureApp application
+INFO: Success: Transition an electron from track 1 to track2. Restore present state.
+[2019-05-23 23:29:30] application.AtomStructureApp application
+INFO: Write the current atom structure to file.
+[2019-05-23 23:29:44] application.AtomStructureApp application
+INFO: Success: Write the current atom structure to savefiles/transitionElectronFrom1To2.txt.
+[2019-05-23 23:30:30] application.AtomStructureApp application
+INFO: AtomStructure application deactivate.
+[2019-05-23 23:30:32] application.Main main
+INFO: AtomStructure application activate.
+[2019-05-23 23:30:34] application.AtomStructureApp application
+INFO: Read from input/AtomicStructure.txt. Restore present state.
+[2019-05-23 23:30:34] application.AtomStructureApp application
+INFO: Success: Read from input/AtomicStructure.txt. Restore present state.
+[2019-05-23 23:30:36] application.AtomStructureApp application
+INFO: Transition.
+[2019-05-23 23:30:37] application.AtomStructureApp application
+INFO: Success: Transition an electron from track 1 to track2. Restore present state.
+[2019-05-23 23:30:39] application.AtomStructureApp application
+INFO: Write the current atom structure to file.
+[2019-05-23 23:30:50] application.AtomStructureApp application
+INFO: Success: Write the current atom structure to savefiles/transitionElectronFrom1To2.txt.
+[2019-05-23 23:30:52] application.AtomStructureApp application
+INFO: AtomStructure application deactivate.
+[2019-06-01 16:38:10] application.Main main
+INFO: AtomStructure application activate.
+[2019-06-01 16:38:12] application.AtomStructureApp application
+INFO: AtomStructure application deactivate.
+[2019-06-01 16:51:09] application.Main main
+INFO: AtomStructure application activate.
+[2019-06-01 16:51:15] application.AtomStructureApp application
+INFO: Read from input/AtomicStructure.txt. Restore present state.
+[2019-06-01 16:51:15] application.AtomStructureApp application
+INFO: Success: Read from input/AtomicStructure.txt. Restore present state.
+[2019-06-01 16:51:16] application.AtomStructureApp application
+INFO: Visualize.
+[2019-06-01 16:51:16] application.AtomStructureApp application
+INFO: Success: Visualize.
+[2019-06-01 16:51:33] application.AtomStructureApp application
+INFO: Read from input/AtomicStructure_Medium.txt. Restore present state.
+[2019-06-01 16:51:33] application.AtomStructureApp application
+INFO: Success: Read from input/AtomicStructure_Medium.txt. Restore present state.
+[2019-06-01 16:51:34] application.AtomStructureApp application
+INFO: Visualize.
+[2019-06-01 16:51:34] application.AtomStructureApp application
+INFO: Success: Visualize.
+[2019-06-01 17:03:51] application.Main main
+INFO: AtomStructure application activate.
+[2019-06-01 17:03:55] application.AtomStructureApp application
+INFO: AtomStructure application deactivate.

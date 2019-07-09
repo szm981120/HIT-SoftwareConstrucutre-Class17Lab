@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>FriendFactoryTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">test</a> &gt; <a href="index.source.html" class="el_package">physicalObjectTest</a> &gt; <span class="el_source">FriendFactoryTest.java</span></div><h1>FriendFactoryTest.java</h1><pre class="source lang-java linenums">package physicalObjectTest;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+import physicalObject.ConcreteFriendFactory;
+import physicalObject.Friend;
+import physicalObject.FriendFactory;
+
+<span class="pc bpc" id="L11" title="1 of 2 branches missed.">public class FriendFactoryTest {</span>
+
+	
+	/*
+	 * Test strategy
+	 * 	testProduce
+	 * 		This tests produce.
+	 * 		Call produce to create an instance to see if the instance fits expectation.
+	 */
+	
+	@Test(expected = AssertionError.class)
+	public void testAssertionsEnabled() {
+<span class="pc bpc" id="L23" title="1 of 2 branches missed.">		assert false;</span>
+<span class="nc" id="L24">	}</span>
+
+	@Test
+	public void testProduce() {
+<span class="fc" id="L28">		FriendFactory friendFactory = new ConcreteFriendFactory();</span>
+<span class="fc" id="L29">		assertEquals(&quot;expected Friend class&quot;, Friend.class, friendFactory.produce(&quot;Wanghang&quot;, 20, 'M').getClass());</span>
+<span class="fc" id="L30">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>

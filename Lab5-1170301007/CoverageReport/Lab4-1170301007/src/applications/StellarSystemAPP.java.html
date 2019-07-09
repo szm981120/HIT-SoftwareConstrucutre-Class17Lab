@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>StellarSystemAPP.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">applications</a> &gt; <span class="el_source">StellarSystemAPP.java</span></div><h1>StellarSystemAPP.java</h1><pre class="source lang-java linenums">package applications;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import APIs.CircularOrbitAPIs;
+import APIs.CircularOrbitHelper;
+import MyException.AtomElectronNumException;
+import MyException.AtomElementException;
+import MyException.AtomTrackNumException;
+import MyException.DataNonScientificNumberException;
+import MyException.DataScientificNumberException;
+import MyException.DataSyntaxException;
+import MyException.IllegalIntimacyInSocialTieException;
+import MyException.NoObjectOnTrackException;
+import MyException.PlanetConflictException;
+import centralObject.Star;
+import circularOrbit.StellarSystemFactory;
+import circularOrbit.CircularOrbit;
+import circularOrbit.StellarSystem;
+import circularOrbit.circularOrbitFactory;
+import physicalObject.ConcretePlanetFactory;
+import physicalObject.PhysicalObject;
+import physicalObject.PlanetFactory;
+import track.Track;
+import track.TrackFactory;
+
+/**
+ * StellarSystemAPP provides a static method for client to call in Main.java.
+ * This static method is the mainly function method for stellar system
+ * applications.
+ * 
+ * @author Shen
+ *
+ */
+<span class="nc bnc" id="L43" title="All 2 branches missed.">public class StellarSystemAPP {</span>
+
+<span class="nc" id="L45">	private static PlanetFactory planetFactory = new ConcretePlanetFactory();</span>
+<span class="nc" id="L46">	private static TrackFactory trackFactory = new TrackFactory();</span>
+<span class="nc" id="L47">	private static Scanner in = new Scanner(System.in);</span>
+	private static Pattern pattern;
+	private static Matcher matcher;
+	private static final String numberRegex = &quot;([0-9]*|[0-9]*.[0-9]*|[0-9].[0-9]*e[0-9]*)&quot;;
+	private static final String labelRegex = &quot;([a-zA-z0-9]*)&quot;;
+	private static final String commaRegex = &quot;\\s*,\\s*&quot;;
+<span class="nc" id="L53">	private static Logger stellarSystemLogger = Logger.getLogger(&quot;StellarSystem Log&quot;);</span>
+
+	/**
+	 * Stellar system application method
+	 * 
+	 */
+	public static void application() {
+<span class="nc" id="L60">		CircularOrbitAPIs&lt;Star, PhysicalObject&gt; apis = new CircularOrbitAPIs&lt;Star, PhysicalObject&gt;();</span>
+<span class="nc" id="L61">		circularOrbitFactory&lt;Star, PhysicalObject&gt; factory = new StellarSystemFactory();</span>
+<span class="nc" id="L62">		CircularOrbit&lt;Star, PhysicalObject&gt; stellarSystem = factory.produce();</span>
+<span class="nc" id="L63">		stellarSystemLogger.setUseParentHandlers(false);</span>
+<span class="nc" id="L64">		while (true) {</span>
+<span class="nc" id="L65">			menu();</span>
+<span class="nc" id="L66">			int choose = 0;</span>
+			try {
+<span class="nc" id="L68">				choose = in.nextInt();</span>
+<span class="nc" id="L69">				in.nextLine();</span>
+<span class="nc" id="L70">			} catch (InputMismatchException e) {</span>
+<span class="nc" id="L71">				System.err.println(e.getClass() + &quot; Please input again.&quot;);</span>
+<span class="nc" id="L72">				in.nextLine();</span>
+<span class="nc" id="L73">				continue;</span>
+			}
+<span class="nc bnc" id="L75" title="All 14 branches missed.">			switch (choose) {</span>
+			case 1: // Read from file to generate a atomic structure
+<span class="nc" id="L77">				readMenu();</span>
+<span class="nc" id="L78">				File file = null;</span>
+<span class="nc" id="L79">				int choose1 = 0;</span>
+				try {
+<span class="nc" id="L81">					choose1 = in.nextInt();</span>
+<span class="nc" id="L82">					in.nextLine();</span>
+<span class="nc" id="L83">				} catch (InputMismatchException e) {</span>
+<span class="nc" id="L84">					System.err.println(e.getMessage() + &quot;Please run again.&quot;);</span>
+<span class="nc" id="L85">					in.nextLine();</span>
+<span class="nc" id="L86">					break;</span>
+				}
+				try {
+<span class="nc bnc" id="L89" title="All 5 branches missed.">					switch (choose1) {</span>
+					case 1:
+<span class="nc" id="L91">						stellarSystemLogger.log(Level.INFO, &quot;Read from input/StellarSystem.txt.&quot;);</span>
+<span class="nc" id="L92">						file = new File(&quot;input/StellarSystem.txt&quot;);</span>
+<span class="nc" id="L93">						stellarSystem.readFromFile(file);</span>
+<span class="nc" id="L94">						stellarSystemLogger.log(Level.INFO, &quot;Success: Read from input/StellarSystem.txt.&quot;);</span>
+<span class="nc" id="L95">						break;</span>
+					case 2:
+<span class="nc" id="L97">						stellarSystemLogger.log(Level.INFO, &quot;Read from input/StellarSystem_Medium.txt.&quot;);</span>
+<span class="nc" id="L98">						file = new File(&quot;input/StellarSystem_Medium.txt&quot;);</span>
+<span class="nc" id="L99">						stellarSystem.readFromFile(file);</span>
+<span class="nc" id="L100">						stellarSystemLogger.log(Level.INFO, &quot;Success: Read from input/StellarSystem_Medium.txt.&quot;);</span>
+<span class="nc" id="L101">						break;</span>
+					case 3:
+<span class="nc" id="L103">						stellarSystemLogger.log(Level.INFO, &quot;Read from input/StellarSystem_Large.txt.&quot;);</span>
+<span class="nc" id="L104">						file = new File(&quot;input/StellarSystem_Larger.txt&quot;);</span>
+<span class="nc" id="L105">						stellarSystem.readFromFile(file);</span>
+<span class="nc" id="L106">						stellarSystemLogger.log(Level.INFO, &quot;Success: Read from input/StellarSystem_Large.txt.&quot;);</span>
+<span class="nc" id="L107">						break;</span>
+					case 4:
+<span class="nc" id="L109">						System.out.println(&quot;Please input absolute file path.&quot;);</span>
+<span class="nc" id="L110">						String absolutePath = in.nextLine();</span>
+<span class="nc" id="L111">						file = new File(absolutePath);</span>
+<span class="nc" id="L112">						stellarSystem.readFromFile(file);</span>
+<span class="nc" id="L113">						stellarSystemLogger.info(&quot;Success: Read from &quot; + absolutePath + &quot;. Restore present state.&quot;);</span>
+<span class="nc" id="L114">						break;</span>
+					default:
+<span class="nc" id="L116">						System.err.println(&quot;Wrong input&quot;);</span>
+						break;
+					}
+<span class="nc" id="L119">				} catch (FileNotFoundException e) {</span>
+<span class="nc" id="L120">					stellarSystemLogger.log(Level.SEVERE,</span>
+<span class="nc" id="L121">							&quot;File not found. File: &quot; + file.getPath() + &quot;. &quot; + e.getMessage(), e);</span>
+<span class="nc" id="L122">					System.err.println(&quot;File not found. File: &quot; + file.getPath() + &quot;. &quot; + e.getMessage());</span>
+<span class="nc" id="L123">				} catch (DataSyntaxException e) {</span>
+<span class="nc" id="L124">					stellarSystemLogger.log(Level.SEVERE, e.getMessage(), e);</span>
+<span class="nc" id="L125">					System.err.println(e.getMessage());</span>
+<span class="nc" id="L126">				} catch (DataScientificNumberException e) {</span>
+<span class="nc" id="L127">					stellarSystemLogger.log(Level.SEVERE, e.getMessage(), e);</span>
+<span class="nc" id="L128">					System.err.println(e.getMessage());</span>
+				} catch (IllegalIntimacyInSocialTieException | AtomElementException | AtomTrackNumException
+<span class="nc" id="L130">						| AtomElectronNumException e) {</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">					assert false : &quot;shouldn't have this exception.&quot;;</span>
+<span class="nc" id="L132">				} catch (IOException e) {</span>
+<span class="nc" id="L133">					e.printStackTrace();</span>
+<span class="nc" id="L134">				} catch (NumberFormatException e) {</span>
+<span class="nc" id="L135">					e.printStackTrace();</span>
+				}
+<span class="nc" id="L137">				break;</span>
+			case 2: // Visualize
+<span class="nc" id="L139">				stellarSystemLogger.log(Level.INFO, &quot;Visualize.&quot;);</span>
+<span class="nc" id="L140">				CircularOrbitHelper.visualize(stellarSystem);</span>
+<span class="nc" id="L141">				stellarSystemLogger.info(&quot;Success: Visualize.&quot;);</span>
+<span class="nc" id="L142">				break;</span>
+			case 3: // Add a track
+<span class="nc" id="L144">				stellarSystemLogger.info(&quot;Add a track.&quot;);</span>
+<span class="nc" id="L145">				System.out.println(&quot;What's the radius(decimal) of the added track?&quot;);</span>
+<span class="nc" id="L146">				double addTrackRadius = 0;</span>
+				try {
+<span class="nc" id="L148">					addTrackRadius = in.nextDouble();</span>
+<span class="nc" id="L149">					in.nextLine();</span>
+<span class="nc" id="L150">				} catch (InputMismatchException e) {</span>
+<span class="nc" id="L151">					System.err.println(e.getClass() + &quot;Please input again.&quot;);</span>
+<span class="nc" id="L152">					in.nextLine();</span>
+<span class="nc" id="L153">					break;</span>
+				}
+<span class="nc" id="L155">				stellarSystem.addTrack(trackFactory.produce(addTrackRadius));</span>
+<span class="nc" id="L156">				stellarSystemLogger.info(&quot;Success: Add a track. Radius is &quot; + addTrackRadius + &quot;.&quot;);</span>
+<span class="nc" id="L157">				break;</span>
+			case 4: // Add an object to a track
+<span class="nc" id="L159">				stellarSystemLogger.info(&quot;Add an object to a track.&quot;);</span>
+<span class="nc" id="L160">				System.out.println(&quot;Please input information of the added planet in order below:&quot;);</span>
+<span class="nc" id="L161">				System.out.println(</span>
+<span class="nc" id="L162">						&quot;Planet ::= &lt;NAME,STATE,COLOR,PLANET_RADIUS,TRACK_RADIUS,REVOLUTION_SPEED,REVOLUTION_DIRECTION,ORIGIN_DEGREE&gt;&quot;);</span>
+<span class="nc" id="L163">				System.out.println(&quot;All data must obey the specification.&quot;);</span>
+<span class="nc" id="L164">				String addData = in.nextLine();</span>
+<span class="nc" id="L165">				pattern = Pattern.compile(&quot;Planet\\s*::=\\s*&quot; + &quot;&lt;&quot; + labelRegex + commaRegex + labelRegex + commaRegex</span>
+						+ labelRegex + commaRegex + numberRegex + commaRegex + numberRegex + commaRegex + numberRegex
+						+ commaRegex + &quot;(CW|CCW)&quot; + commaRegex + numberRegex + &quot;&gt;&quot;);
+<span class="nc" id="L168">				matcher = pattern.matcher(addData);</span>
+<span class="nc" id="L169">				boolean find = matcher.find();</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">				if (find) {</span>
+<span class="nc" id="L171">					String planetName = matcher.group(1);</span>
+<span class="nc" id="L172">					String planetState = matcher.group(2);</span>
+<span class="nc" id="L173">					String planetColor = matcher.group(3);</span>
+<span class="nc" id="L174">					double planetRadius = 0, trackRadius = 0, revolutionSpeed = 0, originDegree = 0;</span>
+					try {
+<span class="nc" id="L176">						planetRadius = StellarSystem.parseNumber(matcher.group(4));</span>
+<span class="nc" id="L177">					} catch (DataNonScientificNumberException e) {</span>
+<span class="nc" id="L178">						System.err.println(</span>
+<span class="nc" id="L179">								&quot;There is at least one number greater than 10000 which doesn't use scientific notation. But it is treated as legal.&quot;);</span>
+<span class="nc" id="L180">						stellarSystemLogger.log(Level.WARNING, e.getMessage()</span>
+<span class="nc" id="L181">								+ &quot; There is at least one number greater than 10000 which doesn't use scientific notation. But it is treated as legal.&quot;,</span>
+<span class="nc" id="L182">								e);</span>
+<span class="nc" id="L183">					} catch (DataScientificNumberException e) {</span>
+<span class="nc" id="L184">						System.err.println(&quot;Please run again with correct input.&quot;);</span>
+<span class="nc" id="L185">						stellarSystemLogger.log(Level.SEVERE, e.getMessage(), e);</span>
+<span class="nc" id="L186">						break;</span>
+					}
+					try {
+<span class="nc" id="L189">						trackRadius = StellarSystem.parseNumber(matcher.group(5));</span>
+<span class="nc" id="L190">					} catch (DataNonScientificNumberException e) {</span>
+<span class="nc" id="L191">						System.err.println(</span>
+<span class="nc" id="L192">								&quot;There is at least one number greater than 10000 which doesn't use scientific notation. But it is treated as legal.&quot;);</span>
+<span class="nc" id="L193">						stellarSystemLogger.log(Level.WARNING, e.getMessage()</span>
+<span class="nc" id="L194">								+ &quot; There is at least one number greater than 10000 which doesn't use scientific notation. But it is treated as legal.&quot;,</span>
+<span class="nc" id="L195">								e);</span>
+<span class="nc" id="L196">					} catch (DataScientificNumberException e) {</span>
+<span class="nc" id="L197">						System.err.println(&quot;Please run again with correct input.&quot;);</span>
+<span class="nc" id="L198">						stellarSystemLogger.log(Level.SEVERE, e.getMessage(), e);</span>
+<span class="nc" id="L199">						break;</span>
+					}
+					try {
+<span class="nc" id="L202">						revolutionSpeed = StellarSystem.parseNumber(matcher.group(6));</span>
+<span class="nc" id="L203">					} catch (DataNonScientificNumberException e) {</span>
+<span class="nc" id="L204">						System.err.println(</span>
+<span class="nc" id="L205">								&quot;There is at least one number greater than 10000 which doesn't use scientific notation. But it is treated as legal.&quot;);</span>
+<span class="nc" id="L206">						stellarSystemLogger.log(Level.WARNING, e.getMessage()</span>
+<span class="nc" id="L207">								+ &quot; There is at least one number greater than 10000 which doesn't use scientific notation. But it is treated as legal.&quot;,</span>
+<span class="nc" id="L208">								e);</span>
+<span class="nc" id="L209">					} catch (DataScientificNumberException e) {</span>
+<span class="nc" id="L210">						System.err.println(&quot;Please run again with correct input.&quot;);</span>
+<span class="nc" id="L211">						stellarSystemLogger.log(Level.SEVERE, e.getMessage(), e);</span>
+<span class="nc" id="L212">						break;</span>
+					}
+<span class="nc bnc" id="L214" title="All 2 branches missed.">					boolean revolutionDirection = matcher.group(7).equals(&quot;CW&quot;) ? true : false;</span>
+					try {
+<span class="nc" id="L216">						originDegree = StellarSystem.parseNumber(matcher.group(8));</span>
+<span class="nc" id="L217">					} catch (DataNonScientificNumberException e) {</span>
+<span class="nc" id="L218">						System.err.println(</span>
+<span class="nc" id="L219">								&quot;There is at least one number greater than 10000 which doesn't use scientific notation. But it is treated as legal.&quot;);</span>
+<span class="nc" id="L220">						stellarSystemLogger.log(Level.WARNING, e.getMessage()</span>
+<span class="nc" id="L221">								+ &quot; There is at least one number greater than 10000 which doesn't use scientific notation. But it is treated as legal.&quot;,</span>
+<span class="nc" id="L222">								e);</span>
+<span class="nc" id="L223">					} catch (DataScientificNumberException e) {</span>
+<span class="nc" id="L224">						System.err.println(&quot;Please run again with correct input.&quot;);</span>
+<span class="nc" id="L225">						stellarSystemLogger.log(Level.SEVERE, e.getMessage(), e);</span>
+<span class="nc" id="L226">						break;</span>
+					}
+<span class="nc" id="L228">					stellarSystem</span>
+<span class="nc" id="L229">							.addPhysicalObjectToTrack(</span>
+<span class="nc" id="L230">									planetFactory.produce(planetName, planetState, planetColor, planetRadius,</span>
+<span class="nc" id="L231">											revolutionSpeed, revolutionDirection, originDegree),</span>
+<span class="nc" id="L232">									trackFactory.produce(trackRadius));</span>
+<span class="nc" id="L233">					stellarSystemLogger</span>
+<span class="nc" id="L234">							.info(&quot;Success: Add a planet &quot; + planetName + &quot; on the &quot; + trackRadius + &quot; track.&quot;);</span>
+<span class="nc" id="L235">				} else {</span>
+<span class="nc" id="L236">					stellarSystemLogger.log(Level.SEVERE, &quot;Planet syntax doesn't match!&quot;);</span>
+<span class="nc" id="L237">					System.err.println(&quot;Planet syntax doesn't match!&quot;);</span>
+<span class="nc" id="L238">					break;</span>
+				}
+				break;
+			case 5: // Delete a track
+<span class="nc" id="L242">				stellarSystemLogger.info(&quot;Delete a track.&quot;);</span>
+<span class="nc" id="L243">				System.out.println(&quot;What's the radius(decimal) of the deleted track?&quot;);</span>
+<span class="nc" id="L244">				double deleteTrackRadius = 0;</span>
+				try {
+<span class="nc" id="L246">					deleteTrackRadius = in.nextDouble();</span>
+<span class="nc" id="L247">					in.nextLine();</span>
+<span class="nc" id="L248">				} catch (InputMismatchException e) {</span>
+<span class="nc" id="L249">					System.err.println(e.getClass() + &quot;Please input again.&quot;);</span>
+<span class="nc" id="L250">					in.nextLine();</span>
+<span class="nc" id="L251">					break;</span>
+				}
+<span class="nc" id="L253">				stellarSystem.deleteTrack(trackFactory.produce(deleteTrackRadius));</span>
+<span class="nc" id="L254">				stellarSystemLogger.info(&quot;Success: Delete a &quot; + deleteTrackRadius + &quot; track.&quot;);</span>
+<span class="nc" id="L255">				break;</span>
+			case 6: // Delete an object in a track
+<span class="nc" id="L257">				stellarSystemLogger.info(&quot;Delete an object in a track.&quot;);</span>
+<span class="nc" id="L258">				System.out.println(&quot;Please input information of the deleted planet in order below:&quot;);</span>
+<span class="nc" id="L259">				System.out.println(</span>
+<span class="nc" id="L260">						&quot;Planet ::= &lt;NAME,STATE,COLOR,PLANET_RADIUS,TRACK_RADIUS,REVOLUTION_SPEED,REVOLUTION_DIRECTION,ORIGIN_DEGREE&gt;&quot;);</span>
+<span class="nc" id="L261">				System.out.println(&quot;All data must obey the specification.&quot;);</span>
+<span class="nc" id="L262">				String deleteData = in.nextLine();</span>
+<span class="nc" id="L263">				pattern = Pattern.compile(&quot;Planet\\s*::=\\s*&quot; + &quot;&lt;&quot; + labelRegex + commaRegex + labelRegex + commaRegex</span>
+						+ labelRegex + commaRegex + numberRegex + commaRegex + numberRegex + commaRegex + numberRegex
+						+ commaRegex + &quot;(CW|CCW)&quot; + commaRegex + numberRegex + &quot;&gt;&quot;);
+<span class="nc" id="L266">				matcher = pattern.matcher(deleteData);</span>
+<span class="nc" id="L267">				boolean find1 = matcher.find();</span>
+<span class="nc bnc" id="L268" title="All 2 branches missed.">				if (find1) {</span>
+<span class="nc" id="L269">					String planetName = matcher.group(1);</span>
+<span class="nc" id="L270">					String planetState = matcher.group(2);</span>
+<span class="nc" id="L271">					String planetColor = matcher.group(3);</span>
+<span class="nc" id="L272">					double planetRadius = 0, trackRadius = 0, revolutionSpeed = 0, originDegree = 0;</span>
+					try {
+<span class="nc" id="L274">						planetRadius = StellarSystem.parseNumber(matcher.group(4));</span>
+<span class="nc" id="L275">					} catch (DataNonScientificNumberException e) {</span>
+<span class="nc" id="L276">						System.err.println(</span>
+<span class="nc" id="L277">								&quot;There is at least one number greater than 10000 which doesn't use scientific notation. But it is treated as legal.&quot;);</span>
+<span class="nc" id="L278">						stellarSystemLogger.log(Level.WARNING, e.getMessage()</span>
+<span class="nc" id="L279">								+ &quot; There is at least one number greater than 10000 which doesn't use scientific notation. But it is treated as legal.&quot;,</span>
+<span class="nc" id="L280">								e);</span>
+<span class="nc" id="L281">					} catch (DataScientificNumberException e) {</span>
+<span class="nc" id="L282">						System.err.println(&quot;Please run again with correct input.&quot;);</span>
+<span class="nc" id="L283">						stellarSystemLogger.log(Level.SEVERE, e.getMessage(), e);</span>
+<span class="nc" id="L284">						break;</span>
+					}
+					try {
+<span class="nc" id="L287">						trackRadius = StellarSystem.parseNumber(matcher.group(5));</span>
+<span class="nc" id="L288">					} catch (DataNonScientificNumberException e) {</span>
+<span class="nc" id="L289">						System.err.println(</span>
+<span class="nc" id="L290">								&quot;There is at least one number greater than 10000 which doesn't use scientific notation. But it is treated as legal.&quot;);</span>
+<span class="nc" id="L291">						stellarSystemLogger.log(Level.WARNING, e.getMessage()</span>
+<span class="nc" id="L292">								+ &quot; There is at least one number greater than 10000 which doesn't use scientific notation. But it is treated as legal.&quot;,</span>
+<span class="nc" id="L293">								e);</span>
+<span class="nc" id="L294">					} catch (DataScientificNumberException e) {</span>
+<span class="nc" id="L295">						System.err.println(&quot;Please run again with correct input.&quot;);</span>
+<span class="nc" id="L296">						stellarSystemLogger.log(Level.SEVERE, e.getMessage(), e);</span>
+<span class="nc" id="L297">						break;</span>
+					}
+					try {
+<span class="nc" id="L300">						revolutionSpeed = StellarSystem.parseNumber(matcher.group(6));</span>
+<span class="nc" id="L301">					} catch (DataNonScientificNumberException e) {</span>
+<span class="nc" id="L302">						System.err.println(</span>
+<span class="nc" id="L303">								&quot;There is at least one number greater than 10000 which doesn't use scientific notation. But it is treated as legal.&quot;);</span>
+<span class="nc" id="L304">						stellarSystemLogger.log(Level.WARNING, e.getMessage()</span>
+<span class="nc" id="L305">								+ &quot; There is at least one number greater than 10000 which doesn't use scientific notation. But it is treated as legal.&quot;,</span>
+<span class="nc" id="L306">								e);</span>
+<span class="nc" id="L307">					} catch (DataScientificNumberException e) {</span>
+<span class="nc" id="L308">						System.err.println(&quot;Please run again with correct input.&quot;);</span>
+<span class="nc" id="L309">						stellarSystemLogger.log(Level.SEVERE, e.getMessage(), e);</span>
+<span class="nc" id="L310">						break;</span>
+					}
+<span class="nc bnc" id="L312" title="All 2 branches missed.">					boolean revolutionDirection = matcher.group(7).equals(&quot;CW&quot;) ? true : false;</span>
+					try {
+<span class="nc" id="L314">						originDegree = StellarSystem.parseNumber(matcher.group(8));</span>
+<span class="nc" id="L315">					} catch (DataNonScientificNumberException e) {</span>
+<span class="nc" id="L316">						System.err.println(</span>
+<span class="nc" id="L317">								&quot;There is at least one number greater than 10000 which doesn't use scientific notation. But it is treated as legal.&quot;);</span>
+<span class="nc" id="L318">						stellarSystemLogger.log(Level.WARNING, e.getMessage()</span>
+<span class="nc" id="L319">								+ &quot; There is at least one number greater than 10000 which doesn't use scientific notation. But it is treated as legal.&quot;,</span>
+<span class="nc" id="L320">								e);</span>
+<span class="nc" id="L321">					} catch (DataScientificNumberException e) {</span>
+<span class="nc" id="L322">						System.err.println(&quot;Please run again with correct input.&quot;);</span>
+<span class="nc" id="L323">						stellarSystemLogger.log(Level.SEVERE, e.getMessage(), e);</span>
+<span class="nc" id="L324">						break;</span>
+					}
+					try {
+<span class="nc" id="L327">						stellarSystem.deletePhysicalObjectFromTrack(</span>
+<span class="nc" id="L328">								planetFactory.produce(planetName, planetState, planetColor, planetRadius,</span>
+<span class="nc" id="L329">										revolutionSpeed, revolutionDirection, originDegree),</span>
+<span class="nc" id="L330">								trackFactory.produce(trackRadius));</span>
+<span class="nc" id="L331">					} catch (NoObjectOnTrackException e) {</span>
+<span class="nc" id="L332">						System.err.println(&quot;Fail track: &quot; + trackRadius + &quot;.&quot;);</span>
+<span class="nc" id="L333">						stellarSystemLogger.log(Level.SEVERE, e.getMessage() + &quot; Fail track: &quot; + trackRadius + &quot;.&quot;, e);</span>
+<span class="nc" id="L334">						break;</span>
+					}
+<span class="nc" id="L336">					stellarSystemLogger</span>
+<span class="nc" id="L337">							.info(&quot;Success: Delete a planet &quot; + planetName + &quot; from &quot; + trackRadius + &quot; track.&quot;);</span>
+<span class="nc" id="L338">				} else {</span>
+<span class="nc" id="L339">					stellarSystemLogger.log(Level.SEVERE, &quot;Planet syntax doesn't match!&quot;);</span>
+<span class="nc" id="L340">					System.err.println(&quot;Planet syntax doesn't match!&quot;);</span>
+<span class="nc" id="L341">					break;</span>
+				}
+				break;
+			case 7: // Calculate the information entropy of the system
+<span class="nc" id="L345">				stellarSystemLogger.info(&quot;Calculate the information entropy of the system.&quot;);</span>
+<span class="nc" id="L346">				double entropy = apis.getObjectDistributionEntropy(stellarSystem);</span>
+<span class="nc" id="L347">				System.out.println(&quot;Information entropy: &quot; + entropy);</span>
+<span class="nc" id="L348">				stellarSystemLogger.info(&quot;Success: Calculate the information entropy: &quot; + entropy + &quot;.&quot;);</span>
+<span class="nc" id="L349">				break;</span>
+			case 8: // Calculate every planet's position at time t
+<span class="nc" id="L351">				stellarSystemLogger.info(&quot;Calculate every planet's position at time t.&quot;);</span>
+<span class="nc" id="L352">				System.out.println(&quot;Please input time t(days):&quot;);</span>
+<span class="nc" id="L353">				double time = 0;</span>
+				try {
+<span class="nc" id="L355">					time = in.nextDouble();</span>
+<span class="nc" id="L356">					in.nextLine();</span>
+<span class="nc" id="L357">				} catch (InputMismatchException e) {</span>
+<span class="nc" id="L358">					System.err.println(e.getClass() + &quot;Please input again.&quot;);</span>
+<span class="nc" id="L359">					in.nextLine();</span>
+<span class="nc" id="L360">					break;</span>
+				}
+<span class="nc" id="L362">				time = time * 24 * 3600;</span>
+<span class="nc bnc" id="L363" title="All 2 branches missed.">				for (Track track : stellarSystem.getObjectsInTrack().keySet()) {</span>
+<span class="nc bnc" id="L364" title="All 2 branches missed.">					for (PhysicalObject planet : stellarSystem.getObjectsInTrack().get(track)) {</span>
+<span class="nc" id="L365">						double degree = planet.getDegree();</span>
+<span class="nc" id="L366">						boolean direct = planet.getDirect();</span>
+<span class="nc" id="L367">						double speed = planet.getSpeed();</span>
+<span class="nc" id="L368">						double radius = track.getRadius();</span>
+<span class="nc" id="L369">						double theta = time * speed / radius;</span>
+<span class="nc bnc" id="L370" title="All 2 branches missed.">						double degree_ = direct ? degree + theta : degree - theta;</span>
+<span class="nc" id="L371">						degree_ = degree_ / Math.PI * 180 % 360;</span>
+<span class="nc" id="L372">						System.out.println(planet.getName() + &quot;, Radius: &quot; + radius + &quot;, Degree: &quot; + degree_);</span>
+					}
+				}
+<span class="nc" id="L375">				stellarSystemLogger.info(&quot;Success: Calculate every planet's position at time t.&quot;);</span>
+<span class="nc" id="L376">				break;</span>
+			case 9: // Calculate the physical distance between the star and another planet
+<span class="nc" id="L378">				stellarSystemLogger.info(&quot;Calculate the physical distance between the star and another planet&quot;);</span>
+<span class="nc" id="L379">				System.out.println(&quot;Please input the name of the target planet:&quot;);</span>
+<span class="nc" id="L380">				String targetName = in.nextLine();</span>
+<span class="nc bnc" id="L381" title="All 2 branches missed.">				for (Track track : stellarSystem.getObjectsInTrack().keySet()) {</span>
+<span class="nc bnc" id="L382" title="All 2 branches missed.">					for (PhysicalObject planet : stellarSystem.getObjectsInTrack().get(track)) {</span>
+<span class="nc bnc" id="L383" title="All 2 branches missed.">						if (planet.getName().equals(targetName)) {</span>
+<span class="nc" id="L384">							System.out.println(&quot;The distance is: &quot; + track.getRadius());</span>
+<span class="nc" id="L385">							stellarSystemLogger.info(&quot;Success: Calculate physical distance from star to planet &quot;</span>
+<span class="nc" id="L386">									+ targetName + &quot;: &quot; + track.getRadius());</span>
+						}
+					}
+				}
+<span class="nc" id="L390">				break;</span>
+			case 10: // Calculate the physical distance between two planets
+<span class="nc" id="L392">				stellarSystemLogger.info(&quot;Calculate the physical distance between two planets&quot;);</span>
+<span class="nc" id="L393">				System.out.println(&quot;Please input the name of planet 1: &quot;);</span>
+<span class="nc" id="L394">				String planetName1 = in.nextLine();</span>
+<span class="nc" id="L395">				System.out.println(&quot;Please input the name of planet 2: &quot;);</span>
+<span class="nc" id="L396">				String planetName2 = in.nextLine();</span>
+<span class="nc" id="L397">				PhysicalObject planet1 = null, planet2 = null;</span>
+<span class="nc bnc" id="L398" title="All 2 branches missed.">				for (PhysicalObject planet : stellarSystem) {</span>
+<span class="nc bnc" id="L399" title="All 2 branches missed.">					if (planet.getName().equals(planetName1)) {</span>
+<span class="nc" id="L400">						planet1 = planet;</span>
+					}
+<span class="nc bnc" id="L402" title="All 2 branches missed.">					if (planet.getName().equals(planetName2)) {</span>
+<span class="nc" id="L403">						planet2 = planet;</span>
+					}
+				}
+<span class="nc" id="L406">				double distance = apis.getPhysicalDistance(stellarSystem, planet1, planet2);</span>
+<span class="nc" id="L407">				System.out.println(&quot;The distance is: &quot; + distance);</span>
+<span class="nc" id="L408">				stellarSystemLogger.info(&quot;Success: Calculate physical distance from planet &quot; + planetName1</span>
+<span class="nc" id="L409">						+ &quot; to planet &quot; + planetName2 + &quot;: &quot; + distance);</span>
+<span class="nc" id="L410">				break;</span>
+			case 11: // Simulate movement in GUI
+<span class="nc" id="L412">				stellarSystemLogger.info(&quot;Simulate movements in GUI.&quot;);</span>
+<span class="nc" id="L413">				apis.planetMovingSimulate(stellarSystem);</span>
+<span class="nc" id="L414">				stellarSystemLogger.info(&quot;Success: Simulate movements in GUI.&quot;);</span>
+<span class="nc" id="L415">				break;</span>
+			case 12:
+<span class="nc" id="L417">				apis.logSearch(new File(&quot;log/stellarSystemLog.log&quot;));</span>
+<span class="nc" id="L418">				break;</span>
+			case 13: // Check legality
+<span class="nc" id="L420">				stellarSystemLogger.info(&quot;Check legality.&quot;);</span>
+<span class="nc bnc" id="L421" title="All 2 branches missed.">				if (stellarSystem.getCentralObject() == null) {</span>
+<span class="nc" id="L422">					stellarSystemLogger.log(Level.SEVERE, &quot;The central object is null!&quot;);</span>
+<span class="nc bnc" id="L423" title="All 2 branches missed.">					assert false : &quot;The central object is null!&quot;;</span>
+				}
+<span class="nc bnc" id="L425" title="All 2 branches missed.">				for (Track track : stellarSystem.getTracks()) {</span>
+<span class="nc bnc" id="L426" title="All 2 branches missed.">					if (stellarSystem.getObjectsInTrack().get(track).size() != 1) {</span>
+<span class="nc" id="L427">						stellarSystemLogger.log(Level.SEVERE, &quot;There must be one single planet in one track!&quot;);</span>
+<span class="nc bnc" id="L428" title="All 2 branches missed.">						assert false : &quot;There must be one single planet in one track!&quot;;</span>
+					}
+				}
+<span class="nc bnc" id="L431" title="All 2 branches missed.">				for (int i = 0; i &lt; stellarSystem.getTracks().size() - 1; i++) {</span>
+<span class="nc" id="L432">					Track track = stellarSystem.getTracks().get(i);</span>
+<span class="nc" id="L433">					Track track_ = stellarSystem.getTracks().get(i + 1);</span>
+<span class="nc" id="L434">					double trackRadiusSum = track.getRadius() + track_.getRadius();</span>
+<span class="nc" id="L435">					double planetRadiusSum = stellarSystem.getObjectsInTrack().get(track).get(0).getRaidus()</span>
+<span class="nc" id="L436">							+ stellarSystem.getObjectsInTrack().get(track_).get(0).getRaidus();</span>
+<span class="nc bnc" id="L437" title="All 2 branches missed.">					if (planetRadiusSum &gt;= trackRadiusSum) {</span>
+<span class="nc" id="L438">						stellarSystemLogger.log(Level.SEVERE,</span>
+<span class="nc" id="L439">								&quot;The sum of radius of two neighbouring tracks should be more than the sum of radius of the two planets in these two track! &quot;</span>
+<span class="nc" id="L440">										+ &quot;Exception track location: &quot; + i + &quot; and &quot; + (i + 1) + &quot;.&quot;);</span>
+<span class="nc bnc" id="L441" title="All 2 branches missed.">						assert false : &quot;The sum of radius of two neighbouring tracks should be more than the sum of radius of the two planets in these two track!&quot;;</span>
+
+					}
+				}
+<span class="nc" id="L445">				stellarSystemLogger.info(&quot;Legality checked!&quot;);</span>
+<span class="nc" id="L446">				break;</span>
+			default:
+<span class="nc" id="L448">				in.close();</span>
+<span class="nc" id="L449">				stellarSystemLogger.info(&quot;StellarSystem application deactivate.&quot;);</span>
+<span class="nc" id="L450">				System.exit(0);</span>
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Menu in stellar system application which indicates users' choices
+	 */
+	private static void menu() {
+<span class="nc" id="L460">		System.out.println(&quot;1. Read from file to generate a atomic structure.&quot;);</span>
+<span class="nc" id="L461">		System.out.println(&quot;2. Visualize.&quot;);</span>
+<span class="nc" id="L462">		System.out.println(&quot;3. Add a track.&quot;);</span>
+<span class="nc" id="L463">		System.out.println(&quot;4. Add an object to a track.&quot;);</span>
+<span class="nc" id="L464">		System.out.println(&quot;5. Delete a track.&quot;);</span>
+<span class="nc" id="L465">		System.out.println(&quot;6. Delete an object in a track.&quot;);</span>
+<span class="nc" id="L466">		System.out.println(&quot;7. Calculate the information entropy of the system.&quot;);</span>
+<span class="nc" id="L467">		System.out.println(&quot;8. Calculate every planet's position at time t.&quot;);</span>
+<span class="nc" id="L468">		System.out.println(&quot;9. Calculate the physical distance between the star and another planet.&quot;);</span>
+<span class="nc" id="L469">		System.out.println(&quot;10. Calculate the physical distance between two planets.&quot;);</span>
+<span class="nc" id="L470">		System.out.println(&quot;11. Simulate movement in GUI.&quot;);</span>
+<span class="nc" id="L471">		System.out.println(&quot;12. Log search.&quot;);</span>
+<span class="nc" id="L472">		System.out.println(&quot;13. Check legality.&quot;);</span>
+<span class="nc" id="L473">	}</span>
+
+	/**
+	 * Menu in read-from-file function which indicates which file can be read from
+	 */
+	private static void readMenu() {
+<span class="nc" id="L479">		System.out.println(&quot;1. StellarSystem.txt&quot;);</span>
+<span class="nc" id="L480">		System.out.println(&quot;2. StellarSystem_Medium.txt&quot;);</span>
+<span class="nc" id="L481">		System.out.println(&quot;3. StellarSystem_Larger.txt&quot;);</span>
+<span class="nc" id="L482">		System.out.println(&quot;4. Other file(Absolute path).&quot;);</span>
+<span class="nc" id="L483">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>

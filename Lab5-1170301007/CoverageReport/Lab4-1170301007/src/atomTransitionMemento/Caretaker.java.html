@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Caretaker.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">atomTransitionMemento</a> &gt; <span class="el_source">Caretaker.java</span></div><h1>Caretaker.java</h1><pre class="source lang-java linenums">package atomTransitionMemento;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import MyException.MementoRollBackTooManyStepsException;
+
+/**
+ * Caretaker works in Memento method as a state histories keeper in atom
+ * structure. It keeps state histories.
+ * 
+ * Attention: memento only keeps states in transition changes. Any other change
+ * not in transition will not be kept in memento. For example, supposed that an
+ * electron is deleted first and then a transition happens, if you roll back one
+ * step from now, it will go back to the state before the electron is deleted.
+ * 
+ * @author Shen
+ *
+ * @param &lt;L&gt; class of central object which is mostly Nucleus
+ * @param &lt;E&gt; class of physical object which is mostly PhysicalObject
+ */
+<span class="fc" id="L24">public class Caretaker&lt;L, E&gt; {</span>
+
+<span class="fc" id="L26">	private List&lt;Memento&lt;L, E&gt;&gt; mementos = new ArrayList&lt;Memento&lt;L, E&gt;&gt;();</span>
+<span class="fc" id="L27">	private static Logger atomStructureLogger = Logger.getLogger(&quot;AtomStructure Log&quot;);</span>
+
+	/**
+	 * Mutator. Add a memento into mementos.
+	 * 
+	 * @param m a memento
+	 */
+	public void addMemento(Memento&lt;L, E&gt; m) {
+<span class="fc" id="L35">		this.mementos.add(m);</span>
+<span class="fc" id="L36">	}</span>
+
+	/**
+	 * Observer. Get a memento in order to roll back to a historical version.
+	 * 
+	 * @param i the number of version rolled back
+	 * @return the memento after i versions rolled back
+	 */
+	public Memento&lt;L, E&gt; getMemento(int i) {
+		try {
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">			if (mementos.size() - 1 &lt; i) {</span>
+<span class="nc" id="L47">				throw new MementoRollBackTooManyStepsException(</span>
+<span class="nc" id="L48">						&quot;Roll back resetting fail! The state doesn't change. Cannot roll so many back!&quot;);</span>
+			}
+<span class="nc" id="L50">		} catch (MementoRollBackTooManyStepsException e) {</span>
+<span class="nc" id="L51">			System.err.println(e.getMessage());</span>
+<span class="nc" id="L52">			atomStructureLogger.log(Level.SEVERE, e.getMessage(), e);</span>
+<span class="nc" id="L53">			return this.mementos.get(this.mementos.size() - 1);</span>
+		}
+<span class="fc" id="L55">		return this.mementos.get(this.mementos.size() - i - 1);</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>

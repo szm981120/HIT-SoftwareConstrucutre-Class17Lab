@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>CircularOrbitAPIsTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">test</a> &gt; <a href="index.source.html" class="el_package">APIsTest</a> &gt; <span class="el_source">CircularOrbitAPIsTest.java</span></div><h1>CircularOrbitAPIsTest.java</h1><pre class="source lang-java linenums">package APIsTest;
+
+import static org.junit.Assert.*;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import APIs.CircularOrbitAPIs;
+import MyException.AtomElectronNumException;
+import MyException.AtomElementException;
+import MyException.AtomTrackNumException;
+import MyException.DataScientificNumberException;
+import MyException.DataSyntaxException;
+import MyException.IllegalIntimacyInSocialTieException;
+import centralObject.Nucleus;
+import centralObject.Person;
+import centralObject.Star;
+import circularOrbit.AtomStructureFactory;
+import circularOrbit.CircularOrbit;
+import circularOrbit.Edge;
+import circularOrbit.SocialNetworkCircleFactory;
+import circularOrbit.StellarSystemFactory;
+import physicalObject.ConcreteFriendFactory;
+import physicalObject.ConcretePlanetFactory;
+import physicalObject.FriendFactory;
+import physicalObject.PhysicalObject;
+import physicalObject.PlanetFactory;
+import track.Track;
+import track.TrackFactory;
+
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">public class CircularOrbitAPIsTest {</span>
+
+<span class="fc" id="L41">	private static CircularOrbitAPIs&lt;Star, PhysicalObject&gt; stellarSystemAPI = new CircularOrbitAPIs&lt;Star, PhysicalObject&gt;();</span>
+<span class="fc" id="L42">	private static CircularOrbitAPIs&lt;Nucleus, PhysicalObject&gt; atomStructureAPI = new CircularOrbitAPIs&lt;Nucleus, PhysicalObject&gt;();</span>
+<span class="fc" id="L43">	private static CircularOrbitAPIs&lt;Person, PhysicalObject&gt; socialNetworkCircleAPI = new CircularOrbitAPIs&lt;Person, PhysicalObject&gt;();</span>
+<span class="fc" id="L44">	private static StellarSystemFactory stellarSystemFactory = new StellarSystemFactory();</span>
+<span class="fc" id="L45">	private static CircularOrbit&lt;Star, PhysicalObject&gt; stellarSystem = stellarSystemFactory.produce();</span>
+<span class="fc" id="L46">	private static AtomStructureFactory atomStructureFactory = new AtomStructureFactory();</span>
+<span class="fc" id="L47">	private static CircularOrbit&lt;Nucleus, PhysicalObject&gt; atomStructure = atomStructureFactory.produce();</span>
+<span class="fc" id="L48">	private static SocialNetworkCircleFactory socialNetworkCircleFactory = new SocialNetworkCircleFactory();</span>
+<span class="fc" id="L49">	private static CircularOrbit&lt;Person, PhysicalObject&gt; socialNetworkCircle = socialNetworkCircleFactory.produce();</span>
+<span class="fc" id="L50">	private static FriendFactory friendFactory = new ConcreteFriendFactory();</span>
+<span class="fc" id="L51">	private static PlanetFactory planetFactory = new ConcretePlanetFactory();</span>
+<span class="fc" id="L52">	private static TrackFactory trackFactory = new TrackFactory();</span>
+
+	/*
+	 * Test strategy
+	 * 	@Before readFromFile
+	 * 		Before any test all three circular orbits should be initialized from corresponding files.
+	 * 	testGetObjectDistributionEntropyInAtomStructure
+	 * 		This tests getObjectDistributionEntropy in atom structure.
+	 * 		It calls getObjectDistributionEntropy and compare it's result with my expectation.
+	 * 	testGetObjectDistributionEntropyInStellarSystem
+	 * 		This tests getObjectDistributionEntropy in stellar system.
+	 * 		It calls getObjectDistributionEntropy and compare it's result with my expectation.
+	 * 	testGetObjectDistributionEntropyInSocialNetworkCircle
+	 * 		This tests getObjectDistributionEntropy in social network circle.
+	 * 		It calls getObjectDistributionEntropy and compare it's result with my expectation.
+	 * 	testGetLogicalDistance
+	 * 		This tests getLogicalDistance in social network circle.
+	 * 		It calls getLogicalDistance and compare results in all legal paths with expectations.
+	 * 	testTargets
+	 * 		This tests static method targets in social network circle.
+	 * 		It calls targets and choose FrankLee as input to see if he's targets fit my expectation.
+	 * 	testGetPhysicalDistance
+	 * 		This tests getPhysicalDistance in stellar system.
+	 * 		It calls getPhysicalDistance and choose planets in 3rd and 4th track as input to see if the physical distance fits expectation.
+	 * 	testGetPhysicalDistanceFromCentralToObject
+	 * 		This tests getPhysicalDistanceFromCentralToObject in stellar system.
+	 * 		It calls getPhysicalDistanceFromCentralToObject and test every planet's distance to central star to see if the result fits expectation.
+	 * 	testGetDiffereceAtomStructure
+	 * 		This tests getDiffereceAtomStructure in atom structure.
+	 * 		It calls getDifferece and test if the result fits the difference between two atom structures.
+	 * 	testGetDiffereceStellarSystem
+	 * 		This tests getDiffereceAtomStructure in stellar system.
+	 * 		It calls getDifferece and test if the result fits the difference between two stellar systems.
+	 * 	testGetDiffereceSocialNetworkCircle
+	 * 		This tests getDiffereceAtomStructure in social network circle.
+	 * 		It calls getDifferece and test if the result fits the difference between two social network circles.
+	 */
+	@Test(expected = AssertionError.class)
+	public void testAssertionsEnabled() {
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">		assert false;</span>
+<span class="nc" id="L92">	}</span>
+
+	@Before
+	public void readFromFile() {
+<span class="fc" id="L96">		File file1 = new File(&quot;input/AtomicStructure.txt&quot;);</span>
+<span class="fc" id="L97">		File file2 = new File(&quot;input/StellarSystem.txt&quot;);</span>
+<span class="fc" id="L98">		File file3 = new File(&quot;input/SocialNetworkCircle.txt&quot;);</span>
+		try {
+<span class="fc" id="L100">			atomStructure.readFromFile(file1);</span>
+<span class="fc" id="L101">			stellarSystem.readFromFile(file2);</span>
+<span class="fc" id="L102">			socialNetworkCircle.readFromFile(file3);</span>
+<span class="pc" id="L103">		} catch (FileNotFoundException e) {</span>
+<span class="nc" id="L104">			System.out.println(&quot;File not found. &quot; + e.getMessage());</span>
+<span class="nc" id="L105">		} catch (IOException e) {</span>
+<span class="nc" id="L106">			e.printStackTrace();</span>
+<span class="nc" id="L107">		} catch (NumberFormatException e) {</span>
+<span class="nc" id="L108">			e.printStackTrace();</span>
+		} catch (AtomElementException | AtomTrackNumException | AtomElectronNumException | DataSyntaxException
+<span class="nc" id="L110">				| DataScientificNumberException | IllegalIntimacyInSocialTieException e) {</span>
+<span class="nc" id="L111">			System.out.println(&quot;Please modify the file correctly. &quot; + e.getMessage());</span>
+<span class="nc" id="L112">			e.printStackTrace();</span>
+		}
+
+<span class="fc" id="L115">	}</span>
+
+	@Test
+	public void testGetObjectDistributionEntropyInAtomStructure() {
+<span class="fc" id="L119">		assertEquals(1.2681, atomStructureAPI.getObjectDistributionEntropy(atomStructure), 0.0001);</span>
+<span class="fc" id="L120">	}</span>
+
+	@Test
+	public void testGetObjectDistributionEntropyInStellarSystem() {
+<span class="fc" id="L124">		assertEquals(2.0794, stellarSystemAPI.getObjectDistributionEntropy(stellarSystem), 0.0001);</span>
+<span class="fc" id="L125">	}</span>
+
+	@Test
+	public void testGetObjectDistributionEntropyInSocialNetworkCircle() {
+<span class="fc" id="L129">		assertEquals(0.5623, socialNetworkCircleAPI.getObjectDistributionEntropy(socialNetworkCircle), 0.0001);</span>
+<span class="fc" id="L130">	}</span>
+
+	@Test
+	public void testGetLogicalDistance() {
+<span class="fc" id="L134">		PhysicalObject frankLee = friendFactory.produce(&quot;FrankLee&quot;, 42, 'M');</span>
+<span class="fc" id="L135">		PhysicalObject lisaWong = friendFactory.produce(&quot;LisaWong&quot;, 25, 'F');</span>
+<span class="fc" id="L136">		PhysicalObject tomWong = friendFactory.produce(&quot;TomWong&quot;, 61, 'M');</span>
+<span class="fc" id="L137">		PhysicalObject davidChen = friendFactory.produce(&quot;DavidChen&quot;, 55, 'M');</span>
+<span class="fc" id="L138">		assertEquals(&quot;expected 2 from LisaWong to TomWong&quot;, 2,</span>
+<span class="fc" id="L139">				socialNetworkCircleAPI.getLogicalDistance(socialNetworkCircle, lisaWong, tomWong));</span>
+<span class="fc" id="L140">		assertEquals(&quot;expected 3 from LisaWong to FrankLee&quot;, 3,</span>
+<span class="fc" id="L141">				socialNetworkCircleAPI.getLogicalDistance(socialNetworkCircle, lisaWong, frankLee));</span>
+<span class="fc" id="L142">		assertEquals(&quot;expected 2 from LisaWong to DavidChen&quot;, 2,</span>
+<span class="fc" id="L143">				socialNetworkCircleAPI.getLogicalDistance(socialNetworkCircle, lisaWong, davidChen));</span>
+<span class="fc" id="L144">		assertEquals(&quot;expected 1 from FrankLee to TomWong&quot;, 1,</span>
+<span class="fc" id="L145">				socialNetworkCircleAPI.getLogicalDistance(socialNetworkCircle, frankLee, tomWong));</span>
+<span class="fc" id="L146">		assertEquals(&quot;expected 2 from DavidChen to TomWong&quot;, 2,</span>
+<span class="fc" id="L147">				socialNetworkCircleAPI.getLogicalDistance(socialNetworkCircle, davidChen, tomWong));</span>
+<span class="fc" id="L148">	}</span>
+
+	@Test
+	public void testTargets() {
+<span class="fc" id="L152">		Map&lt;PhysicalObject, Double&gt; targets = CircularOrbitAPIs.targets(friendFactory.produce(&quot;FrankLee&quot;, 42, 'M'),</span>
+<span class="fc" id="L153">				socialNetworkCircle.getRelationBetweenObjects());</span>
+<span class="fc" id="L154">		assertEquals(&quot;expected 2&quot;, 2, targets.keySet().size());</span>
+<span class="fc" id="L155">		assertTrue(&quot;expected TomWong&quot;, targets.keySet().contains(friendFactory.produce(&quot;TomWong&quot;, 61, 'M')));</span>
+<span class="fc" id="L156">		assertTrue(&quot;expected DavidChen&quot;, targets.keySet().contains(friendFactory.produce(&quot;DavidChen&quot;, 55, 'M')));</span>
+<span class="fc" id="L157">	}</span>
+
+	@Test
+	public void testGetPhysicalDistance() {
+<span class="fc" id="L161">		PhysicalObject e1 = stellarSystem.getObjectsInTrack().get(stellarSystem.getTracks().get(2)).get(0);</span>
+<span class="fc" id="L162">		PhysicalObject e2 = stellarSystem.getObjectsInTrack().get(stellarSystem.getTracks().get(3)).get(0);</span>
+<span class="fc" id="L163">		assertEquals(1.341e8, stellarSystemAPI.getPhysicalDistance(stellarSystem, e1, e2), 0.02e8);</span>
+<span class="fc" id="L164">	}</span>
+
+	@Test
+	public void testGetPhysicalDistanceFromCentralToObject() {
+<span class="fc bfc" id="L168" title="All 2 branches covered.">		for (Track track : stellarSystem.getTracks()) {</span>
+<span class="fc bfc" id="L169" title="All 2 branches covered.">			for (PhysicalObject planet : stellarSystem.getObjectsInTrack().get(track)) {</span>
+<span class="pc bpc" id="L170" title="1 of 2 branches missed.">				assertTrue(track.getRadius() == stellarSystemAPI.getPhysicalDistanceFromCentralToObject(stellarSystem,</span>
+<span class="fc" id="L171">						planet));</span>
+			}
+		}
+<span class="fc" id="L174">	}</span>
+
+	@Test
+	public void testGetDiffereceAtomStructure() throws Exception {
+<span class="fc" id="L178">		CircularOrbit&lt;Nucleus, PhysicalObject&gt; c = atomStructureFactory.produce();</span>
+<span class="fc" id="L179">		c.readFromFile(new File(&quot;input/AtomicStructure_Medium.txt&quot;));</span>
+		String difference;
+<span class="fc" id="L181">		difference = &quot;轨道数差异：-1\n&quot; + &quot;轨道1的物体数量差异：0\n&quot; + &quot;轨道2的物体数量差异：0\n&quot; + &quot;轨道3的物体数量差异：0\n&quot; + &quot;轨道4的物体数量差异：-22\n&quot;</span>
+				+ &quot;轨道5的物体数量差异：-7\n&quot; + &quot;轨道6的物体数量差异：-2\n&quot;;
+<span class="fc" id="L183">		assertEquals(difference, atomStructureAPI.getDifference(atomStructure, c).toString());</span>
+<span class="fc" id="L184">	}</span>
+
+	@Test
+	public void testGetDiffereceStellarSystem() throws Exception {
+<span class="fc" id="L188">		CircularOrbit&lt;Star, PhysicalObject&gt; c = stellarSystemFactory.produce();</span>
+<span class="fc" id="L189">		c.readFromFile(new File(&quot;input/StellarSystem.txt&quot;));</span>
+<span class="fc" id="L190">		c.addTrack(trackFactory.produce(1.49e10));</span>
+<span class="fc" id="L191">		c.addPhysicalObjectToTrack(planetFactory.produce(&quot;Earth2&quot;, &quot;Solid&quot;, &quot;Blue&quot;, 6400, 30, true, 20),</span>
+<span class="fc" id="L192">				trackFactory.produce(1.49e10));</span>
+		String difference;
+<span class="fc" id="L194">		difference = &quot;轨道数差异：-1\n&quot; + &quot;轨道1的物体数量差异：0；物体差异：无\n&quot; + &quot;轨道2的物体数量差异：0；物体差异：无\n&quot; + &quot;轨道3的物体数量差异：0；物体差异：无\n&quot;</span>
+				+ &quot;轨道4的物体数量差异：0；物体差异：无\n&quot; + &quot;轨道5的物体数量差异：0；物体差异：无\n&quot; + &quot;轨道6的物体数量差异：0；物体差异：Mars-Earth2\n&quot;
+				+ &quot;轨道7的物体数量差异：0；物体差异：Uranus-Mars\n&quot; + &quot;轨道8的物体数量差异：0；物体差异：Venus-Uranus\n&quot;
+				+ &quot;轨道9的物体数量差异：-1；物体差异：无-Venus\n&quot;;
+<span class="fc" id="L198">		assertEquals(difference, stellarSystemAPI.getDifference(stellarSystem, c).toString());</span>
+<span class="fc" id="L199">	}</span>
+
+	@Test
+	public void testGetDiffereceSocialNetworkCircle() throws Exception {
+<span class="fc" id="L203">		CircularOrbit&lt;Person, PhysicalObject&gt; c = socialNetworkCircleFactory.produce();</span>
+<span class="fc" id="L204">		c.readFromFile(new File(&quot;input/SocialNetWorkCircle.txt&quot;));</span>
+<span class="fc" id="L205">		c.deletePhysicalObjectFromTrack(friendFactory.produce(&quot;FrankLee&quot;, 42, 'M'), trackFactory.produce(2.0));</span>
+<span class="fc" id="L206">		List&lt;PhysicalObject&gt; friends = new ArrayList&lt;PhysicalObject&gt;();</span>
+<span class="fc bfc" id="L207" title="All 2 branches covered.">		for (PhysicalObject friend : c) {</span>
+<span class="fc" id="L208">			friends.add(friend);</span>
+		}
+<span class="fc" id="L210">		List&lt;Edge&lt;PhysicalObject&gt;&gt; physicalEdges = c.getRelationBetweenObjects();</span>
+		@SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L212">		Map&lt;PhysicalObject, Double&gt;[] centralEdges = new Map[2];</span>
+<span class="fc" id="L213">		centralEdges[0] = c.getRelationBetweenCentralAndObject()[0];</span>
+<span class="fc" id="L214">		centralEdges[1] = c.getRelationBetweenCentralAndObject()[1];</span>
+<span class="fc" id="L215">		c.resetObjectsAndTrack();</span>
+<span class="fc" id="L216">		c.constructSocialNetworkCircle(friends, physicalEdges, centralEdges);</span>
+		String difference;
+<span class="fc" id="L218">		difference = &quot;轨道数差异：1\n&quot; + &quot;轨道1的物体数量差异：0；物体差异：无\n&quot; + &quot;轨道2的物体数量差异：1；物体差异：FrankLee-无\n&quot;;</span>
+<span class="fc" id="L219">		assertEquals(difference, socialNetworkCircleAPI.getDifference(socialNetworkCircle, c).toString());</span>
+<span class="fc" id="L220">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>

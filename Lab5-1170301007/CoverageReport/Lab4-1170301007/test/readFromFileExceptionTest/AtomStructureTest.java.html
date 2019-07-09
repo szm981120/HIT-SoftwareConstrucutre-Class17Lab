@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>AtomStructureTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">test</a> &gt; <a href="index.source.html" class="el_package">readFromFileExceptionTest</a> &gt; <span class="el_source">AtomStructureTest.java</span></div><h1>AtomStructureTest.java</h1><pre class="source lang-java linenums">package readFromFileExceptionTest;
+
+import static org.junit.Assert.*;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
+import MyException.AtomElectronNumException;
+import MyException.AtomElementException;
+import MyException.AtomTrackNumException;
+import MyException.DataScientificNumberException;
+import MyException.DataSyntaxException;
+import MyException.IllegalIntimacyInSocialTieException;
+import centralObject.Nucleus;
+import circularOrbit.AtomStructureFactory;
+import circularOrbit.CircularOrbit;
+import circularOrbit.circularOrbitFactory;
+import physicalObject.PhysicalObject;
+
+<span class="pc bpc" id="L25" title="1 of 2 branches missed.">public class AtomStructureTest {</span>
+
+<span class="fc" id="L27">	private static AtomStructureFactory atomStructureFactory = new AtomStructureFactory();</span>
+<span class="fc" id="L28">	private static CircularOrbit&lt;Nucleus, PhysicalObject&gt; atomStructure = atomStructureFactory.produce();</span>
+
+	/*
+	 * Test strategy
+	 * 	Exceptions that may happen in a atomstructure are 
+	 * 		FileNotFoundException, AtomElementException, AtomTrackNumException and AtomElectronNumException.
+	 * 	FileNotFoundException
+	 * 		Let atomStructure read file exceptionAssertionTestFile/what.txt which doesn't exist.
+	 * 	AtomElementException
+	 * 		1. Element of atom is Rbc in AtomicStructureAtomElementException.txt.
+	 * 		2. Element of atom is rb in AtomicStructureAtomElementException (2).txt.
+	 * 		3. Element of atom is RB in AtomicStructureAtomElementException (3).txt.
+	 * 	AtomTrackNumException
+	 * 		Number of track is 0 in AtomicStructureAtomTrackNumException.txt.
+	 * 	AtomElectronNumException
+	 * 		1. Some tracks have no matched electron number information in AtomicStructureAtomElectronNumException.txt.
+	 * 		2. The number of electron information doesn't match the number of track in AtomicStructureAtomElectronNumException (2).txt.
+	 */
+	@Test(expected = AssertionError.class)
+	public void testAssertionsEnabled() {
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">		assert false;</span>
+<span class="nc" id="L49">	}</span>
+
+	@Rule
+<span class="fc" id="L52">	public ExpectedException exception = ExpectedException.none();</span>
+
+	@Test
+	public void testFileNotFoundException() throws NumberFormatException, FileNotFoundException, IOException,
+			AtomElementException, AtomTrackNumException, AtomElectronNumException, DataSyntaxException,
+			DataScientificNumberException, IllegalIntimacyInSocialTieException {
+<span class="fc" id="L58">		exception.expect(FileNotFoundException.class);</span>
+<span class="nc" id="L59">		atomStructure.readFromFile(new File(&quot;exceptionAssertionTestFile/what.txt&quot;));</span>
+<span class="nc" id="L60">	}</span>
+
+	@Test
+	public void testAtomElementException() throws NumberFormatException, FileNotFoundException, IOException,
+			AtomElementException, AtomTrackNumException, AtomElectronNumException, DataSyntaxException,
+			DataScientificNumberException, IllegalIntimacyInSocialTieException {
+<span class="fc" id="L66">		exception.expect(AtomElementException.class);</span>
+<span class="fc" id="L67">		exception.expectMessage(&quot;The element of this atom contains 0 or more than 2 characters.&quot;);</span>
+<span class="nc" id="L68">		atomStructure.readFromFile(new File(&quot;exceptionAssertionTestFile/AtomicStructureAtomElementException.txt&quot;));</span>
+<span class="nc" id="L69">	}</span>
+
+	@Test
+	public void testAtomElementException2() throws NumberFormatException, FileNotFoundException, IOException,
+			AtomElementException, AtomTrackNumException, AtomElectronNumException, DataSyntaxException,
+			DataScientificNumberException, IllegalIntimacyInSocialTieException {
+<span class="fc" id="L75">		exception.expect(AtomElementException.class);</span>
+<span class="fc" id="L76">		exception.expectMessage(&quot;The first character is not a upper case character!&quot;);</span>
+<span class="nc" id="L77">		atomStructure.readFromFile(new File(&quot;exceptionAssertionTestFile/AtomicStructureAtomElementException (2).txt&quot;));</span>
+<span class="nc" id="L78">	}</span>
+
+	@Test
+	public void testAtomElementException3() throws NumberFormatException, FileNotFoundException, IOException,
+			AtomElementException, AtomTrackNumException, AtomElectronNumException, DataSyntaxException,
+			DataScientificNumberException, IllegalIntimacyInSocialTieException {
+<span class="fc" id="L84">		exception.expect(AtomElementException.class);</span>
+<span class="fc" id="L85">		exception.expectMessage(&quot;The second character is not a lower case character!&quot;);</span>
+<span class="nc" id="L86">		atomStructure.readFromFile(new File(&quot;exceptionAssertionTestFile/AtomicStructureAtomElementException (3).txt&quot;));</span>
+<span class="nc" id="L87">	}</span>
+
+	@Test
+	public void testAtomTrackNumException() throws NumberFormatException, FileNotFoundException, IOException,
+			AtomElementException, AtomTrackNumException, AtomElectronNumException, DataSyntaxException,
+			DataScientificNumberException, IllegalIntimacyInSocialTieException {
+<span class="fc" id="L93">		exception.expect(AtomTrackNumException.class);</span>
+<span class="fc" id="L94">		exception.expectMessage(&quot;Number of track is not a positive integer!&quot;);</span>
+<span class="nc" id="L95">		atomStructure.readFromFile(new File(&quot;exceptionAssertionTestFile/AtomicStructureAtomTrackNumException.txt&quot;));</span>
+<span class="nc" id="L96">	}</span>
+
+	@Test
+	public void testAtomElectronNumException() throws NumberFormatException, FileNotFoundException, IOException,
+			AtomElementException, AtomTrackNumException, AtomElectronNumException, DataSyntaxException,
+			DataScientificNumberException, IllegalIntimacyInSocialTieException {
+<span class="fc" id="L102">		exception.expect(AtomElectronNumException.class);</span>
+<span class="fc" id="L103">		exception.expectMessage(&quot;Each track order number should match a number of electron!&quot;);</span>
+<span class="nc" id="L104">		atomStructure.readFromFile(new File(&quot;exceptionAssertionTestFile/AtomicStructureAtomElectronNumException.txt&quot;));</span>
+<span class="nc" id="L105">	}</span>
+
+	@Test
+	public void testAtomElectronNumException2() throws NumberFormatException, FileNotFoundException, IOException,
+			AtomElementException, AtomTrackNumException, AtomElectronNumException, DataSyntaxException,
+			DataScientificNumberException, IllegalIntimacyInSocialTieException {
+<span class="fc" id="L111">		exception.expect(AtomElectronNumException.class);</span>
+<span class="fc" id="L112">		exception.expectMessage(&quot;The number of electron information doesn't match the number of track!&quot;);</span>
+<span class="fc" id="L113">		atomStructure</span>
+<span class="nc" id="L114">				.readFromFile(new File(&quot;exceptionAssertionTestFile/AtomicStructureAtomElectronNumException (2).txt&quot;));</span>
+<span class="nc" id="L115">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>

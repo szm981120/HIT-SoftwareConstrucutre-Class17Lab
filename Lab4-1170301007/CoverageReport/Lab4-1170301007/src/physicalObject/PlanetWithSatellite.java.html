@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>PlanetWithSatellite.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">physicalObject</a> &gt; <span class="el_source">PlanetWithSatellite.java</span></div><h1>PlanetWithSatellite.java</h1><pre class="source lang-java linenums">package physicalObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Planet with some satellites.
+ * 
+ * @author Shen
+ *
+ */
+public class PlanetWithSatellite extends SatelliteDecorator {
+
+<span class="fc" id="L14">	private final List&lt;Satellite&gt; satellites = new ArrayList&lt;Satellite&gt;();</span>
+
+	/*
+	 * Abstraction function:
+	 * 	AF(satellites) = a list of satellites which the mother planet has
+	 * 
+	 * Representation invariant:
+	 * 	None.
+	 * 
+	 * Safety from rep exposure:
+	 * 	All representations are defined private and final.
+	 * 	All representations in Observer are immutable.
+	 */
+
+	// No checkRep
+	
+	/**
+	 * Constructor. Extends it's super-class.
+	 * 
+	 * @param planet the mother planet
+	 */
+	public PlanetWithSatellite(PhysicalObject planet) {
+<span class="fc" id="L36">		super(planet);</span>
+<span class="fc" id="L37">		addSatellite();</span>
+<span class="fc" id="L38">	}</span>
+
+	@Override
+	public double getDegree() {
+<span class="fc" id="L42">		return this.planet.getDegree();</span>
+	}
+
+	@Override
+	public String getName() {
+<span class="fc" id="L47">		return this.planet.getName();</span>
+	}
+
+	@Override
+	public boolean getDirect() {
+<span class="fc" id="L52">		return this.planet.getDirect();</span>
+	}
+
+	@Override
+	public double getSpeed() {
+<span class="fc" id="L57">		return this.planet.getSpeed();</span>
+	}
+
+	@Override
+	public double getRaidus() {
+<span class="fc" id="L62">		return this.planet.getRaidus();</span>
+	}
+
+	/**
+	 * When a plant is decorated by this class, it means this planet is added a
+	 * satellite, so this method should be called in constructor when a planet is
+	 * decorated by this class.
+	 */
+	private void addSatellite() {
+<span class="fc" id="L71">		this.satellites.add(new Satellite());</span>
+<span class="fc" id="L72">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>

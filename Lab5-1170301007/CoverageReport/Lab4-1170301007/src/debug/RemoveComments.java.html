@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>RemoveComments.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">debug</a> &gt; <span class="el_source">RemoveComments.java</span></div><h1>RemoveComments.java</h1><pre class="source lang-java linenums">package debug;
+///*
+
+//
+//This program is used for removing all the comments in a program code.
+//
+//Example 1:
+//Input: 
+//source = [&quot;/*Test program */&quot;, &quot;int main()&quot;, &quot;{ &quot;, &quot;  // variable declaration &quot;, &quot;int a, b, c;&quot;, &quot;/* This is a test&quot;, &quot;   multiline  &quot;, &quot;   comment for &quot;, &quot;   testing */&quot;, &quot;a = b + c;&quot;, &quot;}&quot;]
+//
+//The line by line code is visualized as below:
+//
+///*Test program */
+//int main()
+//{ 
+//  // variable declaration 
+//int a, b, c;
+///* This is a test
+//   multiline  
+//   comment for 
+//   testing */
+//a = b + c;
+//}
+//
+//Output: [&quot;int main()&quot;,&quot;{ &quot;,&quot;  &quot;,&quot;int a, b, c;&quot;,&quot;a = b + c;&quot;,&quot;}&quot;]
+//
+//The line by line code is visualized as below:
+//
+//int main()
+//{ 
+//
+//int a, b, c;
+//a = b + c;
+//}
+//
+//Explanation: 
+//The string /* denotes a block comment, including line 1 and lines 6-9. The string // denotes line 4 as comments.
+//
+//Example 2:
+//
+//Input: 
+//source = [&quot;a/*comment&quot;, &quot;line&quot;, &quot;more_comment*/b&quot;]
+//
+//Output: [&quot;ab&quot;]
+//
+//Explanation: 
+//The original source string is &quot;a/*comment\nline\nmore_comment*/b&quot;, where we have bolded the newline characters.  
+//After deletion, the implicit newline characters are deleted, leaving the string &quot;ab&quot;, which when delimited by newline characters becomes [&quot;ab&quot;].
+//
+//
+//Note:
+//
+//The length of source is in the range [1, 100].
+//The length of source[i] is in the range [0, 80].
+//Every open block comment is eventually closed.
+//There are no single-quote, double-quote, or control characters in the source code.
+//
+//*/
+
+import java.util.ArrayList;
+import java.util.List;
+
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">class RemoveComments {</span>
+	public List&lt;String&gt; removeComments(String[] source) {
+<span class="pc bpc" id="L65" title="2 of 6 branches missed.">		assert source.length &gt;= 1 &amp;&amp; source.length &lt;= 100 : &quot;The length of source is in the range [1,100].&quot;; // new</span>
+<span class="fc" id="L66">		boolean inBlock = false;</span>
+<span class="fc" id="L67">		StringBuilder newline = new StringBuilder();</span>
+<span class="fc" id="L68">		List&lt;String&gt; ans = new ArrayList&lt;String&gt;(); // List&lt;String&gt; ans = new List();</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">		for (String line : source) {</span>
+<span class="pc bpc" id="L70" title="2 of 6 branches missed.">			assert line.length() &gt;= 0 &amp;&amp; line.length() &lt;= 80 : &quot;The length of source[i] is in the range [0,80].&quot;; // new</span>
+<span class="fc" id="L71">			int i = 0;</span>
+<span class="fc" id="L72">			char[] chars = line.toCharArray();</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">			if (!inBlock)</span>
+<span class="fc" id="L74">				newline = new StringBuilder();</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">			while (i &lt; line.length()) {</span>
+<span class="pc bpc" id="L76" title="2 of 8 branches missed.">				assert chars[i] &gt;= 32 &amp;&amp; chars[i] &lt;= 127 &amp;&amp; chars[i] != 34</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">						&amp;&amp; chars[i] != 39 : &quot;There are no single-quote, double-quote, or control characters in the source code.&quot;; // new</span>
+<span class="fc bfc" id="L78" title="All 8 branches covered.">				if (!inBlock &amp;&amp; i + 1 &lt; line.length() &amp;&amp; chars[i] == '/' &amp;&amp; chars[i + 1] == '*') { // &amp;&amp; i+1 &lt;=</span>
+																									// line.length()
+<span class="fc" id="L80">					inBlock = true;</span>
+<span class="fc" id="L81">					i += 2; // new</span>
+<span class="fc" id="L82">					continue; // new</span>
+<span class="fc bfc" id="L83" title="All 8 branches covered.">				} else if (inBlock &amp;&amp; i + 1 &lt; line.length() &amp;&amp; chars[i] == '*' &amp;&amp; chars[i + 1] == '/') { // &amp;&amp; i + 1 &lt;</span>
+																											// line.length()
+<span class="fc" id="L85">					inBlock = false;</span>
+<span class="fc" id="L86">					i += 2; // new</span>
+<span class="fc" id="L87">					continue; // new</span>
+<span class="pc bpc" id="L88" title="1 of 8 branches missed.">				} else if (!inBlock &amp;&amp; i + 1 &lt; line.length() &amp;&amp; chars[i] == '/' &amp;&amp; chars[i + 1] == '/') { // this is a</span>
+																											// new else
+																											// if
+<span class="fc" id="L91">					break;</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">				} else if (!inBlock) {</span>
+<span class="fc" id="L93">					newline.append(chars[i]);</span>
+				}
+<span class="fc" id="L95">				i++;</span>
+			}
+<span class="fc bfc" id="L97" title="All 4 branches covered.">			if (!inBlock &amp;&amp; newline.length() &gt; 0) { // inBlock &amp;&amp;</span>
+<span class="fc" id="L98">				ans.add(new String(newline));</span>
+			}
+		}
+<span class="pc bpc" id="L101" title="1 of 4 branches missed.">		assert inBlock == false : &quot;Every open block comment is eventually closed.&quot;; // new</span>
+<span class="fc" id="L102">		return ans;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>

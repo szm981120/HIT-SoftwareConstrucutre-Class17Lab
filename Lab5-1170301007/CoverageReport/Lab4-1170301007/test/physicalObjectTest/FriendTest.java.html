@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>FriendTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">test</a> &gt; <a href="index.source.html" class="el_package">physicalObjectTest</a> &gt; <span class="el_source">FriendTest.java</span></div><h1>FriendTest.java</h1><pre class="source lang-java linenums">package physicalObjectTest;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+import physicalObject.ConcreteFriendFactory;
+import physicalObject.FriendFactory;
+import physicalObject.PhysicalObject;
+
+<span class="pc bpc" id="L11" title="1 of 2 branches missed.">public class FriendTest {</span>
+
+<span class="fc" id="L13">	private static FriendFactory friendFactory = new ConcreteFriendFactory();</span>
+<span class="fc" id="L14">	private static PhysicalObject friend = friendFactory.produce(&quot;Hanxiao&quot;, 20, 'M');</span>
+
+	/*
+	 * Test strategy
+	 * 	testGetName
+	 * 		This tests getName.
+	 * 		Call getName to see if the result fits expectation.
+	 * 	testGetDegree
+	 * 		This tests getDegree.
+	 * 		Because the degree of friend is generated randomly so there's no an expectation result.
+	 * 		The degree test actually has been ensured by checkRep. This test has no necessary.
+	 * 	testEquals
+	 * 		This tests equals.
+	 * 		Two friends are equal only when they have the same name, age and sex.
+	 * 		Generate two friends who have the same name, age and sex and see if they are equal.
+	 * 		Generate two friends whose name, age and sex are not all the same, and see if they are not equal.
+	 * 	testHashCode
+	 * 		This tests hashCode
+	 * 		Two friends' hash codes are equal only when they are equal.  
+	 * 	testGetDirect
+	 * 		Test that friend shouldn't have getDirect method.
+	 * 	testRadius
+	 * 		Test that friend shouldn't have getRadius method.
+	 * 	testSpeed
+	 * 		Test that friend shouldn't have getSpeed method.
+	 */
+
+	@Test(expected = AssertionError.class)
+	public void testAssertionsEnabled() {
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">		assert false;</span>
+<span class="nc" id="L44">	}</span>
+
+	@Test
+	public void testGetName() {
+<span class="fc" id="L48">		assertEquals(&quot;expected Hanxiao&quot;, &quot;Hanxiao&quot;, friend.getName());</span>
+<span class="fc" id="L49">	}</span>
+
+	@Test
+	public void testGetDegree() {
+<span class="fc" id="L53">		double d = friend.getDegree();</span>
+<span class="pc bpc" id="L54" title="2 of 4 branches missed.">		assertTrue(d &gt;= 0 &amp;&amp; d &lt; 360);</span>
+<span class="fc" id="L55">	}</span>
+
+	@Test
+	public void testEquals() {
+<span class="fc" id="L59">		PhysicalObject friend_ = friendFactory.produce(&quot;Hanxiao&quot;, 22, 'M');</span>
+<span class="fc" id="L60">		PhysicalObject friend__ = friendFactory.produce(&quot;hanxiao&quot;, 21, 'M');</span>
+<span class="fc" id="L61">		assertTrue(friend_.equals(friend));</span>
+<span class="fc" id="L62">		assertFalse(friend.equals(friend__));</span>
+<span class="fc" id="L63">	}</span>
+
+	@Test
+	public void testHashCode() {
+<span class="fc" id="L67">		PhysicalObject friend_ = new ConcreteFriendFactory().produce(&quot;Hanxiao&quot;, 21, 'M');</span>
+<span class="fc" id="L68">		PhysicalObject friend__ = friendFactory.produce(&quot;hanxiao&quot;, 21, 'M');</span>
+<span class="fc" id="L69">		assertEquals(friend.hashCode(), friend_.hashCode());</span>
+<span class="fc" id="L70">		assertNotEquals(friend.hashCode(), friend__.hashCode());</span>
+<span class="fc" id="L71">	}</span>
+
+	@Test(expected = AssertionError.class)
+	public void testGetDirect() {
+<span class="nc" id="L75">		friend.getDirect();</span>
+<span class="nc" id="L76">	}</span>
+
+	@Test(expected = AssertionError.class)
+	public void testGetRadius() {
+<span class="nc" id="L80">		friend.getRaidus();</span>
+<span class="nc" id="L81">	}</span>
+
+	@Test(expected = AssertionError.class)
+	public void testGetSpeed() {
+<span class="nc" id="L85">		friend.getSpeed();</span>
+<span class="nc" id="L86">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>

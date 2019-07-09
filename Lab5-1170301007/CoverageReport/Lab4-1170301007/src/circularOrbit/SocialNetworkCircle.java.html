@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>SocialNetworkCircle.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">circularOrbit</a> &gt; <span class="el_source">SocialNetworkCircle.java</span></div><h1>SocialNetworkCircle.java</h1><pre class="source lang-java linenums">package circularOrbit;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Scanner;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import APIs.CircularOrbitAPIs;
+import MyException.AtomElectronNumException;
+import MyException.AtomElementException;
+import MyException.AtomTrackNumException;
+import MyException.DataScientificNumberException;
+import MyException.DataSyntaxException;
+import MyException.FriendConflictException;
+import MyException.IllegalIntimacyInSocialTieException;
+import MyException.NonexistentFriendInSocialTieException;
+import MyException.SocialTieConflictException;
+import atomTransitionMemento.Memento;
+import centralObject.Person;
+import physicalObject.ConcreteFriendFactory;
+import physicalObject.Friend;
+import physicalObject.FriendFactory;
+import physicalObject.PhysicalObject;
+import track.TrackFactory;
+
+/**
+ * SocialNetworkCircle specifies readFromFile method.
+ * 
+ * @author Shen
+ *
+ */
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">public class SocialNetworkCircle extends ConcreteCircularOrbit&lt;Person, PhysicalObject&gt; {</span>
+
+	private static final String labelRegex = &quot;([a-zA-Z0-9]+)&quot;;
+	private static final String commaRegex = &quot;\\s*,\\s*&quot;;
+<span class="fc" id="L49">	private static Logger socialNetworkCircleLogger = Logger.getLogger(&quot;SocialNetworkCircle Log&quot;);</span>
+<span class="fc" id="L50">	private static int readLineCounter = 0;</span>
+
+	/**
+	 * Constructor
+	 */
+<span class="fc" id="L55">	public SocialNetworkCircle() {</span>
+
+<span class="fc" id="L57">	}</span>
+
+	/**
+	 * Override readFromFile. Before reading from file, it's representations must be
+	 * reset. This can read from legal social network circle data file.
+	 * 
+	 * @throws DataScientificNumberException shouldn't happen in social network
+	 *                                       circle.
+	 * @throws AtomElectronNumException      shouldn't happen in social network
+	 *                                       circle.
+	 * @throws AtomTrackNumException         shouldn't happen in social network
+	 *                                       circle.
+	 * @throws AtomElementException          shouldn't happen in social network
+	 *                                       circle.
+	 */
+	@Override
+	public void readFromFile(File file) throws NumberFormatException, FileNotFoundException, IOException,
+			AtomElementException, AtomTrackNumException, AtomElectronNumException, DataSyntaxException,
+			DataScientificNumberException, IllegalIntimacyInSocialTieException {
+<span class="fc" id="L76">		super.readFromFile(file);</span>
+<span class="fc" id="L77">		socialNetworkCircleLogger.setUseParentHandlers(false);</span>
+		Pattern pattern1, pattern2, pattern3;
+		Matcher matcher1, matcher2, matcher3;
+<span class="fc" id="L80">		FileReader reader = new FileReader(file);</span>
+<span class="fc" id="L81">		BufferedReader br = new BufferedReader(reader);</span>
+<span class="fc" id="L82">		List&lt;PhysicalObject&gt; friends = new ArrayList&lt;PhysicalObject&gt;();</span>
+<span class="fc" id="L83">		FriendFactory friendFactory = new ConcreteFriendFactory();</span>
+<span class="fc" id="L84">		String name = null;</span>
+<span class="fc" id="L85">		int age = 0;</span>
+		char sex;
+<span class="fc" id="L87">		List&lt;Edge&lt;PhysicalObject&gt;&gt; physicalEdges = new ArrayList&lt;Edge&lt;PhysicalObject&gt;&gt;();</span>
+		@SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L89">		Map&lt;PhysicalObject, Double&gt;[] centralEdges = new Map[2];</span>
+<span class="fc" id="L90">		centralEdges[0] = new HashMap&lt;PhysicalObject, Double&gt;();</span>
+<span class="fc" id="L91">		centralEdges[1] = new HashMap&lt;PhysicalObject, Double&gt;();</span>
+<span class="fc" id="L92">		Map&lt;String[], Double&gt; adjacency = new HashMap&lt;String[], Double&gt;();</span>
+<span class="fc" id="L93">		String line = &quot;&quot;;</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">		while ((line = br.readLine()) != null) {</span>
+<span class="fc" id="L95">			readLineCounter++;</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">			if (line.isEmpty()) {</span>
+<span class="fc" id="L97">				continue;</span>
+			}
+			try {
+<span class="fc" id="L100">				boolean centralUserMatch = false, friendMatch = false, socialTieMatch = false;</span>
+<span class="fc" id="L101">				pattern1 = Pattern.compile(&quot;CentralUser\\s*::=\\s*&lt;&quot; + labelRegex + commaRegex + &quot;(\\d*)&quot; + commaRegex</span>
+						+ &quot;([M|F]{1})&quot; + &quot;&gt;&quot;);
+<span class="fc" id="L103">				matcher1 = pattern1.matcher(line);</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">				while (matcher1.find()) {</span>
+<span class="fc" id="L105">					centralUserMatch = true;</span>
+<span class="fc" id="L106">					name = matcher1.group(1);</span>
+<span class="fc" id="L107">					age = Integer.valueOf(matcher1.group(2));</span>
+<span class="fc" id="L108">					sex = matcher1.group(3).charAt(0);</span>
+<span class="fc" id="L109">					this.addCentralObject(new Person(name, age, sex));</span>
+				}
+<span class="fc" id="L111">				pattern2 = Pattern.compile(</span>
+<span class="fc" id="L112">						&quot;Friend\\s*::=\\s*&lt;&quot; + labelRegex + commaRegex + &quot;(\\d*)&quot; + commaRegex + &quot;([M|F]{1})&quot; + &quot;&gt;&quot;);</span>
+<span class="fc" id="L113">				matcher2 = pattern2.matcher(line);</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">				while (matcher2.find()) {</span>
+<span class="fc" id="L115">					friendMatch = true;</span>
+<span class="fc" id="L116">					name = matcher2.group(1);</span>
+<span class="fc" id="L117">					age = Integer.valueOf(matcher2.group(2));</span>
+<span class="fc" id="L118">					sex = matcher2.group(3).charAt(0);</span>
+<span class="fc" id="L119">					PhysicalObject friend = friendFactory.produce(name, age, sex);</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">					for (PhysicalObject p : friends) {</span>
+<span class="pc bpc" id="L121" title="1 of 2 branches missed.">						if (p.equals(friend)) {</span>
+<span class="nc" id="L122">							throw new FriendConflictException(</span>
+<span class="nc" id="L123">									&quot;This friend has already existed! The latter conflicting friend isn't loaded. Exception line: &quot;</span>
+<span class="nc" id="L124">											+ readLineCounter + &quot;.&quot;);</span>
+						}
+					}
+<span class="fc" id="L127">					friends.add(friend);</span>
+				}
+
+<span class="fc" id="L130">				pattern3 = Pattern.compile(&quot;SocialTie\\s*::=\\s*&lt;&quot; + labelRegex + commaRegex + labelRegex + commaRegex</span>
+						+ &quot;(0\\.\\d{1,3}\\s*|1\\.0{1,3}\\s*)&gt;&quot;);
+<span class="fc" id="L132">				matcher3 = pattern3.matcher(line);</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">				while (matcher3.find()) {</span>
+<span class="fc" id="L134">					socialTieMatch = true;</span>
+<span class="fc" id="L135">					Double intimacy = new Double(Double.parseDouble(matcher3.group(3)));</span>
+<span class="pc bpc" id="L136" title="1 of 4 branches missed.">					if (intimacy &lt;= 0 || intimacy &gt; 1) {</span>
+<span class="fc" id="L137">						throw new IllegalIntimacyInSocialTieException(</span>
+<span class="fc" id="L138">								&quot;The intimacy is no greater than 0 or greater than 1! Exception line: &quot;</span>
+<span class="fc" id="L139">										+ readLineCounter + &quot;.&quot;);</span>
+					}
+<span class="fc" id="L141">					String names[] = new String[2];</span>
+<span class="fc" id="L142">					names[0] = matcher3.group(1);</span>
+<span class="fc" id="L143">					names[1] = matcher3.group(2);</span>
+<span class="pc bpc" id="L144" title="1 of 2 branches missed.">					if (names[0].equals(names[1])) {</span>
+<span class="nc" id="L145">						throw new SocialTieConflictException(</span>
+<span class="nc" id="L146">								&quot;The two persons between this social tie are the same! The social tie is skipped. Exception line: &quot;</span>
+<span class="nc" id="L147">										+ readLineCounter + &quot;.&quot;);</span>
+					}
+<span class="fc bfc" id="L149" title="All 2 branches covered.">					for (String[] s : adjacency.keySet()) {</span>
+<span class="pc bpc" id="L150" title="1 of 4 branches missed.">						if (names[0].equals(s[0]) &amp;&amp; names[1].equals(s[1])) {</span>
+<span class="nc" id="L151">							throw new SocialTieConflictException(</span>
+<span class="nc" id="L152">									&quot;This social tie has already existed! The conflicting social tie is skipped. Exception line: &quot;</span>
+<span class="nc" id="L153">											+ readLineCounter + &quot;.&quot;);</span>
+						}
+<span class="pc bpc" id="L155" title="3 of 4 branches missed.">						if (names[1].equals(s[0]) &amp;&amp; names[0].equals(s[1])) {</span>
+<span class="nc" id="L156">							throw new SocialTieConflictException(</span>
+<span class="nc" id="L157">									&quot;This social tie has already existed! The conflicting social tie is skipped. Exception line: &quot;</span>
+<span class="nc" id="L158">											+ readLineCounter + &quot;.&quot;);</span>
+						}
+					}
+<span class="fc" id="L161">					adjacency.put(names, intimacy);</span>
+				}
+<span class="fc bfc" id="L163" title="All 6 branches covered.">				if (!centralUserMatch &amp;&amp; !friendMatch &amp;&amp; !socialTieMatch</span>
+<span class="pc bpc" id="L164" title="1 of 4 branches missed.">						&amp;&amp; (line.contains(&quot;CentralUser&quot;) || line.contains(&quot;Friend&quot;))) {</span>
+<span class="fc" id="L165">					String[] syntaxTest = line.substring(line.indexOf(&quot;&lt;&quot;) + 1, line.indexOf(&quot;&gt;&quot;)).split(&quot;,&quot;);</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">					if (!Pattern.compile(&quot;\\s*[a-zA-Z0-9]*\\s*&quot;).matcher(syntaxTest[0]).matches()) {</span>
+<span class="fc" id="L167">						throw new DataSyntaxException(</span>
+<span class="fc" id="L168">								&quot;CentralUser name syntax doesn't match! Exception line: &quot; + readLineCounter + &quot;.&quot;);</span>
+					}
+<span class="fc bfc" id="L170" title="All 2 branches covered.">					if (!Pattern.compile(&quot;\\s*\\d*\\s*&quot;).matcher(syntaxTest[1]).matches()) {</span>
+<span class="fc" id="L171">						throw new DataSyntaxException(</span>
+<span class="fc" id="L172">								&quot;CentralUser age syntax doesn't match! Exception line: &quot; + readLineCounter + &quot;.&quot;);</span>
+					}
+<span class="pc bpc" id="L174" title="1 of 2 branches missed.">					if (!Pattern.compile(&quot;\\s*M|F\\s*&quot;).matcher(syntaxTest[2]).matches()) {</span>
+<span class="fc" id="L175">						throw new DataSyntaxException(</span>
+<span class="fc" id="L176">								&quot;CentralUser sex syntax doesn't match! Exception line: &quot; + readLineCounter + &quot;.&quot;);</span>
+					}
+				}
+<span class="pc bpc" id="L179" title="1 of 8 branches missed.">				if (!centralUserMatch &amp;&amp; !friendMatch &amp;&amp; !socialTieMatch &amp;&amp; line.contains(&quot;SocialTie&quot;)) {</span>
+<span class="fc" id="L180">					String[] syntaxTest = line.substring(line.indexOf(&quot;&lt;&quot;) + 1, line.indexOf(&quot;&gt;&quot;)).split(&quot;,&quot;);</span>
+<span class="fc" id="L181">					int labelSyntaxCount = 0;</span>
+<span class="fc bfc" id="L182" title="All 2 branches covered.">					for (int i = 0; i &lt;= 1; i++) {</span>
+<span class="fc bfc" id="L183" title="All 2 branches covered.">						if (Pattern.compile(&quot;\\s*[a-zA-Z0-9]*\\s*&quot;).matcher(syntaxTest[i]).matches()) {</span>
+<span class="fc" id="L184">							labelSyntaxCount++;</span>
+						}
+					}
+<span class="fc bfc" id="L187" title="All 2 branches covered.">					if (labelSyntaxCount &lt; 2) {</span>
+<span class="fc" id="L188">						throw new DataSyntaxException(</span>
+<span class="fc" id="L189">								&quot;One of friend label syntax doesn't match! Exception line: &quot; + readLineCounter + &quot;.&quot;);</span>
+					}
+<span class="pc bpc" id="L191" title="1 of 2 branches missed.">					if (!Pattern.compile(&quot;\\s*0\\.\\d{1,3}\\s*|\\s*1\\.0{1,3}\\s*&quot;).matcher(syntaxTest[2]).matches()) {</span>
+<span class="fc" id="L192">						throw new DataSyntaxException(</span>
+<span class="fc" id="L193">								&quot;SocialTie intimacy syntax doesn't match! Exception line: &quot; + readLineCounter + &quot;.&quot;);</span>
+					}
+				}
+<span class="nc" id="L196">			} catch (FriendConflictException e) {</span>
+<span class="nc" id="L197">				socialNetworkCircleLogger.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L198">				System.out.println(e.getMessage());</span>
+<span class="nc" id="L199">			} catch (SocialTieConflictException e) {</span>
+<span class="nc" id="L200">				socialNetworkCircleLogger.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L201">				System.out.println(e.getMessage());</span>
+			}
+		} // end while ((line = br.readLine()) != null)
+
+<span class="fc bfc" id="L205" title="All 2 branches covered.">		for (String[] names : adjacency.keySet()) {</span>
+			try {
+<span class="fc" id="L207">				boolean friendExisted = false;</span>
+<span class="fc bfc" id="L208" title="All 2 branches covered.">				for (PhysicalObject p : friends) {</span>
+<span class="fc bfc" id="L209" title="All 4 branches covered.">					if (p.getName().equals(names[0]) || p.getName().equals(names[1])) {</span>
+<span class="fc" id="L210">						friendExisted = true;</span>
+					}
+				}
+<span class="pc bpc" id="L213" title="1 of 2 branches missed.">				if (!friendExisted) {</span>
+<span class="nc" id="L214">					throw new NonexistentFriendInSocialTieException(&quot;A nonexistent friend shows in a social tie!&quot;);</span>
+				}
+<span class="nc" id="L216">			} catch (NonexistentFriendInSocialTieException e) {</span>
+<span class="nc" id="L217">				socialNetworkCircleLogger.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L218">				System.out.println(&quot;This social tie is skipped. Exception social tie: &quot; + names[0] + &quot;-&gt;&quot; + names[1]);</span>
+<span class="nc" id="L219">				continue;</span>
+			}
+<span class="fc" id="L221">			double infimacy = adjacency.get(names);</span>
+<span class="fc bfc" id="L222" title="All 2 branches covered.">			if (names[0].equals(this.centralObject.getName())) {</span>
+<span class="fc bfc" id="L223" title="All 2 branches covered.">				for (PhysicalObject friend : friends) {</span>
+<span class="fc bfc" id="L224" title="All 2 branches covered.">					if (friend.getName().equals(names[1])) {</span>
+<span class="fc" id="L225">						centralEdges[0].put(friend, infimacy);</span>
+<span class="fc" id="L226">						this.addRelationshipBetweenCentralAndPhysical(friend, true, infimacy);</span>
+<span class="fc" id="L227">						this.addRelationshipBetweenCentralAndPhysical(friend, false, infimacy);</span>
+					}
+				}
+<span class="pc bpc" id="L230" title="1 of 2 branches missed.">			} else if (names[1].equals(this.centralObject.getName())) {</span>
+<span class="nc bnc" id="L231" title="All 2 branches missed.">				for (PhysicalObject friend : friends) {</span>
+<span class="nc bnc" id="L232" title="All 2 branches missed.">					if (friend.getName().equals(names[0])) {</span>
+<span class="nc" id="L233">						centralEdges[1].put(friend, infimacy);</span>
+<span class="nc" id="L234">						this.addRelationshipBetweenCentralAndPhysical(friend, true, infimacy);</span>
+<span class="nc" id="L235">						this.addRelationshipBetweenCentralAndPhysical(friend, false, infimacy);</span>
+					}
+				}
+<span class="nc" id="L238">			} else {</span>
+<span class="fc" id="L239">				PhysicalObject friendA = null, friendB = null;</span>
+<span class="fc bfc" id="L240" title="All 2 branches covered.">				for (PhysicalObject friend : friends) {</span>
+<span class="fc bfc" id="L241" title="All 2 branches covered.">					if (friend.getName().equals(names[0])) {</span>
+<span class="fc" id="L242">						friendA = friend;</span>
+					}
+<span class="fc bfc" id="L244" title="All 2 branches covered.">					if (friend.getName().equals(names[1])) {</span>
+<span class="fc" id="L245">						friendB = friend;</span>
+					}
+				}
+<span class="pc bpc" id="L248" title="2 of 4 branches missed.">				if (friendA != null &amp;&amp; friendB != null) {</span>
+<span class="fc" id="L249">					physicalEdges.add(new Edge&lt;PhysicalObject&gt;(friendA, friendB, infimacy));</span>
+<span class="fc" id="L250">					physicalEdges.add(new Edge&lt;PhysicalObject&gt;(friendB, friendA, infimacy));</span>
+<span class="fc" id="L251">					this.addRelationshipBetweenPhysicalAndPhysical(friendA, friendB, infimacy);</span>
+				}
+			}
+		} // end for (String[] names : adjacency.keySet())
+<span class="fc" id="L255">		constructSocialNetworkCircle(friends, physicalEdges, centralEdges);</span>
+<span class="fc" id="L256">	}</span>
+
+	@Override
+	public void constructSocialNetworkCircle(List&lt;PhysicalObject&gt; friends, List&lt;Edge&lt;PhysicalObject&gt;&gt; physicalEdges,
+			Map&lt;PhysicalObject, Double&gt;[] centralEdges) {
+<span class="fc" id="L261">		Map&lt;PhysicalObject, Integer&gt; trackRadiusMap = getSocialTrackRadius(friends, physicalEdges, centralEdges);</span>
+<span class="fc" id="L262">		int maxRaidus = 0;</span>
+<span class="fc" id="L263">		TrackFactory trackFactory = new TrackFactory();</span>
+<span class="fc bfc" id="L264" title="All 2 branches covered.">		for (PhysicalObject p : trackRadiusMap.keySet()) {</span>
+<span class="fc bfc" id="L265" title="All 2 branches covered.">			if (trackRadiusMap.get(p) &gt; maxRaidus) {</span>
+<span class="fc" id="L266">				maxRaidus = trackRadiusMap.get(p);</span>
+			}
+		}
+<span class="fc bfc" id="L269" title="All 2 branches covered.">		for (int i = 1; i &lt;= maxRaidus; i++) {</span>
+<span class="fc" id="L270">			this.addTrack(trackFactory.produce(i));</span>
+		}
+
+<span class="fc bfc" id="L273" title="All 2 branches covered.">		for (PhysicalObject p : trackRadiusMap.keySet()) {</span>
+<span class="fc bfc" id="L274" title="All 2 branches covered.">			if (trackRadiusMap.get(p) &gt; 0) {</span>
+<span class="fc" id="L275">				this.addPhysicalObjectToTrack(p, trackFactory.produce(trackRadiusMap.get(p)));</span>
+			}
+		}
+<span class="fc" id="L278">	}</span>
+
+	/**
+	 * Get a mapping from physical objects to radius(integer) of the track in which
+	 * the physical object is. This mapping indicates in which track(what radius) a
+	 * physical object should be.
+	 * 
+	 * @param friends       a list of all physical objects
+	 * @param physicalEdges a list of edges which represents adjacency about
+	 *                      physical objects
+	 * @param centralEdges  consists of two mappings from physical objects to
+	 *                      intimacy, map[0] represents adjacency from central
+	 *                      object to physical objects, map[1] represents adjacency
+	 *                      from physical objects to central object
+	 * @return a mapping from physical objects to radius(integer) of the track in
+	 *         which the physical object is
+	 */
+	public static Map&lt;PhysicalObject, Integer&gt; getSocialTrackRadius(List&lt;PhysicalObject&gt; friends,
+			List&lt;Edge&lt;PhysicalObject&gt;&gt; physicalEdges, Map&lt;PhysicalObject, Double&gt;[] centralEdges) {
+<span class="fc" id="L297">		Map&lt;PhysicalObject, Integer&gt; distance = new HashMap&lt;PhysicalObject, Integer&gt;();</span>
+<span class="fc" id="L298">		Map&lt;PhysicalObject, Boolean&gt; markedMap = new HashMap&lt;PhysicalObject, Boolean&gt;();</span>
+<span class="fc" id="L299">		PhysicalObject center = new Friend(&quot;center&quot;, 1, 'M');</span>
+<span class="fc" id="L300">		Queue&lt;PhysicalObject&gt; queue = new LinkedList&lt;PhysicalObject&gt;(); // BFS iteration queue</span>
+		/*
+		 * edgeTo mapping: assume A maps to B, representing A has direct relation with B. And in all directed path
+		 * from source to target, A is backward B and B is forward A.
+		 */
+<span class="fc" id="L305">		HashMap&lt;PhysicalObject, PhysicalObject&gt; edgeTo = new HashMap&lt;PhysicalObject, PhysicalObject&gt;();</span>
+		/* Every person iteration marked initialize false */
+<span class="fc bfc" id="L307" title="All 2 branches covered.">		for (PhysicalObject p : friends)</span>
+<span class="fc" id="L308">			markedMap.put(p, false);</span>
+		/* BFS iteration, getting edgeTo */
+<span class="fc bfc" id="L310" title="All 2 branches covered.">		for (PhysicalObject p : centralEdges[0].keySet()) {</span>
+<span class="pc bpc" id="L311" title="1 of 2 branches missed.">			if (!markedMap.get(p)) {</span>
+<span class="fc" id="L312">				edgeTo.put(p, center);</span>
+<span class="fc" id="L313">				markedMap.put(p, true);</span>
+<span class="fc" id="L314">				queue.add(p);</span>
+<span class="fc" id="L315">				distance.put(p, 1);</span>
+			}
+		}
+<span class="fc bfc" id="L318" title="All 2 branches covered.">		while (!queue.isEmpty()) {</span>
+<span class="fc" id="L319">			PhysicalObject tempPerson = queue.remove();</span>
+<span class="fc" id="L320">			int tempDistance = distance.get(tempPerson);</span>
+			/* Traversing all adjacent points of the elements of the dequeue */
+
+<span class="fc bfc" id="L323" title="All 2 branches covered.">			for (PhysicalObject p : CircularOrbitAPIs.targets(tempPerson, physicalEdges).keySet()) {</span>
+<span class="fc bfc" id="L324" title="All 2 branches covered.">				if (!markedMap.get(p)) { // Found a vertex that has not been traversed</span>
+<span class="fc" id="L325">					edgeTo.put(p, tempPerson); // record pre-post relationship</span>
+<span class="fc" id="L326">					markedMap.put(p, true); // marked true</span>
+<span class="fc" id="L327">					queue.add(p); // a new traversed vertex enqueue</span>
+<span class="fc" id="L328">					distance.put(p, tempDistance + 1);</span>
+				}
+			}
+		}
+<span class="fc bfc" id="L332" title="All 2 branches covered.">		for (PhysicalObject p : markedMap.keySet()) {</span>
+<span class="fc bfc" id="L333" title="All 2 branches covered.">			if (!markedMap.get(p)) {</span>
+<span class="fc" id="L334">				distance.put(p, -1);</span>
+			}
+		}
+		/* 
+		 * At this point, the BFS traversal is completed, and the edgeTo is used to reverse 
+		 * the path from the source point to the target point, meanwhile the path length is calculated. 
+		 */
+<span class="fc" id="L341">		return distance;</span>
+	}
+
+	/**
+	 * This method is non-existent in atom structure.
+	 */
+	@Override
+	public Memento&lt;Person, PhysicalObject&gt; save() {
+<span class="pc bpc" id="L349" title="1 of 2 branches missed.">		assert false : &quot;shouldn't have this method&quot;;</span>
+<span class="nc" id="L350">		return null;</span>
+	}
+
+	/**
+	 * This method is non-existent in atom structure.
+	 */
+	@Override
+	public void restore(Memento&lt;Person, PhysicalObject&gt; m) {
+<span class="pc bpc" id="L358" title="1 of 2 branches missed.">		assert false : &quot;shouldn't have this method&quot;;</span>
+<span class="nc" id="L359">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>

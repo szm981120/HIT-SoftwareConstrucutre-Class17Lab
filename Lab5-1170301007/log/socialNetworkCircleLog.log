@@ -1,0 +1,760 @@
+[2019-05-26 19:13:22] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-26 19:13:58] application.SocialNetworkCircleApp application
+INFO: Read from input/SocialNetworkCircle.txt
+[2019-05-26 19:13:58] application.SocialNetworkCircleApp application
+INFO: Success: Read from input/SocialNetworkCircle.txt
+[2019-05-26 19:16:24] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-26 19:16:25] application.SocialNetworkCircleApp application
+INFO: Read from input/SocialNetworkCircle.txt
+[2019-05-26 19:16:25] application.SocialNetworkCircleApp application
+INFO: Success: Read from input/SocialNetworkCircle.txt
+[2019-05-26 19:16:26] application.SocialNetworkCircleApp application
+INFO: Write the current social network circle to file.
+[2019-05-26 19:16:36] application.SocialNetworkCircleApp application
+INFO: Success: Write the current social network circle to savefiles/socialNetworkCircle.txt.
+[2019-05-26 19:16:37] application.SocialNetworkCircleApp application
+INFO: SocialNetworkCircle application deactivate.
+[2019-05-26 19:17:59] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-26 19:18:00] application.SocialNetworkCircleApp application
+INFO: Read from input/SocialNetworkCircle.txt
+[2019-05-26 19:18:00] application.SocialNetworkCircleApp application
+INFO: Success: Read from input/SocialNetworkCircle.txt
+[2019-05-26 19:18:01] application.SocialNetworkCircleApp application
+INFO: Write the current social network circle to file.
+[2019-05-26 19:18:09] application.SocialNetworkCircleApp application
+INFO: Success: Write the current social network circle to savefiles/socialNetworkCircle.txt.
+[2019-05-26 19:18:10] application.SocialNetworkCircleApp application
+INFO: SocialNetworkCircle application deactivate.
+<<<<<<< HEAD
+[2019-05-28 22:30:12] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-28 22:30:15] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-28 22:30:16] application.SocialNetworkCircleApp application
+SEVERE: The intimacy is no greater than 0 or greater than 1! Exception line: 105001.
+[2019-05-28 22:31:45] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-28 22:31:47] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-28 22:32:08] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-28 22:32:11] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-28 22:32:42] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-28 22:32:45] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-28 22:33:27] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-28 22:33:29] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-28 22:36:13] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-28 22:36:17] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-28 22:36:34] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-28 22:36:37] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-28 22:36:52] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-28 22:36:59] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-28 22:37:36] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-28 22:37:38] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-28 22:38:55] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-28 22:38:58] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-28 22:39:15] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-28 22:39:17] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-28 22:39:32] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-28 22:39:34] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-28 22:39:55] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-28 22:39:57] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-29 17:04:52] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-29 17:04:55] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-29 17:07:05] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-29 17:07:09] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+=======
+[2019-05-29 19:47:35] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-29 19:48:24] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-29 19:48:28] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-29 19:48:31] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-29 19:50:18] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-29 19:50:20] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-29 19:50:23] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-29 19:54:38] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-29 19:54:50] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-29 19:54:52] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-29 19:56:01] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-29 19:56:03] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-29 19:56:06] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-30 09:23:39] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-30 09:23:41] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-30 09:23:50] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-30 09:28:40] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-30 09:28:43] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-30 09:28:50] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+<<<<<<< HEAD
+>>>>>>> 32CompareIOPerformance
+[2019-05-31 16:40:17] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 16:40:20] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 16:40:31] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 16:42:35] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 16:42:43] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 16:43:11] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 16:43:17] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 16:47:19] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 16:47:26] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 16:48:19] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 16:48:25] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 17:01:36] application.SocialNetworkCircleApp application
+INFO: SocialNetworkCircle application deactivate.
+[2019-05-31 18:40:42] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 18:41:01] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 18:41:10] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 18:41:48] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 18:41:58] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 18:47:19] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 18:47:25] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 19:00:04] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 19:00:10] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 19:08:52] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 19:08:54] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 19:09:03] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 19:17:37] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 19:17:47] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 19:19:07] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 19:19:13] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 19:20:22] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 19:20:29] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 19:22:42] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 19:22:51] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 19:27:11] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 19:27:17] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 19:27:54] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 19:27:56] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 19:28:04] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 19:48:25] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 19:48:27] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 19:48:37] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 19:48:51] application.SocialNetworkCircleApp application
+INFO: Add a track.
+[2019-05-31 19:49:13] application.SocialNetworkCircleApp application
+INFO: Add a track.
+[2019-05-31 19:49:21] application.SocialNetworkCircleApp application
+INFO: Success: Add a 10000 track.
+[2019-05-31 19:49:26] application.SocialNetworkCircleApp application
+INFO: Add an object to a track.
+[2019-05-31 19:49:42] application.SocialNetworkCircleApp application
+INFO: Success: Add a friend Hanxiao to 10000 track.
+[2019-05-31 19:49:44] application.SocialNetworkCircleApp application
+INFO: Delete a track.
+[2019-05-31 19:49:47] application.SocialNetworkCircleApp application
+INFO: Success: Delete a 10000 track.
+[2019-05-31 19:49:50] application.SocialNetworkCircleApp application
+INFO: Delete a track.
+[2019-05-31 19:49:53] application.SocialNetworkCircleApp application
+INFO: Success: Delete a 2 track.
+[2019-05-31 19:50:22] application.SocialNetworkCircleApp application
+INFO: Calculate the information entropy of the system.
+[2019-05-31 19:50:22] application.SocialNetworkCircleApp application
+INFO: Success: Calculate the information entropy: 0.6456074606981125.
+[2019-05-31 19:52:25] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 19:52:27] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 19:52:37] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 19:52:39] application.SocialNetworkCircleApp application
+INFO: Add a track.
+[2019-05-31 19:52:41] application.SocialNetworkCircleApp application
+INFO: Success: Add a 58 track.
+[2019-05-31 19:52:43] application.SocialNetworkCircleApp application
+INFO: Add an object to a track.
+[2019-05-31 19:52:56] application.SocialNetworkCircleApp application
+INFO: Success: Add a friend Hanxiao to 58 track.
+[2019-05-31 19:52:58] application.SocialNetworkCircleApp application
+INFO: Delete a track.
+[2019-05-31 19:53:00] application.SocialNetworkCircleApp application
+INFO: Success: Delete a 1 track.
+[2019-05-31 19:53:02] application.SocialNetworkCircleApp application
+INFO: Calculate the information entropy of the system.
+[2019-05-31 19:53:02] application.SocialNetworkCircleApp application
+INFO: Success: Calculate the information entropy: 0.3037434794564328.
+[2019-05-31 20:28:16] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 20:28:18] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 20:28:27] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 20:33:42] application.SocialNetworkCircleApp application
+INFO: SocialNetworkCircle application deactivate.
+[2019-05-31 20:47:03] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 20:47:04] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 20:47:18] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 20:47:28] application.SocialNetworkCircleApp application
+INFO: Delete a track.
+[2019-05-31 20:47:28] application.SocialNetworkCircleApp application
+INFO: Success: Delete a 1 track.
+[2019-05-31 20:47:31] application.SocialNetworkCircleApp application
+INFO: Calculate the information entropy of the system.
+[2019-05-31 20:47:31] application.SocialNetworkCircleApp application
+INFO: Success: Calculate the information entropy: 0.30360222019620786.
+[2019-05-31 21:36:39] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 21:36:41] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 21:36:50] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 22:03:46] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 22:03:48] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 22:05:03] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 22:05:05] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 22:05:16] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 22:05:30] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 22:05:32] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 22:11:38] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 22:11:39] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 22:12:19] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 22:12:21] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 22:12:49] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 22:12:50] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 22:13:05] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 22:20:24] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 22:20:25] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 22:23:15] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 22:23:16] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 22:23:32] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 22:36:21] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 22:36:23] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 22:37:10] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 22:37:12] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 22:37:44] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 22:37:46] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 22:40:48] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 22:40:49] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 22:43:30] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 22:43:32] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 22:43:51] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 22:43:52] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 22:45:45] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 22:45:47] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 22:46:41] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 22:46:43] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 22:49:03] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-05-31 22:49:05] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 22:49:22] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 22:49:55] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-05-31 22:50:09] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+=======
+[2019-06-01 00:08:47] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-01 00:08:49] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:09:02] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:09:28] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:09:41] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:09:54] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:10:06] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:10:26] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:10:38] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:12:07] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:12:21] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:12:32] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:12:44] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:13:01] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:13:12] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:14:01] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:14:12] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:14:29] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:14:41] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:15:55] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:16:06] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:16:21] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:16:33] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:16:50] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:17:01] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:17:12] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:17:23] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:17:40] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:17:51] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:18:14] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:18:24] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:20:04] application.SocialNetworkCircleApp application
+INFO: Write the current social network circle to file.
+[2019-06-01 00:20:40] application.SocialNetworkCircleApp application
+INFO: Success: Write the current social network circle to savefiles/SocialNetworkCircleFileWriter.txt.
+[2019-06-01 00:21:21] application.SocialNetworkCircleApp application
+INFO: Write the current social network circle to file.
+[2019-06-01 00:21:24] application.SocialNetworkCircleApp application
+INFO: Success: Write the current social network circle to savefiles/SocialNetworkCircleFileWriter.txt.
+[2019-06-01 00:21:28] application.SocialNetworkCircleApp application
+INFO: Write the current social network circle to file.
+[2019-06-01 00:21:29] application.SocialNetworkCircleApp application
+INFO: Success: Write the current social network circle to savefiles/SocialNetworkCircleFileWriter.txt.
+[2019-06-01 00:21:33] application.SocialNetworkCircleApp application
+INFO: Write the current social network circle to file.
+[2019-06-01 00:21:35] application.SocialNetworkCircleApp application
+INFO: Success: Write the current social network circle to savefiles/SocialNetworkCircleFileWriter.txt.
+[2019-06-01 00:21:40] application.SocialNetworkCircleApp application
+INFO: Write the current social network circle to file.
+[2019-06-01 00:21:42] application.SocialNetworkCircleApp application
+INFO: Success: Write the current social network circle to savefiles/SocialNetworkCircleFileWriter.txt.
+[2019-06-01 00:22:52] application.SocialNetworkCircleApp application
+INFO: Write the current social network circle to file.
+[2019-06-01 00:23:13] application.SocialNetworkCircleApp application
+INFO: Success: Write the current social network circle to savefiles/SocialNetworkCircleFileOutputStream.txt.
+[2019-06-01 00:23:17] application.SocialNetworkCircleApp application
+INFO: Write the current social network circle to file.
+[2019-06-01 00:23:25] application.SocialNetworkCircleApp application
+INFO: Success: Write the current social network circle to savefiles/SocialNetworkCircleFileOutputStream.txt.
+[2019-06-01 00:23:33] application.SocialNetworkCircleApp application
+INFO: Write the current social network circle to file.
+[2019-06-01 00:23:40] application.SocialNetworkCircleApp application
+INFO: Success: Write the current social network circle to savefiles/SocialNetworkCircleFileOutputStream.txt.
+[2019-06-01 00:27:01] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:27:11] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:27:14] application.SocialNetworkCircleApp application
+INFO: Write the current social network circle to file.
+[2019-06-01 00:40:15] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-01 00:40:17] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:40:32] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 00:40:56] application.SocialNetworkCircleApp application
+INFO: Write the current social network circle to file.
+[2019-06-01 00:40:58] application.SocialNetworkCircleApp application
+INFO: Success: Write the current social network circle to ("SocialTie ::= <" + edge.getSource().getName() + ",".
+[2019-06-01 00:41:05] application.SocialNetworkCircleApp application
+INFO: Write the current social network circle to file.
+[2019-06-01 00:41:31] application.SocialNetworkCircleApp application
+INFO: Success: Write the current social network circle to savefiles/SocialNetworkCircleNIO.txt.
+[2019-06-01 00:41:40] application.SocialNetworkCircleApp application
+INFO: Write the current social network circle to file.
+[2019-06-01 00:41:48] application.SocialNetworkCircleApp application
+INFO: Success: Write the current social network circle to savefiles/SocialNetworkCircleNIO.txt.
+[2019-06-01 00:41:52] application.SocialNetworkCircleApp application
+INFO: Write the current social network circle to file.
+[2019-06-01 00:41:59] application.SocialNetworkCircleApp application
+INFO: Success: Write the current social network circle to savefiles/SocialNetworkCircleNIO.txt.
+[2019-06-01 13:04:30] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-01 13:04:32] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 13:04:48] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:20:15] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-01 16:20:17] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:20:30] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:21:05] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:21:17] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:21:24] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:21:36] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:22:01] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:22:12] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:22:22] application.SocialNetworkCircleApp application
+INFO: SocialNetworkCircle application deactivate.
+[2019-06-01 16:24:44] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-01 16:24:45] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:24:59] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:25:16] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:25:29] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:25:34] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:25:46] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:25:54] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:26:06] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:27:17] application.SocialNetworkCircleApp application
+INFO: SocialNetworkCircle application deactivate.
+[2019-06-01 16:27:42] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-01 16:27:43] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:27:56] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:28:00] application.SocialNetworkCircleApp application
+INFO: SocialNetworkCircle application deactivate.
+[2019-06-01 16:30:42] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-01 16:30:44] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:30:58] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:31:04] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:31:17] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:31:19] application.SocialNetworkCircleApp application
+INFO: Visualize.
+[2019-06-01 16:31:20] application.SocialNetworkCircleApp application
+INFO: Success: Visualize.
+[2019-06-01 16:32:45] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-01 16:32:49] application.SocialNetworkCircleApp application
+INFO: Read from input/SocialNetworkCircle_Larger.txt
+[2019-06-01 16:32:51] application.SocialNetworkCircleApp application
+INFO: Success: Read from input/SocialNetworkCircle_Larger.txt
+[2019-06-01 16:32:52] application.SocialNetworkCircleApp application
+INFO: Visualize.
+[2019-06-01 16:32:52] application.SocialNetworkCircleApp application
+INFO: Success: Visualize.
+[2019-06-01 16:33:40] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-01 16:33:42] application.SocialNetworkCircleApp application
+INFO: Read from input/SocialNetworkCircle.txt
+[2019-06-01 16:33:42] iostrategy.SocialNetworkCircleFileReader readFromFile
+WARNING: A nonexistent friend shows in a social tie!
+[2019-06-01 16:33:42] iostrategy.SocialNetworkCircleFileReader readFromFile
+WARNING: A nonexistent friend shows in a social tie!
+[2019-06-01 16:33:42] iostrategy.SocialNetworkCircleFileReader readFromFile
+WARNING: A nonexistent friend shows in a social tie!
+[2019-06-01 16:33:42] iostrategy.SocialNetworkCircleFileReader readFromFile
+WARNING: A nonexistent friend shows in a social tie!
+[2019-06-01 16:33:42] iostrategy.SocialNetworkCircleFileReader readFromFile
+WARNING: A nonexistent friend shows in a social tie!
+[2019-06-01 16:33:42] iostrategy.SocialNetworkCircleFileReader readFromFile
+WARNING: A nonexistent friend shows in a social tie!
+[2019-06-01 16:33:42] application.SocialNetworkCircleApp application
+INFO: Success: Read from input/SocialNetworkCircle.txt
+[2019-06-01 16:33:45] application.SocialNetworkCircleApp application
+INFO: Visualize.
+[2019-06-01 16:33:45] application.SocialNetworkCircleApp application
+INFO: Success: Visualize.
+[2019-06-01 16:37:36] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-01 16:37:38] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:37:51] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 16:37:53] application.SocialNetworkCircleApp application
+INFO: Read from input/SocialNetworkCircle.txt
+[2019-06-01 16:37:53] application.SocialNetworkCircleApp application
+INFO: Success: Read from input/SocialNetworkCircle.txt
+[2019-06-01 16:37:54] application.SocialNetworkCircleApp application
+INFO: Visualize.
+[2019-06-01 16:37:55] application.SocialNetworkCircleApp application
+INFO: Success: Visualize.
+[2019-06-01 16:38:14] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-01 16:38:17] application.SocialNetworkCircleApp application
+INFO: Read from input/SocialNetworkCircle.txt
+[2019-06-01 16:38:17] application.SocialNetworkCircleApp application
+INFO: Success: Read from input/SocialNetworkCircle.txt
+[2019-06-01 16:38:17] application.SocialNetworkCircleApp application
+INFO: Visualize.
+[2019-06-01 16:38:17] application.SocialNetworkCircleApp application
+INFO: Success: Visualize.
+[2019-06-01 16:42:53] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-01 16:42:57] application.SocialNetworkCircleApp application
+INFO: Read from input/SocialNetworkCircle.txt
+[2019-06-01 16:42:57] application.SocialNetworkCircleApp application
+INFO: Success: Read from input/SocialNetworkCircle.txt
+[2019-06-01 16:42:57] application.SocialNetworkCircleApp application
+INFO: Visualize.
+[2019-06-01 16:42:57] application.SocialNetworkCircleApp application
+INFO: Success: Visualize.
+[2019-06-01 16:45:09] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-01 16:45:11] application.SocialNetworkCircleApp application
+INFO: Read from input/SocialNetworkCircle.txt
+[2019-06-01 16:45:11] application.SocialNetworkCircleApp application
+INFO: Success: Read from input/SocialNetworkCircle.txt
+[2019-06-01 16:45:12] application.SocialNetworkCircleApp application
+INFO: Visualize.
+[2019-06-01 16:45:12] application.SocialNetworkCircleApp application
+INFO: Success: Visualize.
+[2019-06-01 17:03:59] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-01 17:04:00] application.SocialNetworkCircleApp application
+INFO: Read from input/SocialNetworkCircle.txt
+[2019-06-01 17:04:00] application.SocialNetworkCircleApp application
+INFO: Success: Read from input/SocialNetworkCircle.txt
+[2019-06-01 17:04:01] application.SocialNetworkCircleApp application
+INFO: Visualize.
+[2019-06-01 17:04:01] application.SocialNetworkCircleApp application
+INFO: Success: Visualize.
+[2019-06-01 17:06:39] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-01 17:06:41] application.SocialNetworkCircleApp application
+INFO: Read from input/SocialNetworkCircle.txt
+[2019-06-01 17:06:41] application.SocialNetworkCircleApp application
+INFO: Success: Read from input/SocialNetworkCircle.txt
+[2019-06-01 17:06:44] application.SocialNetworkCircleApp application
+INFO: Visualize.
+[2019-06-01 17:06:44] application.SocialNetworkCircleApp application
+INFO: Success: Visualize.
+[2019-06-01 17:08:03] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-01 17:08:05] application.SocialNetworkCircleApp application
+INFO: Read from input/SocialNetworkCircle.txt
+[2019-06-01 17:08:05] application.SocialNetworkCircleApp application
+INFO: Success: Read from input/SocialNetworkCircle.txt
+[2019-06-01 17:08:06] application.SocialNetworkCircleApp application
+INFO: Visualize.
+[2019-06-01 17:08:06] application.SocialNetworkCircleApp application
+INFO: Success: Visualize.
+[2019-06-01 17:15:17] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-01 17:15:18] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 17:15:32] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 17:15:56] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-01 17:16:08] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:01:14] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-02 13:01:16] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:03:06] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-02 13:03:08] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:03:27] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:03:42] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:03:59] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:04:51] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:05:04] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:05:18] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:05:29] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:06:12] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-02 13:06:13] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:06:27] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:06:29] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:06:43] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:06:51] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:07:03] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:07:40] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-02 13:07:42] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:07:55] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:08:25] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-02 13:08:26] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:08:40] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:08:55] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-02 13:08:56] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:09:12] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:09:20] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:09:33] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:10:02] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-02 13:10:03] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:10:17] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:10:33] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-02 13:10:34] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:10:47] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:12:37] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-02 13:12:38] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:12:53] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:14:20] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-02 13:14:22] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 13:14:38] application.SocialNetworkCircleApp application
+INFO: Success: Read from Lab5_input/SocialNetworkCircle.txt.
+[2019-06-02 15:02:04] application.Main main
+INFO: SocialNetworkCircle application activate.
+[2019-06-02 15:02:05] application.SocialNetworkCircleApp application
+INFO: Read from Lab5_input/SocialNetworkCircle.txt.
+>>>>>>> 32CompareIOPerformance

@@ -1,0 +1,10 @@
+[2019-05-18 15:53:20] applications.Main main
+INFO: AtomStructure application activate.
+[2019-05-18 15:53:22] applications.AtomStructureAPP application
+INFO: Read from input/AtomicStructure.txt. Restore present state.
+[2019-05-18 15:53:22] applications.AtomStructureAPP application
+INFO: Success: Read from input/AtomicStructure.txt. Restore present state.
+[2019-05-18 15:53:25] applications.AtomStructureAPP application
+INFO: Restore transition.
+[2019-05-18 15:53:28] applications.AtomStructureAPP application
+INFO: Success: Roll back 2 transition versions.

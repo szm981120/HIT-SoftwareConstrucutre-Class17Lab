@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>StellarSystem.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">circularOrbit</a> &gt; <span class="el_source">StellarSystem.java</span></div><h1>StellarSystem.java</h1><pre class="source lang-java linenums">package circularOrbit;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import MyException.AtomElectronNumException;
+import MyException.AtomElementException;
+import MyException.AtomTrackNumException;
+import MyException.DataNonScientificNumberException;
+import MyException.DataScientificNumberException;
+import MyException.DataSyntaxException;
+import MyException.DegreeOutOfRangeException;
+import MyException.IllegalIntimacyInSocialTieException;
+import MyException.PlanetConflictException;
+import atomTransitionMemento.Memento;
+import centralObject.Star;
+import physicalObject.ConcretePlanetFactory;
+import physicalObject.PhysicalObject;
+import physicalObject.PlanetFactory;
+import track.TrackFactory;
+
+/**
+ * StellarSystem specifies readFromFile method.
+ * 
+ * @author Shen
+ *
+ */
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">public class StellarSystem extends ConcreteCircularOrbit&lt;Star, PhysicalObject&gt; {</span>
+
+	private static final String numberRegex = &quot;([0-9]*|[0-9]*\\.[0-9]*|[0-9]+\\.[0-9]*e[0-9]*|\\s*[0-9]e[0-9]*\\s*)&quot;;
+	private static final String labelRegex = &quot;([a-zA-Z0-9]*)&quot;;
+	private static final String commaRegex = &quot;\\s*,\\s*&quot;;
+<span class="fc" id="L42">	private static Logger stellarSystemLogger = Logger.getLogger(&quot;StellarSystem Log&quot;);</span>
+<span class="fc" id="L43">	private static int readLineCounter = 0;</span>
+
+	/**
+	 * Constructor
+	 */
+<span class="fc" id="L48">	public StellarSystem() {</span>
+
+<span class="fc" id="L50">	}</span>
+
+	/**
+	 * Override readFromFile. Before reading from file, it's representations must be
+	 * reset. This can read from legal stellar system data file.
+	 * 
+	 * @throws AtomElectronNumException            shouldn't happen in stellar
+	 *                                             system.
+	 * @throws AtomTrackNumException               shouldn't happen in stellar
+	 *                                             system.
+	 * @throws AtomElementException                shouldn't happen in stellar
+	 *                                             system.
+	 * @throws IllegalIntimacyInSocialTieException shouldn't happen in stellar
+	 *                                             system.
+	 */
+	@Override
+	public void readFromFile(File file) throws NumberFormatException, FileNotFoundException, IOException,
+			AtomElementException, AtomTrackNumException, AtomElectronNumException, DataSyntaxException,
+			DataScientificNumberException, IllegalIntimacyInSocialTieException {
+<span class="fc" id="L69">		super.readFromFile(file);</span>
+<span class="fc" id="L70">		stellarSystemLogger.setUseParentHandlers(false);</span>
+		Pattern pattern1, pattern2;
+		Matcher matcher1, matcher2;
+<span class="fc" id="L73">		FileReader reader = new FileReader(file);</span>
+<span class="fc" id="L74">		BufferedReader br = new BufferedReader(reader);</span>
+<span class="fc" id="L75">		String starName = null;</span>
+<span class="fc" id="L76">		double starRadius = 0, starMass = 0;</span>
+<span class="fc" id="L77">		String planetName = null, planetState = null, planetColor = null;</span>
+<span class="fc" id="L78">		double planetRadius = 0, trackRadius = 0, revolutionSpeed = 0, originDegree = 0;</span>
+<span class="fc" id="L79">		boolean revolutionDirection = true;</span>
+<span class="fc" id="L80">		PlanetFactory planetFactory = new ConcretePlanetFactory();</span>
+<span class="fc" id="L81">		TrackFactory trackFactory = new TrackFactory();</span>
+<span class="fc" id="L82">		String line = &quot;&quot;;</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">		while ((line = br.readLine()) != null) {</span>
+<span class="fc" id="L84">			readLineCounter++;</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">			if (line.isEmpty()) {</span>
+<span class="fc" id="L86">				continue;</span>
+			}
+			try {
+<span class="fc" id="L89">				boolean stellarMatch = false, planetMatch = false;</span>
+<span class="fc" id="L90">				pattern1 = Pattern.compile(&quot;Stellar\\s*::=\\s*&quot; + &quot;&lt;&quot; + labelRegex + commaRegex + numberRegex</span>
+						+ commaRegex + numberRegex + &quot;&gt;&quot;);
+<span class="fc" id="L92">				matcher1 = pattern1.matcher(line);</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">				while (matcher1.find()) {</span>
+<span class="fc" id="L94">					stellarMatch = true;</span>
+<span class="fc" id="L95">					starName = matcher1.group(1);</span>
+<span class="fc" id="L96">					starRadius = parseNumber(matcher1.group(2));</span>
+<span class="fc" id="L97">					starMass = parseNumber(matcher1.group(3));</span>
+<span class="fc" id="L98">					this.addCentralObject(new Star(starName, starRadius, starMass));</span>
+				}
+
+<span class="fc" id="L101">				pattern2 = Pattern.compile(&quot;Planet\\s*::=\\s*&quot; + &quot;&lt;&quot; + labelRegex + commaRegex + labelRegex + commaRegex</span>
+						+ labelRegex + commaRegex + numberRegex + commaRegex + numberRegex + commaRegex + numberRegex
+						+ commaRegex + &quot;(CW|CCW){1}&quot; + commaRegex + numberRegex + &quot;&gt;&quot;);
+<span class="fc" id="L104">				matcher2 = pattern2.matcher(line);</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">				while (matcher2.find()) {</span>
+<span class="fc" id="L106">					planetMatch = true;</span>
+<span class="fc" id="L107">					planetName = matcher2.group(1);</span>
+<span class="fc" id="L108">					planetState = matcher2.group(2);</span>
+<span class="fc" id="L109">					planetColor = matcher2.group(3);</span>
+<span class="fc" id="L110">					planetRadius = parseNumber(matcher2.group(4));</span>
+<span class="fc" id="L111">					trackRadius = parseNumber(matcher2.group(5));</span>
+<span class="fc" id="L112">					revolutionSpeed = parseNumber(matcher2.group(6));</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">					revolutionDirection = matcher2.group(7).equals(&quot;CW&quot;) ? true : false;</span>
+<span class="fc" id="L114">					originDegree = parseNumber(matcher2.group(8));</span>
+					try {
+<span class="pc bpc" id="L116" title="2 of 4 branches missed.">						if (originDegree &lt; 0 || originDegree &gt;= 360) {</span>
+<span class="nc" id="L117">							throw new DegreeOutOfRangeException(</span>
+<span class="nc" id="L118">									&quot;Original degree is less than 0 or no less than 360! Because degree is out of range, get the remainder of it as original degree.&quot;);</span>
+						}
+<span class="nc" id="L120">					} catch (DegreeOutOfRangeException e) {</span>
+<span class="nc" id="L121">						stellarSystemLogger.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L122">						originDegree = originDegree % 360;</span>
+					}
+<span class="fc bfc" id="L124" title="All 2 branches covered.">					for (PhysicalObject p : this) {</span>
+<span class="fc" id="L125">						if (p.equals(planetFactory.produce(planetName, planetState, planetColor, planetRadius,</span>
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">								revolutionSpeed, revolutionDirection, originDegree))) {</span>
+<span class="nc" id="L127">							throw new PlanetConflictException(</span>
+<span class="nc" id="L128">									&quot;This planet has already existed! Exception line: &quot; + readLineCounter + &quot;.&quot;);</span>
+						}
+					}
+<span class="fc" id="L131">					this.addTrack(trackFactory.produce(trackRadius));</span>
+<span class="fc" id="L132">					this.addPhysicalObjectToTrack(planetFactory.produce(planetName, planetState, planetColor,</span>
+<span class="fc" id="L133">							planetRadius, revolutionSpeed, revolutionDirection, originDegree),</span>
+<span class="fc" id="L134">							trackFactory.produce(trackRadius));</span>
+				}
+<span class="fc bfc" id="L136" title="All 6 branches covered.">				if (!stellarMatch &amp;&amp; !planetMatch &amp;&amp; line.contains(&quot;Stellar&quot;)) {</span>
+<span class="fc" id="L137">					String[] syntaxTest = line.substring(line.indexOf(&quot;&lt;&quot;) + 1, line.indexOf(&quot;&gt;&quot;)).split(&quot;,&quot;);</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">					if (!Pattern.compile(&quot;[a-zA-Z0-9]*&quot;).matcher(syntaxTest[0]).matches()) {</span>
+<span class="fc" id="L139">						throw new DataSyntaxException(</span>
+<span class="fc" id="L140">								&quot;Star name syntax doesn't match! Exception line: &quot; + readLineCounter + &quot;.&quot;);</span>
+					}
+<span class="fc" id="L142">					if (!Pattern.compile(</span>
+<span class="fc" id="L143">							&quot;\\s*[0-9]*\\s*|\\s*[0-9]*\\.[0-9]*\\s*|\\s*[0-9]\\.[0-9]*e[0-9]*\\s*|\\s*[0-9]e[0-9]*\\s*&quot;)</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">							.matcher(syntaxTest[1]).matches()) {</span>
+<span class="fc" id="L145">						throw new DataSyntaxException(</span>
+<span class="fc" id="L146">								&quot;Star radius syntax doesn't match! Exception line: &quot; + readLineCounter + &quot;.&quot;);</span>
+					}
+<span class="fc" id="L148">					if (!Pattern.compile(</span>
+<span class="fc" id="L149">							&quot;\\s*[0-9]*\\s*|\\s*[0-9]*\\.[0-9]*\\s*|\\s*[0-9]\\.[0-9]*e[0-9]*\\s*|\\s*[0-9]e[0-9]*\\s*&quot;)</span>
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">							.matcher(syntaxTest[2]).matches()) {</span>
+<span class="fc" id="L151">						throw new DataSyntaxException(</span>
+<span class="fc" id="L152">								&quot;Star mass syntax doesn't match! Exception line: &quot; + readLineCounter + &quot;.&quot;);</span>
+					}
+				}
+<span class="pc bpc" id="L155" title="1 of 6 branches missed.">				if (!stellarMatch &amp;&amp; !planetMatch &amp;&amp; line.contains(&quot;Planet&quot;)) {</span>
+<span class="fc" id="L156">					String[] syntaxTest = line.substring(line.indexOf(&quot;&lt;&quot;) + 1, line.indexOf(&quot;&gt;&quot;)).split(&quot;,&quot;);</span>
+<span class="fc" id="L157">					int labelSyntaxCount = 0;</span>
+<span class="fc bfc" id="L158" title="All 2 branches covered.">					for (int i = 0; i &lt;= 2; i++) {</span>
+<span class="fc bfc" id="L159" title="All 2 branches covered.">						if (Pattern.compile(&quot;\\s*[a-zA-Z0-9]*\\s*&quot;).matcher(syntaxTest[i]).matches()) {</span>
+<span class="fc" id="L160">							labelSyntaxCount++;</span>
+						}
+					}
+<span class="fc bfc" id="L163" title="All 2 branches covered.">					if (labelSyntaxCount &lt; 3) {</span>
+<span class="fc" id="L164">						throw new DataSyntaxException(</span>
+<span class="fc" id="L165">								&quot;One of planet label syntax doesn't match! It can be name, state or color. Exception line: &quot;</span>
+<span class="fc" id="L166">										+ readLineCounter + &quot;.&quot;);</span>
+					}
+<span class="fc" id="L168">					int numberSyntaxCount = 0;</span>
+<span class="fc bfc" id="L169" title="All 2 branches covered.">					for (int i = 3; i &lt;= 5; i++) {</span>
+<span class="fc" id="L170">						if (Pattern.compile(</span>
+<span class="fc" id="L171">								&quot;\\s*[0-9]*\\s*|\\s*[0-9]*\\.[0-9]*\\s*|\\s*[0-9]\\.[0-9]*e[0-9]*\\s*|\\s*[0-9]e[0-9]*\\s*&quot;)</span>
+<span class="fc bfc" id="L172" title="All 2 branches covered.">								.matcher(syntaxTest[i]).matches()) {</span>
+<span class="fc" id="L173">							numberSyntaxCount++;</span>
+						}
+					}
+<span class="fc bfc" id="L176" title="All 2 branches covered.">					if (numberSyntaxCount &lt; 3) {</span>
+<span class="fc" id="L177">						throw new DataSyntaxException(</span>
+<span class="fc" id="L178">								&quot;One of planet number syntax doesn't match! It can be planet radius, track radius or revolution speed. Exception line: &quot;</span>
+<span class="fc" id="L179">										+ readLineCounter + &quot;.&quot;);</span>
+					}
+<span class="fc bfc" id="L181" title="All 2 branches covered.">					if (!Pattern.compile(&quot;\\s*CW\\s*|\\s*CCW\\s*&quot;).matcher(syntaxTest[6]).matches()) {</span>
+<span class="fc" id="L182">						throw new DataSyntaxException(</span>
+<span class="fc" id="L183">								&quot;Planet revolution direction syntax doesn't match! Exception line: &quot; + readLineCounter</span>
+<span class="fc" id="L184">										+ &quot;.&quot;);</span>
+					}
+<span class="fc" id="L186">					if (!Pattern.compile(</span>
+<span class="fc" id="L187">							&quot;\\s*[0-9]*\\s*|\\s*[0-9]*\\.[0-9]*\\s*|\\s*[0-9]\\.[0-9]*e[0-9]*\\s*|\\s*[0-9]e[0-9]*\\s*&quot;)</span>
+<span class="pc bpc" id="L188" title="1 of 2 branches missed.">							.matcher(syntaxTest[7]).matches()) {</span>
+<span class="fc" id="L189">						throw new DataSyntaxException(&quot;Planet original degree syntax doesn't match! Exception line: &quot;</span>
+<span class="fc" id="L190">								+ readLineCounter + &quot;.&quot;);</span>
+					}
+				}
+<span class="nc" id="L193">			} catch (DataNonScientificNumberException e) {</span>
+<span class="nc" id="L194">				stellarSystemLogger.log(Level.WARNING, e.getMessage()</span>
+<span class="nc" id="L195">						+ &quot; The illegal number is treated as a legal more than 10000 number. If modification needed, please run again after modify the file. Exception line: &quot;</span>
+<span class="nc" id="L196">						+ readLineCounter + &quot;.&quot;, e);</span>
+<span class="nc" id="L197">				System.out.println(&quot; If modification needed, please run again after modify the file. Exception line: &quot;</span>
+<span class="nc" id="L198">						+ readLineCounter + &quot;.&quot;);</span>
+<span class="nc" id="L199">			} catch (PlanetConflictException e) {</span>
+<span class="nc" id="L200">				stellarSystemLogger.log(Level.WARNING, e.getMessage()</span>
+<span class="nc" id="L201">						+ &quot; The latter conflicting planet is skipped. Exception line: &quot; + readLineCounter + &quot;.&quot;, e);</span>
+<span class="nc" id="L202">				System.out</span>
+<span class="nc" id="L203">						.println(&quot;The latter conflicting planet is skipped. Exception line: &quot; + readLineCounter + &quot;.&quot;);</span>
+			}
+		} // end while((line = br.readLine()) != null)
+<span class="fc" id="L206">	}</span>
+
+	/**
+	 * Turn a notation number string into a real number. If this notation doesn't
+	 * contain &quot;e&quot;, then it's not a scientific notation. If it's not a scientific
+	 * notation number, turn it into real number directly, else call parseScientific
+	 * method to parse scientific notation.
+	 * 
+	 * @param s a number notation string
+	 * @return real number of s
+	 * @throws DataNonScientificNumberException deal with some exception when a more
+	 *                                          than 10000 number doesn't use
+	 *                                          scientific notation.
+	 * @throws DataScientificNumberException    deal with some exception when
+	 *                                          disobeys scientifi notation rules.
+	 */
+	public static double parseNumber(String s) throws DataNonScientificNumberException, DataScientificNumberException {
+<span class="fc bfc" id="L223" title="All 2 branches covered.">		if (s.contains(&quot;e&quot;)) {</span>
+<span class="fc" id="L224">			return parseScientific(s);</span>
+		} else {
+<span class="fc" id="L226">			double d = Double.parseDouble(s);</span>
+<span class="pc bpc" id="L227" title="1 of 2 branches missed.">			if (d &gt;= 10000) {</span>
+<span class="nc" id="L228">				throw new DataNonScientificNumberException(</span>
+<span class="nc" id="L229">						&quot;A number greater than 10000 doesn't use scientific notation! The illegal number is treated as a legal more than 10000 number. Exception line: &quot;</span>
+<span class="nc" id="L230">								+ readLineCounter + &quot;.&quot;);</span>
+			}
+<span class="fc" id="L232">			return d;</span>
+		}
+	}
+
+	/**
+	 * Turn a scientific notation number string into a real number.
+	 * 
+	 * @param s a scientific notation number string
+	 * @return real number of s
+	 * @throws DataScientificNumberException deal with some exception when s
+	 *                                       disobeys scientific notation rules.
+	 */
+	private static double parseScientific(String s) throws DataScientificNumberException {
+		double mantissa;
+		int exponent;
+<span class="fc" id="L247">		String[] s_ = s.split(&quot;e&quot;);</span>
+<span class="fc" id="L248">		mantissa = Double.parseDouble(s_[0]);</span>
+<span class="fc" id="L249">		exponent = Integer.parseInt(s_[1]);</span>
+<span class="pc bpc" id="L250" title="1 of 4 branches missed.">		if (!(mantissa &gt;= 1 &amp;&amp; mantissa &lt; 10)) {</span>
+<span class="fc" id="L251">			throw new DataScientificNumberException(</span>
+<span class="fc" id="L252">					&quot;The mantissa is not between 1 and 10. Exception line: &quot; + readLineCounter + &quot;.&quot;);</span>
+		}
+<span class="fc bfc" id="L254" title="All 2 branches covered.">		if (exponent &lt; 4) {</span>
+<span class="fc" id="L255">			throw new DataScientificNumberException(</span>
+<span class="fc" id="L256">					&quot;The exponent is less than 4. Exception line: &quot; + readLineCounter + &quot;.&quot;);</span>
+		}
+<span class="fc" id="L258">		double result = mantissa * Math.pow(10, exponent);</span>
+<span class="fc" id="L259">		return result;</span>
+	}
+
+	/**
+	 * This method is non-existent in atom structure.
+	 */
+	@Override
+	public void constructSocialNetworkCircle(List&lt;PhysicalObject&gt; friends, List&lt;Edge&lt;PhysicalObject&gt;&gt; physicalEdges,
+			Map&lt;PhysicalObject, Double&gt;[] centralEdges) {
+<span class="pc bpc" id="L268" title="1 of 2 branches missed.">		assert false : &quot;shouldn't call this method&quot;;</span>
+<span class="nc" id="L269">	}</span>
+
+	/**
+	 * This method is non-existent in atom structure.
+	 */
+	@Override
+	public Memento&lt;Star, PhysicalObject&gt; save() {
+<span class="pc bpc" id="L276" title="1 of 2 branches missed.">		assert false : &quot;shouldn't have this method&quot;;</span>
+<span class="nc" id="L277">		return null;</span>
+	}
+
+	/**
+	 * This method is non-existent in atom structure.
+	 */
+	@Override
+	public void restore(Memento&lt;Star, PhysicalObject&gt; m) {
+<span class="pc bpc" id="L285" title="1 of 2 branches missed.">		assert false : &quot;shouldn't have this method&quot;;</span>
+<span class="nc" id="L286">	}</span>
+
+	/**
+	 * This method is non-existent in atom structure.
+	 */
+	@Override
+	public void addRelationshipBetweenCentralAndPhysical(PhysicalObject physicalObject, boolean fromCentral,
+			double weight) {
+<span class="pc bpc" id="L294" title="1 of 2 branches missed.">		assert false : &quot;shouldn't call this method&quot;;</span>
+<span class="nc" id="L295">	}</span>
+
+	/**
+	 * This method is non-existent in atom structure.
+	 */
+	@Override
+	public void addRelationshipBetweenPhysicalAndPhysical(PhysicalObject physicalObjectA,
+			PhysicalObject physicalObjectB, double weight) {
+<span class="nc bnc" id="L303" title="All 2 branches missed.">		assert false : &quot;shouldn't call this method&quot;;</span>
+<span class="nc" id="L304">	}</span>
+
+	/**
+	 * This method is non-existent in atom structure.
+	 */
+	@Override
+	public void deleteRelationshipBetweenPhysicalAndPhysical(PhysicalObject physicalObjectA,
+			PhysicalObject physicalObjectB) {
+<span class="pc bpc" id="L312" title="1 of 2 branches missed.">		assert false : &quot;shouldn't call this method&quot;;</span>
+<span class="nc" id="L313">	}</span>
+
+	/**
+	 * This method is non-existent in atom structure.
+	 */
+	@Override
+	public Map&lt;PhysicalObject, Double&gt;[] getRelationBetweenCentralAndObject() {
+<span class="pc bpc" id="L320" title="1 of 2 branches missed.">		assert false : &quot;shouldn't call this method&quot;;</span>
+<span class="nc" id="L321">		return null;</span>
+	}
+
+	/**
+	 * This method is non-existent in atom structure.
+	 */
+	@Override
+	public List&lt;Edge&lt;PhysicalObject&gt;&gt; getRelationBetweenObjects() {
+<span class="pc bpc" id="L329" title="1 of 2 branches missed.">		assert false : &quot;shouldn't call this method&quot;;</span>
+<span class="nc" id="L330">		return null;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>

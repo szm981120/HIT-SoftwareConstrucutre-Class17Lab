@@ -1,0 +1,10 @@
+CentralUser ::= <TommyWong,30,M>
+Friend ::= <DavidChen,55,M>Friend ::= <TomWong,61,M>Friend ::= <LisaWong,25,F>Friend ::= <FrankLee,42,M>SocialTie ::= <TommyWong,LisaWong,0.98>
+SocialTie ::= <TommyWong,TomWong,0.2>
+SocialTie ::= <TommyWong,DavidChen,0.342>
+SocialTie ::= <TomWong,FrankLee,0.71>
+SocialTie ::= <FrankLee,TomWong,0.71>
+SocialTie ::= <JackMa,PonyMa,0.999>
+SocialTie ::= <PonyMa,JackMa,0.999>
+SocialTie ::= <FrankLee,DavidChen,0.02>
+SocialTie ::= <DavidChen,FrankLee,0.02>

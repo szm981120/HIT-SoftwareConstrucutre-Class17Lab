@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ElectronTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">test</a> &gt; <a href="index.source.html" class="el_package">physicalObjectTest</a> &gt; <span class="el_source">ElectronTest.java</span></div><h1>ElectronTest.java</h1><pre class="source lang-java linenums">package physicalObjectTest;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+import physicalObject.ConcreteElectronFactory;
+import physicalObject.ElectronFactory;
+import physicalObject.PhysicalObject;
+
+<span class="pc bpc" id="L11" title="1 of 2 branches missed.">public class ElectronTest {</span>
+
+<span class="fc" id="L13">	private static ElectronFactory electronFactory = new ConcreteElectronFactory();</span>
+<span class="fc" id="L14">	private static PhysicalObject electron = electronFactory.produce();</span>
+
+	/*
+	 * Test strategy
+	 * 	testGetDegree
+	 * 		This tests getDegree.
+	 * 		Because the degree of electron is generated randomly so there's no an expectation result.
+	 * 		The degree test actually has been ensured by checkRep. This test has no necessary.
+	 * 	testEquals
+	 * 		This tests equals.
+	 * 		Because all electrons have no difference, equals method is override that every object is the same.
+	 * 		To see if equals works well, generate two electrons and assert they are equal.
+	 * 	testHashCode
+	 * 		This tests hashCode
+	 * 		Because all electrons are equal, every electron's hash code should be the same, supposed to be -1.
+	 * 		To see if hashCode works well, to see if a electron's hash code is -1. 
+	 * 	testGetDirect
+	 * 		Test that electron shouldn't have getDirect method.
+	 * 	testRadius
+	 * 		Test that electron shouldn't have getRadius method.
+	 * 	testName
+	 * 		Test that electron shouldn't have getName method.
+	 * 	testSpeed
+	 * 		Test that electron shouldn't have getSpeed method.
+	 */
+	@Test(expected = AssertionError.class)
+	public void testAssertionsEnabled() {
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">		assert false;</span>
+<span class="nc" id="L42">	}</span>
+
+	@Test
+	public void testGetDegree() {
+<span class="fc" id="L46">		double d = electron.getDegree();</span>
+<span class="pc bpc" id="L47" title="2 of 4 branches missed.">		assertTrue(d &gt;= 0 &amp;&amp; d &lt; 360);</span>
+<span class="fc" id="L48">	}</span>
+
+	@Test
+	public void testEquals() {
+<span class="fc" id="L52">		PhysicalObject electron_ = electronFactory.produce();</span>
+<span class="fc" id="L53">		assertTrue(electron_.equals(electron));</span>
+<span class="fc" id="L54">	}</span>
+
+	@Test
+	public void testHashCode() {
+<span class="fc" id="L58">		assertEquals(&quot;expected -1&quot;, -1, electron.hashCode());</span>
+<span class="fc" id="L59">	}</span>
+
+	@Test(expected = AssertionError.class)
+	public void testGetDirect() {
+<span class="nc" id="L63">		electron.getDirect();</span>
+<span class="nc" id="L64">	}</span>
+
+	@Test(expected = AssertionError.class)
+	public void testGetRadius() {
+<span class="nc" id="L68">		electron.getRaidus();</span>
+<span class="nc" id="L69">	}</span>
+
+	@Test(expected = AssertionError.class)
+	public void testGetName() {
+<span class="nc" id="L73">		electron.getName();</span>
+<span class="nc" id="L74">	}</span>
+
+	@Test(expected = AssertionError.class)
+	public void testGetSpeed() {
+<span class="nc" id="L78">		electron.getSpeed();</span>
+<span class="nc" id="L79">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>

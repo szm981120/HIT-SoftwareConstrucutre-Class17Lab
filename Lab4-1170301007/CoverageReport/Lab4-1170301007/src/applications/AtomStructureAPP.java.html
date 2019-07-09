@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>AtomStructureAPP.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">applications</a> &gt; <span class="el_source">AtomStructureAPP.java</span></div><h1>AtomStructureAPP.java</h1><pre class="source lang-java linenums">package applications;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import APIs.CircularOrbitAPIs;
+import APIs.CircularOrbitHelper;
+import MyException.AtomElectronNumException;
+import MyException.AtomElementException;
+import MyException.AtomTrackNumException;
+import MyException.DataScientificNumberException;
+import MyException.DataSyntaxException;
+import MyException.IllegalIntimacyInSocialTieException;
+import MyException.NoObjectOnTrackException;
+import atomTransitionMemento.Caretaker;
+import centralObject.Nucleus;
+import circularOrbit.AtomStructureFactory;
+import circularOrbit.CircularOrbit;
+import circularOrbit.circularOrbitFactory;
+import physicalObject.ConcreteElectronFactory;
+import physicalObject.ElectronFactory;
+import physicalObject.PhysicalObject;
+import track.TrackFactory;
+
+/**
+ * AtomStructureAPP provides a static method for client to call in Main.java.
+ * This static method is the mainly function method for atom structure
+ * applications.
+ * 
+ * @author Shen
+ *
+ */
+<span class="nc bnc" id="L38" title="All 2 branches missed.">public class AtomStructureAPP {</span>
+
+<span class="nc" id="L40">	private static Scanner in = new Scanner(System.in);</span>
+<span class="nc" id="L41">	private static Logger atomStructureLogger = Logger.getLogger(&quot;AtomStructure Log&quot;);</span>
+
+	/**
+	 * atom structure application method
+	 * 
+	 * @throws Exception restoring transition state exception
+	 */
+	public static void application() {
+<span class="nc" id="L49">		CircularOrbitAPIs&lt;Nucleus, PhysicalObject&gt; apis = new CircularOrbitAPIs&lt;Nucleus, PhysicalObject&gt;();</span>
+<span class="nc" id="L50">		circularOrbitFactory&lt;Nucleus, PhysicalObject&gt; factory = new AtomStructureFactory();</span>
+<span class="nc" id="L51">		CircularOrbit&lt;Nucleus, PhysicalObject&gt; atomStructure = factory.produce();</span>
+<span class="nc" id="L52">		ElectronFactory electronFactory = new ConcreteElectronFactory();</span>
+<span class="nc" id="L53">		TrackFactory trackFactory = new TrackFactory();</span>
+<span class="nc" id="L54">		Caretaker&lt;Nucleus, PhysicalObject&gt; caretaker = new Caretaker&lt;Nucleus, PhysicalObject&gt;();</span>
+<span class="nc" id="L55">		atomStructureLogger.setUseParentHandlers(false);</span>
+<span class="nc" id="L56">		while (true) {</span>
+<span class="nc" id="L57">			menu();</span>
+<span class="nc" id="L58">			int choose = 0;</span>
+			try {
+<span class="nc" id="L60">				choose = in.nextInt();</span>
+<span class="nc" id="L61">				in.nextLine();</span>
+<span class="nc" id="L62">			} catch (InputMismatchException e) {</span>
+<span class="nc" id="L63">				System.err.println(e.getMessage() + &quot;Please input again.&quot;);</span>
+<span class="nc" id="L64">				in.nextLine();</span>
+<span class="nc" id="L65">				continue;</span>
+			}
+<span class="nc bnc" id="L67" title="All 11 branches missed.">			switch (choose) {</span>
+			case 1: // Read from file to generate a atomic structure
+<span class="nc" id="L69">				readMenu();</span>
+<span class="nc" id="L70">				File file = null;</span>
+<span class="nc" id="L71">				int choose1 = 0;</span>
+				try {
+<span class="nc" id="L73">					choose1 = in.nextInt();</span>
+<span class="nc" id="L74">					in.nextLine();</span>
+<span class="nc" id="L75">				} catch (InputMismatchException e) {</span>
+<span class="nc" id="L76">					System.out.println(e.getMessage() + &quot;Please run again.&quot;);</span>
+<span class="nc" id="L77">					in.nextLine();</span>
+<span class="nc" id="L78">					break;</span>
+				}
+				try {
+<span class="nc bnc" id="L81" title="All 4 branches missed.">					switch (choose1) {</span>
+					case 1:
+<span class="nc" id="L83">						atomStructureLogger.info(&quot;Read from input/AtomicStructure.txt. Restore present state.&quot;);</span>
+<span class="nc" id="L84">						file = new File(&quot;input/AtomicStructure.txt&quot;);</span>
+<span class="nc" id="L85">						atomStructure.readFromFile(file);</span>
+<span class="nc" id="L86">						caretaker.addMemento(atomStructure.save());</span>
+<span class="nc" id="L87">						atomStructureLogger</span>
+<span class="nc" id="L88">								.info(&quot;Success: Read from input/AtomicStructure.txt. Restore present state.&quot;);</span>
+<span class="nc" id="L89">						break;</span>
+					case 2:
+<span class="nc" id="L91">						atomStructureLogger.info(&quot;Read from input/AtomicStructure_Medium.txt. Restore present state.&quot;);</span>
+<span class="nc" id="L92">						file = new File(&quot;input/AtomicStructure_Medium.txt&quot;);</span>
+<span class="nc" id="L93">						atomStructure.readFromFile(file);</span>
+<span class="nc" id="L94">						caretaker.addMemento(atomStructure.save());</span>
+<span class="nc" id="L95">						atomStructureLogger</span>
+<span class="nc" id="L96">								.info(&quot;Success: Read from input/AtomicStructure_Medium.txt. Restore present state.&quot;);</span>
+<span class="nc" id="L97">						break;</span>
+					case 3:
+<span class="nc" id="L99">						System.out.println(&quot;Please input absolute file path.&quot;);</span>
+<span class="nc" id="L100">						String absolutePath = in.nextLine();</span>
+<span class="nc" id="L101">						file = new File(absolutePath);</span>
+<span class="nc" id="L102">						atomStructure.readFromFile(file);</span>
+<span class="nc" id="L103">						caretaker.addMemento(atomStructure.save());</span>
+<span class="nc" id="L104">						atomStructureLogger.info(&quot;Success: Read from &quot; + absolutePath + &quot;. Restore present state.&quot;);</span>
+<span class="nc" id="L105">						break;</span>
+					default:
+<span class="nc" id="L107">						System.out.println(&quot;Wrong input&quot;);</span>
+						break;
+					}
+<span class="nc" id="L110">				} catch (FileNotFoundException e) {</span>
+<span class="nc" id="L111">					atomStructureLogger.log(Level.SEVERE,</span>
+<span class="nc" id="L112">							&quot;File not found. File: &quot; + file.getPath() + &quot;. &quot; + e.getMessage(), e);</span>
+<span class="nc" id="L113">					System.err.println(&quot;File not found. File: &quot; + file.getPath() + &quot;. &quot; + e.getMessage());</span>
+<span class="nc" id="L114">				} catch (AtomElementException e) {</span>
+<span class="nc" id="L115">					atomStructureLogger.log(Level.SEVERE, e.getMessage(), e);</span>
+<span class="nc" id="L116">					System.err.println(e.getMessage());</span>
+<span class="nc" id="L117">				} catch (AtomTrackNumException e) {</span>
+<span class="nc" id="L118">					atomStructureLogger.log(Level.SEVERE, e.getMessage(), e);</span>
+<span class="nc" id="L119">					System.err.println(e.getMessage());</span>
+<span class="nc" id="L120">				} catch (AtomElectronNumException e) {</span>
+<span class="nc" id="L121">					atomStructureLogger.log(Level.SEVERE, e.getMessage(), e);</span>
+<span class="nc" id="L122">					System.err.println(e.getMessage());</span>
+<span class="nc" id="L123">				} catch (DataSyntaxException | DataScientificNumberException | IllegalIntimacyInSocialTieException e) {</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">					assert false : &quot;shouldn't have this exception.&quot;;</span>
+<span class="nc" id="L125">				} catch (IOException e) {</span>
+<span class="nc" id="L126">					e.printStackTrace();</span>
+<span class="nc" id="L127">				} catch (NumberFormatException e) {</span>
+<span class="nc" id="L128">					e.printStackTrace();</span>
+				}
+<span class="nc" id="L130">				break;</span>
+			case 2: // Visualize
+<span class="nc" id="L132">				atomStructureLogger.info(&quot;Visualize.&quot;);</span>
+<span class="nc" id="L133">				CircularOrbitHelper.visualize(atomStructure);</span>
+<span class="nc" id="L134">				atomStructureLogger.info(&quot;Success: Visualize.&quot;);</span>
+<span class="nc" id="L135">				break;</span>
+			case 3: // Add a track
+<span class="nc" id="L137">				atomStructureLogger.info(&quot;Add a track.&quot;);</span>
+<span class="nc" id="L138">				System.out.println(&quot;What's the radius(integer) of the added track?&quot;);</span>
+<span class="nc" id="L139">				int addTrackRadius = 0;</span>
+				try {
+<span class="nc" id="L141">					addTrackRadius = in.nextInt();</span>
+<span class="nc" id="L142">					in.nextLine();</span>
+<span class="nc" id="L143">				} catch (InputMismatchException e) {</span>
+<span class="nc" id="L144">					System.err.println(e.getMessage() + &quot;Please input again.&quot;);</span>
+<span class="nc" id="L145">					in.nextLine();</span>
+<span class="nc" id="L146">					break;</span>
+				}
+<span class="nc" id="L148">				atomStructure.addTrack(trackFactory.produce((double) addTrackRadius));</span>
+<span class="nc" id="L149">				atomStructureLogger.info(&quot;Success: Add a track. Radius is &quot; + addTrackRadius + &quot;.&quot;);</span>
+<span class="nc" id="L150">				break;</span>
+			case 4:// Add an object to a track
+<span class="nc" id="L152">				atomStructureLogger.info(&quot;Add an object to a track.&quot;);</span>
+<span class="nc" id="L153">				System.out.println(&quot;What's the radius(integer) of the track of the added electron?&quot;);</span>
+<span class="nc" id="L154">				int addElectronRadius = 0;</span>
+				try {
+<span class="nc" id="L156">					addElectronRadius = in.nextInt();</span>
+<span class="nc" id="L157">					in.nextLine();</span>
+<span class="nc" id="L158">				} catch (InputMismatchException e) {</span>
+<span class="nc" id="L159">					System.err.println(e.getMessage() + &quot;Please input again.&quot;);</span>
+<span class="nc" id="L160">					in.nextLine();</span>
+<span class="nc" id="L161">					break;</span>
+				}
+<span class="nc" id="L163">				atomStructure.addPhysicalObjectToTrack(electronFactory.produce(),</span>
+<span class="nc" id="L164">						trackFactory.produce((double) addElectronRadius));</span>
+<span class="nc" id="L165">				atomStructureLogger.info(&quot;Success: Add an electron to track with &quot; + addElectronRadius + &quot; radius.&quot;);</span>
+<span class="nc" id="L166">				break;</span>
+			case 5: // Delete a track
+<span class="nc" id="L168">				atomStructureLogger.info(&quot;Delete a track.&quot;);</span>
+<span class="nc" id="L169">				System.out.println(&quot;What's the radius(integer) of the deleted track?&quot;);</span>
+<span class="nc" id="L170">				int deleteTrackRadius = 0;</span>
+				try {
+<span class="nc" id="L172">					deleteTrackRadius = in.nextInt();</span>
+<span class="nc" id="L173">					in.nextLine();</span>
+<span class="nc" id="L174">				} catch (InputMismatchException e) {</span>
+<span class="nc" id="L175">					System.err.println(e.getMessage() + &quot;Please input again.&quot;);</span>
+<span class="nc" id="L176">					in.nextLine();</span>
+<span class="nc" id="L177">					break;</span>
+				}
+<span class="nc" id="L179">				atomStructure.deleteTrack(trackFactory.produce((double) deleteTrackRadius));</span>
+<span class="nc" id="L180">				atomStructureLogger.info(&quot;Delete a track with &quot; + deleteTrackRadius + &quot; radius.&quot;);</span>
+<span class="nc" id="L181">				break;</span>
+			case 6: // Delete an object from a track
+<span class="nc" id="L183">				atomStructureLogger.info(&quot;Delete an object from a track.&quot;);</span>
+<span class="nc" id="L184">				System.out.println(&quot;What's the radius(integer) of the track of the deleted electron?&quot;);</span>
+<span class="nc" id="L185">				int deleteElectronRadius = 0;</span>
+				try {
+<span class="nc" id="L187">					deleteElectronRadius = in.nextInt();</span>
+<span class="nc" id="L188">					in.nextLine();</span>
+<span class="nc" id="L189">				} catch (InputMismatchException e) {</span>
+<span class="nc" id="L190">					System.err.println(e.getMessage() + &quot;Please input again.&quot;);</span>
+<span class="nc" id="L191">					in.nextLine();</span>
+<span class="nc" id="L192">					break;</span>
+				}
+				try {
+<span class="nc" id="L195">					atomStructure.deletePhysicalObjectFromTrack(electronFactory.produce(),</span>
+<span class="nc" id="L196">							trackFactory.produce((double) deleteElectronRadius));</span>
+<span class="nc" id="L197">				} catch (NoObjectOnTrackException e) {</span>
+<span class="nc" id="L198">					System.err.println(&quot;Fail track: &quot; + deleteElectronRadius + &quot;.&quot;);</span>
+<span class="nc" id="L199">					atomStructureLogger.log(Level.SEVERE, e.getMessage() + &quot; Fail track: &quot; + deleteElectronRadius + &quot;.&quot;,</span>
+<span class="nc" id="L200">							e);</span>
+<span class="nc" id="L201">					break;</span>
+				}
+<span class="nc" id="L203">				atomStructureLogger.log(Level.INFO,</span>
+<span class="nc" id="L204">						&quot;Success: Delete an electron from track with &quot; + deleteElectronRadius + &quot; radius.&quot;);</span>
+<span class="nc" id="L205">				break;</span>
+			case 7: // Calculate the information entropy of the system
+<span class="nc" id="L207">				atomStructureLogger.info(&quot;Calculate the information entropy of the system&quot;);</span>
+<span class="nc" id="L208">				double entropy = apis.getObjectDistributionEntropy(atomStructure);</span>
+<span class="nc" id="L209">				System.out.println(&quot;Information entropy: &quot; + entropy);</span>
+<span class="nc" id="L210">				atomStructureLogger.log(Level.INFO, &quot;Success: Calculate the information entropy: &quot; + entropy + &quot;.&quot;);</span>
+<span class="nc" id="L211">				break;</span>
+			case 8: // Transition
+<span class="nc" id="L213">				atomStructureLogger.info(&quot;Transition.&quot;);</span>
+<span class="nc" id="L214">				int sourceRadius = 0;</span>
+<span class="nc" id="L215">				int targetRadius = 0;</span>
+				try {
+<span class="nc" id="L217">					System.out.println(&quot;What's the radius(integer) of the source track?&quot;);</span>
+<span class="nc" id="L218">					sourceRadius = in.nextInt();</span>
+<span class="nc" id="L219">					in.nextLine();</span>
+<span class="nc" id="L220">					System.out.println(&quot;What's the radius(integer) of the target track?&quot;);</span>
+<span class="nc" id="L221">					targetRadius = in.nextInt();</span>
+<span class="nc" id="L222">					in.nextLine();</span>
+<span class="nc" id="L223">				} catch (InputMismatchException e) {</span>
+<span class="nc" id="L224">					System.err.println(e.getMessage() + &quot;Please input again.&quot;);</span>
+<span class="nc" id="L225">					in.nextLine();</span>
+<span class="nc" id="L226">					break;</span>
+				}
+				try {
+<span class="nc" id="L229">					atomStructure.deletePhysicalObjectFromTrack(electronFactory.produce(),</span>
+<span class="nc" id="L230">							trackFactory.produce((double) sourceRadius));</span>
+<span class="nc" id="L231">				} catch (NoObjectOnTrackException e) {</span>
+<span class="nc" id="L232">					System.err.println(&quot;Fail track: &quot; + sourceRadius + &quot;.&quot;);</span>
+<span class="nc" id="L233">					atomStructureLogger.log(Level.SEVERE, e.getMessage() + &quot; Fail track: &quot; + sourceRadius + &quot;.&quot;, e);</span>
+<span class="nc" id="L234">					break;</span>
+				}
+<span class="nc" id="L236">				atomStructure.addPhysicalObjectToTrack(electronFactory.produce(),</span>
+<span class="nc" id="L237">						trackFactory.produce((double) targetRadius));</span>
+<span class="nc" id="L238">				caretaker.addMemento(atomStructure.save());</span>
+<span class="nc" id="L239">				atomStructureLogger.log(Level.INFO, &quot;Success: Transition an electron from track &quot; + sourceRadius</span>
+<span class="nc" id="L240">						+ &quot; to track&quot; + targetRadius + &quot;. Restore present state.&quot;);</span>
+<span class="nc" id="L241">				break;</span>
+			case 9: // Restore transition
+<span class="nc" id="L243">				atomStructureLogger.info(&quot;Restore transition.&quot;);</span>
+<span class="nc" id="L244">				System.out.println(&quot;Which version countdown do you want to restore?&quot;);</span>
+<span class="nc" id="L245">				int countdownVersion = 0;</span>
+				try {
+<span class="nc" id="L247">					countdownVersion = in.nextInt();</span>
+<span class="nc" id="L248">					in.nextLine();</span>
+<span class="nc" id="L249">				} catch (InputMismatchException e) {</span>
+<span class="nc" id="L250">					System.err.println(e.getMessage() + &quot;Please input again.&quot;);</span>
+<span class="nc" id="L251">					in.nextLine();</span>
+<span class="nc" id="L252">					break;</span>
+				}
+<span class="nc" id="L254">				atomStructure.restore(caretaker.getMemento(countdownVersion));</span>
+<span class="nc" id="L255">				atomStructureLogger.log(Level.INFO, &quot;Success: Roll back &quot; + countdownVersion + &quot; transition versions.&quot;);</span>
+<span class="nc" id="L256">				break;</span>
+			case 10: // Log search
+<span class="nc" id="L258">				apis.logSearch(new File(&quot;log/atomStructureLog.log&quot;));</span>
+<span class="nc" id="L259">				break;</span>
+			default:
+<span class="nc" id="L261">				in.close();</span>
+<span class="nc" id="L262">				atomStructureLogger.log(Level.INFO, &quot;AtomStructure application deactivate.&quot;);</span>
+<span class="nc" id="L263">				System.exit(0);</span>
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Menu in atom structure application which indicates users' choices.
+	 */
+	private static void menu() {
+<span class="nc" id="L273">		System.out.println(&quot;1. Read from file to generate a atomic structure.&quot;);</span>
+<span class="nc" id="L274">		System.out.println(&quot;2. Visualize.&quot;);</span>
+<span class="nc" id="L275">		System.out.println(&quot;3. Add a track.&quot;);</span>
+<span class="nc" id="L276">		System.out.println(&quot;4. Add an object to a track.&quot;);</span>
+<span class="nc" id="L277">		System.out.println(&quot;5. Delete a track.&quot;);</span>
+<span class="nc" id="L278">		System.out.println(&quot;6. Delete an object in a track.&quot;);</span>
+<span class="nc" id="L279">		System.out.println(&quot;7. Calculate the information entropy of the system.&quot;);</span>
+<span class="nc" id="L280">		System.out.println(&quot;8. Transition.&quot;);</span>
+<span class="nc" id="L281">		System.out.println(&quot;9. Restore transition.&quot;);</span>
+<span class="nc" id="L282">		System.out.println(&quot;10. Log search.&quot;);</span>
+<span class="nc" id="L283">	}</span>
+
+	/**
+	 * Menu in read-from-file function which indicates which file can be read from.
+	 */
+	private static void readMenu() {
+<span class="nc" id="L289">		System.out.println(&quot;1. AtomicStructure.txt&quot;);</span>
+<span class="nc" id="L290">		System.out.println(&quot;2. AtomicStructure_Medium.txt&quot;);</span>
+<span class="nc" id="L291">		System.out.println(&quot;3. Other file(Absolute path).&quot;);</span>
+<span class="nc" id="L292">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>

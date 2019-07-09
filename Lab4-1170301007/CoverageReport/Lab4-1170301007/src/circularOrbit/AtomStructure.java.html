@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>AtomStructure.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">circularOrbit</a> &gt; <span class="el_source">AtomStructure.java</span></div><h1>AtomStructure.java</h1><pre class="source lang-java linenums">package circularOrbit;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import MyException.AtomElectronNumException;
+import MyException.AtomElementException;
+import MyException.AtomTrackNumException;
+import MyException.DataNonScientificNumberException;
+import MyException.DataScientificNumberException;
+import MyException.DataSyntaxException;
+import MyException.IllegalIntimacyInSocialTieException;
+import MyException.PlanetConflictException;
+import atomTransitionMemento.Memento;
+import centralObject.Nucleus;
+import physicalObject.ConcreteElectronFactory;
+import physicalObject.ElectronFactory;
+import physicalObject.PhysicalObject;
+import track.TrackFactory;
+
+/**
+ * AtomStructure specifies readFromFile method.
+ * 
+ * @author Shen
+ *
+ */
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">public class AtomStructure extends ConcreteCircularOrbit&lt;Nucleus, PhysicalObject&gt; {</span>
+
+<span class="fc" id="L42">	private static Logger atomStructureLogger = Logger.getLogger(&quot;AtomStructure Log&quot;);</span>
+<span class="fc" id="L43">	private static int readLineCounter = 0;</span>
+
+	/**
+	 * Constructor
+	 */
+<span class="fc" id="L48">	public AtomStructure() {</span>
+
+<span class="fc" id="L50">	}</span>
+
+	/**
+	 * Override readFromFile. Before reading from file, it's representations must be
+	 * reset. This can read from legal atom structure data file.
+	 * 
+	 * @throws DataScientificNumberException       shouldn't happen in atom
+	 *                                             structure.
+	 * @throws DataSyntaxException                 shouldn't happen in atom
+	 *                                             structure.
+	 * @throws IllegalIntimacyInSocialTieException shouldn't happen in atom
+	 *                                             structure.s
+	 */
+	@Override
+	public void readFromFile(File file) throws NumberFormatException, IOException, AtomElementException,
+			AtomTrackNumException, AtomElectronNumException, DataSyntaxException, DataScientificNumberException,
+			IllegalIntimacyInSocialTieException {
+<span class="fc" id="L67">		super.readFromFile(file);</span>
+<span class="fc" id="L68">		atomStructureLogger.setUseParentHandlers(false);</span>
+		Pattern pattern1, pattern2, pattern3;
+		Matcher matcher1, matcher2, matcher3;
+<span class="fc" id="L71">		FileReader reader = new FileReader(file);</span>
+<span class="fc" id="L72">		BufferedReader br = new BufferedReader(reader);</span>
+<span class="fc" id="L73">		char[] elementName = new char[2];</span>
+<span class="fc" id="L74">		int numberOfTrack = 0;</span>
+<span class="fc" id="L75">		Map&lt;Integer, Integer&gt; numberOfElectron = new HashMap&lt;Integer, Integer&gt;();</span>
+<span class="fc" id="L76">		TrackFactory trackFactory = new TrackFactory();</span>
+<span class="fc" id="L77">		ElectronFactory electronFactory = new ConcreteElectronFactory();</span>
+<span class="fc" id="L78">		String line = &quot;&quot;;</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">		while ((line = br.readLine()) != null) {</span>
+<span class="fc" id="L80">			readLineCounter++;</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">			if (line.isEmpty()) {</span>
+<span class="fc" id="L82">				continue;</span>
+			}
+<span class="fc" id="L84">			pattern1 = Pattern.compile(&quot;ElementName\\s*::=\\s*([a-zA-Z]*)&quot;);</span>
+<span class="fc" id="L85">			matcher1 = pattern1.matcher(line);</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">			while (matcher1.find()) {</span>
+<span class="pc bpc" id="L87" title="1 of 4 branches missed.">				if (matcher1.group(1).length() &gt;= 3 || matcher1.group(1).length() &lt;= 0) {</span>
+<span class="fc" id="L88">					throw new AtomElementException(</span>
+<span class="fc" id="L89">							&quot;The element of this atom contains 0 or more than 2 characters. Exception line: &quot;</span>
+<span class="fc" id="L90">									+ readLineCounter + &quot;.&quot;);</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">				} else if (!Character.isUpperCase(matcher1.group(1).charAt(0))) {</span>
+<span class="fc" id="L92">					throw new AtomElementException(&quot;The first character is not a upper case character! Exception line: &quot;</span>
+<span class="fc" id="L93">							+ readLineCounter + &quot;.&quot;);</span>
+				}
+<span class="pc bpc" id="L95" title="1 of 4 branches missed.">				if (matcher1.group(1).length() &gt;= 2 &amp;&amp; !Character.isLowerCase(matcher1.group(1).charAt(1))) {</span>
+<span class="fc" id="L96">					throw new AtomElementException(</span>
+<span class="fc" id="L97">							&quot;The second character is not a lower case character! Exception line: &quot; + readLineCounter</span>
+<span class="fc" id="L98">									+ &quot;.&quot;);</span>
+				}
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">				if (matcher1.group(1).length() &gt;= 1) {</span>
+<span class="fc" id="L101">					elementName[0] = matcher1.group(1).charAt(0);</span>
+<span class="fc" id="L102">				} else {</span>
+<span class="nc" id="L103">					elementName[0] = '\0';</span>
+				}
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">				if (matcher1.group(1).length() &gt;= 2) {</span>
+<span class="fc" id="L106">					elementName[1] = matcher1.group(1).charAt(1);</span>
+<span class="fc" id="L107">				} else {</span>
+<span class="nc" id="L108">					elementName[1] = '\0';</span>
+				}
+<span class="fc" id="L110">				this.addCentralObject(new Nucleus(elementName));</span>
+			}
+<span class="fc" id="L112">			pattern2 = Pattern.compile(&quot;NumberOfTracks\\s*::=\\s*(\\d*)&quot;);</span>
+<span class="fc" id="L113">			matcher2 = pattern2.matcher(line);</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">			while (matcher2.find()) {</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">				if (Integer.parseInt(matcher2.group(1)) &lt;= 0) {</span>
+<span class="fc" id="L116">					throw new AtomTrackNumException(</span>
+<span class="fc" id="L117">							&quot;Number of track is not a positive integer! Exception line: &quot; + readLineCounter + &quot;.&quot;);</span>
+				}
+<span class="fc" id="L119">				numberOfTrack = Integer.valueOf(matcher2.group(1));</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">				for (int i = 1; i &lt;= numberOfTrack; i++) {</span>
+<span class="fc" id="L121">					this.addTrack(trackFactory.produce(i));</span>
+				}
+			}
+<span class="fc" id="L124">			pattern3 = Pattern.compile(&quot;NumberOfElectron\\s*::=\\s*([0-9/;]*)&quot;);</span>
+<span class="fc" id="L125">			matcher3 = pattern3.matcher(line);</span>
+<span class="fc" id="L126">			String[] numberOfElectronString = null;</span>
+<span class="fc bfc" id="L127" title="All 2 branches covered.">			while (matcher3.find()) {</span>
+<span class="fc" id="L128">				numberOfElectronString = matcher3.group(1).split(&quot;/|;&quot;);</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">				if (numberOfElectronString.length % 2 == 1) {</span>
+<span class="fc" id="L130">					throw new AtomElectronNumException(</span>
+<span class="fc" id="L131">							&quot;Each track order number should match a number of electron! Exception line: &quot;</span>
+<span class="fc" id="L132">									+ readLineCounter + &quot;.&quot;);</span>
+				}
+<span class="fc bfc" id="L134" title="All 2 branches covered.">				if (numberOfElectronString.length != (numberOfTrack * 2)) {</span>
+<span class="fc" id="L135">					throw new AtomElectronNumException(</span>
+<span class="fc" id="L136">							&quot;The number of electron information doesn't match the number of track! Exception line: &quot;</span>
+<span class="fc" id="L137">									+ readLineCounter + &quot;.&quot;);</span>
+				}
+<span class="fc bfc" id="L139" title="All 2 branches covered.">				for (int i = 0; i &lt; numberOfElectronString.length; i += 2) {</span>
+<span class="fc" id="L140">					numberOfElectron.put(Integer.parseInt(numberOfElectronString[i]),</span>
+<span class="fc" id="L141">							Integer.parseInt(numberOfElectronString[i + 1]));</span>
+				}
+<span class="fc bfc" id="L143" title="All 2 branches covered.">				for (int i = 1; i &lt;= numberOfTrack; i++) {</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">					for (int j = 1; j &lt;= numberOfElectron.get(i); j++) {</span>
+<span class="fc" id="L145">						this.addPhysicalObjectToTrack(electronFactory.produce(), trackFactory.produce(i));</span>
+					}
+				}
+			}
+		} // end while((line = br.readLine()) != null)
+<span class="fc" id="L150">	}</span>
+
+	/**
+	 * This method is non-existent in atom structure.
+	 */
+	@Override
+	public void constructSocialNetworkCircle(List&lt;PhysicalObject&gt; friends, List&lt;Edge&lt;PhysicalObject&gt;&gt; physicalEdges,
+			Map&lt;PhysicalObject, Double&gt;[] centralEdges) {
+<span class="pc bpc" id="L158" title="1 of 2 branches missed.">		assert false : &quot;shouldn't call this method&quot;;</span>
+<span class="nc" id="L159">	}</span>
+
+	@Override
+	public Memento&lt;Nucleus, PhysicalObject&gt; save() {
+<span class="fc" id="L163">		return new Memento&lt;Nucleus, PhysicalObject&gt;(this.centralObject, this.tracks, this.objectsInTrack,</span>
+<span class="fc" id="L164">				this.relationBetweenCentralAndObject, this.relationBetweenObjects);</span>
+	}
+
+	@Override
+	public void restore(Memento&lt;Nucleus, PhysicalObject&gt; m) {
+<span class="fc" id="L169">		this.centralObject = m.getCentralObject();</span>
+<span class="fc" id="L170">		this.tracks = m.getTracks();</span>
+<span class="fc" id="L171">		this.objectsInTrack = m.getObjectsInTrack();</span>
+<span class="fc" id="L172">		this.relationBetweenCentralAndObject = m.getRelationBetweenCentralAndObject();</span>
+<span class="fc" id="L173">		this.relationBetweenObjects = m.getRelationBetweenObjects();</span>
+<span class="fc" id="L174">	}</span>
+
+	/**
+	 * This method is non-existent in atom structure.
+	 */
+	@Override
+	public void addRelationshipBetweenCentralAndPhysical(PhysicalObject physicalObject, boolean fromCentral,
+			double weight) {
+<span class="pc bpc" id="L182" title="1 of 2 branches missed.">		assert false : &quot;shouldn't call this method&quot;;</span>
+<span class="nc" id="L183">	}</span>
+
+	/**
+	 * This method is non-existent in atom structure.
+	 */
+	@Override
+	public void addRelationshipBetweenPhysicalAndPhysical(PhysicalObject physicalObjectA,
+			PhysicalObject physicalObjectB, double weight) {
+<span class="pc bpc" id="L191" title="1 of 2 branches missed.">		assert false : &quot;shouldn't call this method&quot;;</span>
+<span class="nc" id="L192">	}</span>
+
+	/**
+	 * This method is non-existent in atom structure.
+	 */
+	@Override
+	public void deleteRelationshipBetweenPhysicalAndPhysical(PhysicalObject physicalObjectA,
+			PhysicalObject physicalObjectB) {
+<span class="pc bpc" id="L200" title="1 of 2 branches missed.">		assert false : &quot;shouldn't call this method&quot;;</span>
+<span class="nc" id="L201">	}</span>
+
+	/**
+	 * This method is non-existent in atom structure.
+	 */
+	@Override
+	public Map&lt;PhysicalObject, Double&gt;[] getRelationBetweenCentralAndObject() {
+<span class="pc bpc" id="L208" title="1 of 2 branches missed.">		assert false : &quot;shouldn't call this method&quot;;</span>
+<span class="nc" id="L209">		return null;</span>
+	}
+
+	/**
+	 * This method is non-existent in atom structure.
+	 */
+	@Override
+	public List&lt;Edge&lt;PhysicalObject&gt;&gt; getRelationBetweenObjects() {
+<span class="pc bpc" id="L217" title="1 of 2 branches missed.">		assert false : &quot;shouldn't call this method&quot;;</span>
+<span class="nc" id="L218">		return null;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>

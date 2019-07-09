@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>CircularOrbitAPIs.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">APIs</a> &gt; <span class="el_source">CircularOrbitAPIs.java</span></div><h1>CircularOrbitAPIs.java</h1><pre class="source lang-java linenums">package APIs;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Date;
+import java.sql.Time;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.InputMismatchException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Scanner;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import centralObject.Person;
+import centralObject.Star;
+import circularOrbit.CircularOrbit;
+import circularOrbit.Edge;
+import physicalObject.Friend;
+import physicalObject.PhysicalObject;
+import physicalObject.Planet;
+import track.Track;
+
+/**
+ * CircularOrbitAPIs includes all the operations that clients may use in
+ * concrete applications. When a client wants to use these function operations,
+ * he needs to instantiate an CircularOrbitAPIs object. Not all function
+ * operations in CircularOrbitAPIs can be used in all kinds of circular orbits.
+ * The combination of class of central and physical objects should be determined
+ * by clients and it's suggested that this combination fits specific
+ * applications scenarios.
+ * 
+ * @author Shen
+ *
+ * @param &lt;L&gt; class of central object, should be one of Nucleus, Star and
+ *        Person.
+ * @param &lt;E&gt; class of physical object, which is supposed to be PhysicalObject
+ *        mostly.
+ */
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">public class CircularOrbitAPIs&lt;L, E&gt; {</span>
+
+	/**
+	 * Constructor
+	 */
+<span class="fc" id="L57">	public CircularOrbitAPIs() {</span>
+
+<span class="fc" id="L59">	}</span>
+
+	/**
+	 * Calculate distribution entropy of objects in circular orbit. The more
+	 * dispersed the physical objects are, the larger the entropy is.
+	 * 
+	 * The calculation method is described as followed: if this circular orbit has n
+	 * tracks and for i-th track there are a_i objects, supposing that the total of
+	 * physical objects is m, then distribution entropy is calculated by Σ((a_i/m) *
+	 * log(a_i/m))
+	 * 
+	 * @param c any circular orbit
+	 * @return distribution entropy of objects in this circular orbit
+	 */
+	public double getObjectDistributionEntropy(CircularOrbit&lt;L, E&gt; c) {
+<span class="fc" id="L74">		double entropy = 0;</span>
+<span class="fc" id="L75">		Map&lt;Track, List&lt;E&gt;&gt; objectsInTrack = c.getObjectsInTrack();</span>
+<span class="fc" id="L76">		int objectsNum = 0, trackNum = 0;</span>
+<span class="fc" id="L77">		int[] objectsNumEachTrack = new int[objectsInTrack.keySet().size()];</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">		for (List&lt;E&gt; l : objectsInTrack.values()) {</span>
+<span class="fc" id="L79">			objectsNum += l.size();</span>
+<span class="fc" id="L80">			objectsNumEachTrack[trackNum++] = l.size();</span>
+		}
+<span class="fc bfc" id="L82" title="All 2 branches covered.">		for (int i = 0; i &lt; trackNum; i++) {</span>
+<span class="fc" id="L83">			double possibility = (double) objectsNumEachTrack[i] / objectsNum;</span>
+<span class="fc" id="L84">			entropy -= possibility * Math.log(possibility);</span>
+		}
+<span class="pc bpc" id="L86" title="2 of 4 branches missed.">		assert entropy &gt;= 0 : &quot;entropy must be non-negative&quot;;</span>
+<span class="fc" id="L87">		return entropy;</span>
+	}
+
+	/**
+	 * Calculate logical distance from e1 to e2 in circular orbit. Logical distance
+	 * is the length of the shortest path from e1 to e2. This method should only
+	 * perform in circular orbit with relationship.
+	 * 
+	 * Attention: If there's need to calculate logical distance between a central
+	 * object and a physical object, particularly in social network circle, a &quot;fake&quot;
+	 * central object is allowed to use. It means if you want to calculate logical
+	 * distance between a central object and a physical object in social network
+	 * circle, e1 or e2 can be a &quot;fake&quot; central object. This &quot;fake&quot; central object
+	 * is defined as a friend named &quot;center&quot;, aged 1 and male. This &quot;fake&quot; central
+	 * object has distinctive features. Mostly, no friends are equal to this &quot;fake&quot;
+	 * one. Therefore, it can be used as central object.
+	 * 
+	 * @param c  circular orbit with relationship which is mostly social network
+	 *           circle
+	 * @param e1 source object in relationship
+	 * @param e2 target object in relationship
+	 * @return logical distance(length of the shortest path) from e1 to e2
+	 */
+	public int getLogicalDistance(CircularOrbit&lt;L, E&gt; c, E e1, E e2) {
+<span class="pc bpc" id="L111" title="2 of 4 branches missed.">		if (e1.getClass() == Friend.class &amp;&amp; e2.getClass() == Friend.class) {</span>
+			@SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L113">			Map&lt;PhysicalObject, Double&gt;[] relationBetweenCentralAndObject = ((CircularOrbit&lt;L, PhysicalObject&gt;) c)</span>
+<span class="fc" id="L114">					.getRelationBetweenCentralAndObject();</span>
+			@SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L116">			List&lt;Edge&lt;PhysicalObject&gt;&gt; physicalEdges = ((CircularOrbit&lt;L, PhysicalObject&gt;) c)</span>
+<span class="fc" id="L117">					.getRelationBetweenObjects();</span>
+<span class="fc" id="L118">			int distance = 0;</span>
+<span class="fc" id="L119">			Map&lt;PhysicalObject, Boolean&gt; markedMap = new HashMap&lt;PhysicalObject, Boolean&gt;();</span>
+<span class="fc" id="L120">			List&lt;PhysicalObject&gt; friends = new ArrayList&lt;PhysicalObject&gt;();</span>
+<span class="fc" id="L121">			PhysicalObject center = new Friend(&quot;center&quot;, 1, 'M');</span>
+<span class="fc" id="L122">			Queue&lt;PhysicalObject&gt; queue = new LinkedList&lt;PhysicalObject&gt;(); // BFS iteration queue</span>
+			/*
+			 * edgeTo mapping: assume A maps to B, representing A has direct relation with B. And in all directed path
+			 * from source to target, A is backward B and B is forward A.
+			 */
+<span class="fc" id="L127">			HashMap&lt;PhysicalObject, PhysicalObject&gt; edgeTo = new HashMap&lt;PhysicalObject, PhysicalObject&gt;();</span>
+			/* Every person iteration marked initialize false */
+<span class="fc bfc" id="L129" title="All 2 branches covered.">			for (Track track : c.getTracks()) {</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">				for (E e : c.getObjectsInTrack().get(track)) {</span>
+<span class="fc" id="L131">					friends.add((PhysicalObject) e);</span>
+				}
+			}
+<span class="fc bfc" id="L134" title="All 2 branches covered.">			for (PhysicalObject p : friends) {</span>
+<span class="fc" id="L135">				markedMap.put(p, false);</span>
+			}
+<span class="fc" id="L137">			markedMap.put(center, false);</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">			for (PhysicalObject e : relationBetweenCentralAndObject[0].keySet()) {</span>
+<span class="fc" id="L139">				physicalEdges.add(new Edge&lt;PhysicalObject&gt;(center, e, relationBetweenCentralAndObject[0].get(e)));</span>
+			}
+<span class="fc bfc" id="L141" title="All 2 branches covered.">			for (PhysicalObject e : relationBetweenCentralAndObject[1].keySet()) {</span>
+<span class="fc" id="L142">				physicalEdges.add(new Edge&lt;PhysicalObject&gt;(e, center, relationBetweenCentralAndObject[1].get(e)));</span>
+			}
+<span class="fc" id="L144">			queue.add((PhysicalObject) e1);</span>
+<span class="fc" id="L145">			markedMap.put((PhysicalObject) e1, true);</span>
+			/* BFS iteration, getting edgeTo */
+<span class="fc bfc" id="L147" title="All 2 branches covered.">			while (!queue.isEmpty()) {</span>
+<span class="fc" id="L148">				PhysicalObject tempPerson = queue.remove();</span>
+<span class="fc bfc" id="L149" title="All 2 branches covered.">				for (PhysicalObject e : targets(tempPerson, physicalEdges).keySet()) {</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">					if (!markedMap.get(e)) { // Found a vertex that has not been traversed</span>
+<span class="fc" id="L151">						edgeTo.put(e, tempPerson); // record pre-post relationship</span>
+<span class="fc" id="L152">						markedMap.put(e, true); // marked true</span>
+<span class="fc" id="L153">						queue.add(e); // a new traversed vertex enqueue</span>
+					}
+				}
+			}
+<span class="pc bpc" id="L157" title="1 of 2 branches missed.">			if (!markedMap.get((PhysicalObject) e2)) {</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">				assert false : &quot;In social graph there must be a path between any two friends in circle system.&quot;;</span>
+<span class="nc" id="L159">				distance = -1;</span>
+<span class="nc" id="L160">			} else</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">				for (PhysicalObject e = (PhysicalObject) e2; !e.equals(e1); e = edgeTo.get(e))</span>
+<span class="fc" id="L162">					distance++;</span>
+<span class="fc" id="L163">			return distance;</span>
+		}
+<span class="nc bnc" id="L165" title="All 2 branches missed.">		assert false : &quot;e1 and e2 must be Friend class!&quot;;</span>
+<span class="nc" id="L166">		return -1;</span>
+	}
+
+	/**
+	 * Get a mapping from physical objects to which are adjacent from source, to
+	 * intimacy of these relationship. Actually, this method collect adjacency only
+	 * related with source physical object of all adjacency. This method should only
+	 * perform in a circular orbit with relationship which is mostly social network
+	 * circle.
+	 * 
+	 * @param source        a source physical object
+	 * @param physicalEdges a list of edges representing all adjacency
+	 * @return a mapping from physical objects to which are adjacent from source, to
+	 *         intimacy of these relationship
+	 */
+	public static Map&lt;PhysicalObject, Double&gt; targets(PhysicalObject source, List&lt;Edge&lt;PhysicalObject&gt;&gt; physicalEdges) {
+<span class="fc" id="L182">		Map&lt;PhysicalObject, Double&gt; targetsMap = new HashMap&lt;PhysicalObject, Double&gt;();</span>
+<span class="fc bfc" id="L183" title="All 2 branches covered.">		for (Edge&lt;PhysicalObject&gt; edge : physicalEdges) {</span>
+<span class="fc bfc" id="L184" title="All 2 branches covered.">			if (edge.getSource().equals(source)) {</span>
+<span class="fc" id="L185">				targetsMap.put(edge.getTarget(), edge.getWeight());</span>
+			}
+		}
+<span class="fc" id="L188">		return targetsMap;</span>
+	}
+
+	/**
+	 * Calculate physical distance from e1 to e2 in circular orbit. This method
+	 * should only perform in a circular orbit with accurate physical object
+	 * position which is mostly stellar system. Particularly in stellar system, the
+	 * unit of physical distance is kilometer.
+	 * 
+	 * @param c  circular orbit with accurate physical object position which is
+	 *           mostly stellar system.
+	 * @param e1 a physical object
+	 * @param e2 a physical object
+	 * @return physical distance from e1 to e2
+	 */
+	public double getPhysicalDistance(CircularOrbit&lt;L, E&gt; c, E e1, E e2) {
+<span class="pc bpc" id="L204" title="2 of 4 branches missed.">		if (e1.getClass() == Planet.class &amp;&amp; e2.getClass() == Planet.class) {</span>
+<span class="fc" id="L205">			double degree1 = ((Planet) e1).getDegree() * Math.PI / 180;</span>
+<span class="fc" id="L206">			double degree2 = ((Planet) e2).getDegree() * Math.PI / 180;</span>
+<span class="fc" id="L207">			double radius1 = 0, radius2 = 0;</span>
+<span class="fc bfc" id="L208" title="All 2 branches covered.">			for (Track track : c.getTracks()) {</span>
+<span class="fc bfc" id="L209" title="All 2 branches covered.">				for (E e : c.getObjectsInTrack().get(track)) {</span>
+<span class="pc bpc" id="L210" title="1 of 4 branches missed.">					if (e.getClass() == Planet.class &amp;&amp; ((Planet) e).getName().equals(((Planet) e1).getName())) {</span>
+<span class="fc" id="L211">						radius1 = track.getRadius();</span>
+					}
+<span class="pc bpc" id="L213" title="1 of 4 branches missed.">					if (e.getClass() == Planet.class &amp;&amp; ((Planet) e).getName().equals(((Planet) e2).getName())) {</span>
+<span class="fc" id="L214">						radius2 = track.getRadius();</span>
+					}
+				}
+			}
+<span class="fc" id="L218">			double x1 = radius1 * Math.cos(degree1);</span>
+<span class="fc" id="L219">			double y1 = radius1 * Math.sin(degree1);</span>
+<span class="fc" id="L220">			double x2 = radius2 * Math.cos(degree2);</span>
+<span class="fc" id="L221">			double y2 = radius2 * Math.sin(degree2);</span>
+<span class="fc" id="L222">			double distance = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));</span>
+<span class="pc bpc" id="L223" title="2 of 4 branches missed.">			assert distance &gt;= 0 : &quot;physical distance can't be negative&quot;;</span>
+<span class="fc" id="L224">			return distance;</span>
+		}
+<span class="nc bnc" id="L226" title="All 2 branches missed.">		assert false : &quot;e1 and e2 must be Planet class!&quot;;</span>
+<span class="nc" id="L227">		return 0;</span>
+	}
+
+	/**
+	 * Calculate physical distance from central object to a physical object in
+	 * circular orbit. This method should only perform in a circular orbit with
+	 * accurate physical object position which is mostly stellar system.
+	 * Particularly in stellar system, the unit of physical distance is kilometer.
+	 * 
+	 * @param c circular orbit with accurate physical object position which is
+	 *          mostly stellar system.
+	 * @param e a physical object
+	 * @return physical distance from central object to e
+	 */
+	public double getPhysicalDistanceFromCentralToObject(CircularOrbit&lt;L, E&gt; c, E e) {
+<span class="pc bpc" id="L242" title="1 of 2 branches missed.">		if (e.getClass() == Planet.class) {</span>
+<span class="fc" id="L243">			double radius = 0;</span>
+<span class="fc bfc" id="L244" title="All 2 branches covered.">			for (Track track : c.getTracks()) {</span>
+<span class="fc bfc" id="L245" title="All 2 branches covered.">				for (E e1 : c.getObjectsInTrack().get(track)) {</span>
+<span class="pc bpc" id="L246" title="1 of 4 branches missed.">					if (e1.getClass() == Planet.class &amp;&amp; ((Planet) e1).getName().equals(((Planet) e).getName())) {</span>
+<span class="fc" id="L247">						radius = track.getRadius();</span>
+					}
+				}
+			}
+<span class="pc bpc" id="L251" title="2 of 4 branches missed.">			assert radius &gt;= 0 : &quot;physical distance can't be negative&quot;;</span>
+<span class="fc" id="L252">			return radius;</span>
+		}
+<span class="nc bnc" id="L254" title="All 2 branches missed.">		assert false : &quot;e must be Planet class!&quot;;</span>
+<span class="nc" id="L255">		return 0;</span>
+	}
+
+	/**
+	 * Get differences between two circular orbits. These two circular orbits must
+	 * be the same type.
+	 * 
+	 * @param c1 a circular orbit
+	 * @param c2 a circular orbit
+	 * @return differences between these two circular orbits
+	 */
+	public Difference getDifference(CircularOrbit&lt;L, E&gt; c1, CircularOrbit&lt;L, E&gt; c2) {
+<span class="pc bpc" id="L267" title="1 of 2 branches missed.">		if (c1.getCentralObject().getClass() != c2.getCentralObject().getClass()) {</span>
+<span class="nc bnc" id="L268" title="All 2 branches missed.">			assert false : &quot;Two circular orbits are not the same type!&quot;;</span>
+		}
+<span class="fc" id="L270">		Difference difference = new Difference();</span>
+<span class="fc" id="L271">		int trackDiff = c1.getTracks().size() - c2.getTracks().size();</span>
+<span class="fc" id="L272">		difference.setTrackDiff(trackDiff);</span>
+<span class="fc bfc" id="L273" title="All 2 branches covered.">		int trackNum_ = trackDiff &gt; 0 ? c1.getTracks().size() : c2.getTracks().size();</span>
+<span class="fc bfc" id="L274" title="All 2 branches covered.">		int trackNum = trackDiff &gt; 0 ? c2.getTracks().size() : c1.getTracks().size();</span>
+<span class="fc bfc" id="L275" title="All 2 branches covered.">		for (int i = 0; i &lt; trackNum; i++) {</span>
+<span class="fc" id="L276">			int objectsNumDiff = c1.getObjectsInTrack().get(c1.getTracks().get(i)).size()</span>
+<span class="fc" id="L277">					- c2.getObjectsInTrack().get(c2.getTracks().get(i)).size();</span>
+<span class="fc" id="L278">			difference.setObjectsNumDiff(i, objectsNumDiff);</span>
+		}
+<span class="fc bfc" id="L280" title="All 2 branches covered.">		for (int i = trackNum; i &lt; trackNum_; i++) {</span>
+<span class="fc bfc" id="L281" title="All 2 branches covered.">			int objectsNumDiff = trackDiff &gt; 0 ? c1.getObjectsInTrack().get(c1.getTracks().get(i)).size()</span>
+<span class="fc" id="L282">					: -c2.getObjectsInTrack().get(c2.getTracks().get(i)).size();</span>
+<span class="fc" id="L283">			difference.setObjectsNumDiff(i, objectsNumDiff);</span>
+		}
+<span class="fc bfc" id="L285" title="All 4 branches covered.">		if (c1.getCentralObject().getClass() == Person.class || c1.getCentralObject().getClass() == Star.class) {</span>
+<span class="fc" id="L286">			int length = 0;</span>
+<span class="fc bfc" id="L287" title="All 2 branches covered.">			for (int i = 0; i &lt; trackNum; i++) {</span>
+<span class="fc" id="L288">				String a1 = &quot;&quot;, a2 = &quot;&quot;;</span>
+<span class="fc" id="L289">				length = 0;</span>
+<span class="fc bfc" id="L290" title="All 2 branches covered.">				for (E friend : c1.getObjectsInTrack().get(c1.getTracks().get(i))) {</span>
+<span class="fc bfc" id="L291" title="All 2 branches covered.">					if (!c2.getObjectsInTrack().get(c2.getTracks().get(i)).contains(friend)) {</span>
+<span class="fc" id="L292">						a1 += ((PhysicalObject) friend).getName() + &quot;,&quot;;</span>
+<span class="fc" id="L293">						length++;</span>
+					}
+				}
+<span class="fc bfc" id="L296" title="All 2 branches covered.">				if (length &gt; 0) {</span>
+<span class="fc" id="L297">					a1 = a1.substring(0, a1.length() - 1);</span>
+<span class="pc bpc" id="L298" title="1 of 2 branches missed.">					if (length &gt; 1) {</span>
+<span class="nc" id="L299">						a1 = &quot;{&quot; + a1 + &quot;}&quot;;</span>
+					}
+<span class="nc" id="L301">				} else {</span>
+<span class="fc" id="L302">					a1 += &quot;无&quot;;</span>
+				}
+<span class="fc" id="L304">				length = 0;</span>
+<span class="fc bfc" id="L305" title="All 2 branches covered.">				for (E friend : c2.getObjectsInTrack().get(c2.getTracks().get(i))) {</span>
+<span class="fc bfc" id="L306" title="All 2 branches covered.">					if (!c1.getObjectsInTrack().get(c1.getTracks().get(i)).contains(friend)) {</span>
+<span class="fc" id="L307">						a2 += ((PhysicalObject) friend).getName() + &quot;,&quot;;</span>
+<span class="fc" id="L308">						length++;</span>
+					}
+				}
+<span class="fc bfc" id="L311" title="All 2 branches covered.">				if (length &gt; 0) {</span>
+<span class="fc" id="L312">					a2 = a2.substring(0, a2.length() - 1);</span>
+<span class="pc bpc" id="L313" title="1 of 2 branches missed.">					if (length &gt; 1) {</span>
+<span class="nc" id="L314">						a2 = &quot;{&quot; + a2 + &quot;}&quot;;</span>
+					}
+<span class="nc" id="L316">				} else {</span>
+<span class="fc" id="L317">					a2 += &quot;无&quot;;</span>
+				}
+<span class="fc bfc" id="L319" title="All 2 branches covered.">				if (a1.equals(a2)) {</span>
+<span class="fc" id="L320">					difference.setObjectsDiff(i, &quot;无&quot;);</span>
+<span class="fc" id="L321">				} else {</span>
+<span class="fc" id="L322">					difference.setObjectsDiff(i, a1 + &quot;-&quot; + a2);</span>
+				}
+			}
+<span class="fc bfc" id="L325" title="All 2 branches covered.">			for (int i = trackNum; i &lt; trackNum_; i++) {</span>
+<span class="fc" id="L326">				String a = &quot;&quot;;</span>
+<span class="fc" id="L327">				length = 0;</span>
+<span class="fc bfc" id="L328" title="All 2 branches covered.">				if (trackDiff &gt; 0) {</span>
+<span class="fc bfc" id="L329" title="All 2 branches covered.">					for (E friend : c1.getObjectsInTrack().get(c1.getTracks().get(i))) {</span>
+<span class="fc" id="L330">						a += ((PhysicalObject) friend).getName() + &quot;,&quot;;</span>
+<span class="fc" id="L331">						length++;</span>
+					}
+<span class="fc" id="L333">				} else {</span>
+<span class="fc bfc" id="L334" title="All 2 branches covered.">					for (E friend : c2.getObjectsInTrack().get(c2.getTracks().get(i))) {</span>
+<span class="fc" id="L335">						a += ((PhysicalObject) friend).getName() + &quot;,&quot;;</span>
+<span class="fc" id="L336">						length++;</span>
+					}
+				}
+<span class="pc bpc" id="L339" title="1 of 2 branches missed.">				if (length == 0) {</span>
+<span class="nc" id="L340">					a = &quot;无&quot;;</span>
+<span class="pc bpc" id="L341" title="1 of 2 branches missed.">				} else if (length == 1) {</span>
+<span class="fc" id="L342">					a = a.substring(0, a.length() - 1);</span>
+<span class="pc bnc" id="L343" title="All 2 branches missed.">				} else if (length &gt; 1) {</span>
+<span class="nc" id="L344">					a = a.substring(0, a.length() - 1);</span>
+<span class="nc" id="L345">					a = &quot;{&quot; + a + &quot;}&quot;;</span>
+				}
+<span class="fc bfc" id="L347" title="All 2 branches covered.">				String objectDiff = trackDiff &gt; 0 ? a + &quot;-无&quot; : &quot;无-&quot; + a;</span>
+<span class="fc" id="L348">				difference.setObjectsDiff(i, objectDiff);</span>
+			}
+		}
+<span class="fc" id="L351">		return difference;</span>
+	}
+
+	/**
+	 * This class defines differences between two circular orbits with same type.
+	 * Difference includes differences of number of tracks, number of objects in the
+	 * same track position and differences between two set of objects in the same
+	 * track position, if this kind of circular orbit accepts difference of objects.
+	 * This result will show as a list of message.
+	 * 
+	 * @author Shen
+	 *
+	 */
+	public class Difference {
+		private int trackDiff;
+<span class="fc" id="L366">		private List&lt;Integer&gt; objectsNumDiff = new ArrayList&lt;Integer&gt;();</span>
+<span class="fc" id="L367">		private List&lt;String&gt; objectsDiff = new ArrayList&lt;String&gt;();</span>
+
+		/**
+		 * Constructor
+		 */
+<span class="fc" id="L372">		public Difference() {</span>
+
+<span class="fc" id="L374">		}</span>
+
+		/**
+		 * Mutator. Set difference of number of tracks.
+		 * 
+		 * @param a difference of number of tracks which is the number of tracks in the
+		 *          first circular orbit minus the number of the second
+		 */
+		public void setTrackDiff(int a) {
+<span class="fc" id="L383">			this.trackDiff = a;</span>
+<span class="fc" id="L384">		}</span>
+
+		/**
+		 * Mutator. Set difference of number of objects in the same track position.
+		 * 
+		 * @param index track position
+		 * @param a     difference which is the number of objects in the first circular
+		 *              orbit minus the number of the second in the same track position.
+		 */
+		public void setObjectsNumDiff(int index, Integer a) {
+<span class="fc" id="L394">			this.objectsNumDiff.add(index, a);</span>
+<span class="fc" id="L395">		}</span>
+
+		/**
+		 * Mutator. Set difference of objects in the same track position. This method
+		 * should only perform when circular orbits accept difference of objects which
+		 * are mostly stellar system and social network circle.
+		 * 
+		 * @param index track position, i.e. index-th track from inside to outside.
+		 * @param a     a string message like {A}-{B}. A shows a set of objects in the
+		 *              first circular orbit but not in the second, while B shows a set
+		 *              of objects in the second but not in the first. If there's only
+		 *              one object in A or B, then there'll be no curly braces around
+		 *              it.
+		 */
+		public void setObjectsDiff(int index, String a) {
+<span class="fc" id="L410">			this.objectsDiff.add(index, a);</span>
+<span class="fc" id="L411">		}</span>
+
+		/**
+		 * Override toString. Because we need Difference to show as a string message,
+		 * the content basically includes difference of number of tracks, difference of
+		 * number of objects in same track position and difference of objects in same
+		 * track position if objects can tell difference.
+		 */
+		@Override
+		public String toString() {
+<span class="fc" id="L421">			String difference = &quot;&quot;;</span>
+<span class="fc" id="L422">			difference += &quot;轨道数差异：&quot; + this.trackDiff + &quot;\n&quot;;</span>
+<span class="fc bfc" id="L423" title="All 2 branches covered.">			for (int i = 1; i &lt;= this.objectsNumDiff.size(); i++) {</span>
+<span class="fc" id="L424">				difference += &quot;轨道&quot; + i + &quot;的物体数量差异：&quot; + this.objectsNumDiff.get(i - 1);</span>
+<span class="fc bfc" id="L425" title="All 2 branches covered.">				if (!this.objectsDiff.isEmpty()) {</span>
+<span class="fc" id="L426">					difference += &quot;；物体差异：&quot; + this.objectsDiff.get(i - 1) + &quot;\n&quot;;</span>
+<span class="fc" id="L427">				} else {</span>
+<span class="fc" id="L428">					difference += &quot;\n&quot;;</span>
+				}
+			}
+<span class="fc" id="L431">			return difference;</span>
+		}
+	}
+
+	/**
+	 * Simulate planets movement in stellar system. This method should only perform
+	 * in stellar system.
+	 * 
+	 * @param c a stellar system
+	 */
+	public void planetMovingSimulate(CircularOrbit&lt;L, PhysicalObject&gt; c) {
+<span class="nc" id="L442">		JFrame frame = new JFrame(&quot;Simulate Stellar System Movement&quot;);</span>
+<span class="nc" id="L443">		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span>
+<span class="nc" id="L444">		frame.getContentPane().add(new VisualPanel(c));</span>
+<span class="nc" id="L445">		frame.setSize(800, 800);</span>
+<span class="nc" id="L446">		frame.setVisible(true);</span>
+<span class="nc" id="L447">	}</span>
+
+	/**
+	 * VisualPanel creates a JPanel where a animation simulating planets movement
+	 * shows.
+	 * 
+	 * @author Shen
+	 *
+	 */
+	private class VisualPanel extends JPanel {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		private CircularOrbit&lt;L, PhysicalObject&gt; c;
+<span class="nc" id="L462">		private int delay = 33;</span>
+		private long startTime;
+		javax.swing.Timer timer;
+
+		/**
+		 * Constructor. In this constructor, a timer is set up and startTime is
+		 * initialize which can be used to calculate how long it has passed in this
+		 * simulation. Besides, a panel is created for showing the animation. And start
+		 * time is recorded for calculating running time.
+		 * 
+		 * @param c a stellar system
+		 */
+<span class="nc" id="L474">		public VisualPanel(CircularOrbit&lt;L, PhysicalObject&gt; c) {</span>
+<span class="nc" id="L475">			this.c = c;</span>
+<span class="nc" id="L476">			timer = new javax.swing.Timer(delay, new VisualListener());</span>
+<span class="nc" id="L477">			JPanel panel = new JPanel();</span>
+<span class="nc" id="L478">			add(panel);</span>
+<span class="nc" id="L479">			timer.start();</span>
+<span class="nc" id="L480">			startTime = System.currentTimeMillis();</span>
+<span class="nc" id="L481">		}</span>
+
+		/**
+		 * Every time repaint() method is called, so is this method. It is used to draw
+		 * all planets' position and tracks in the current time.
+		 */
+		public void paintComponent(Graphics canvas) {
+<span class="nc" id="L488">			super.paintComponent(canvas);</span>
+<span class="nc" id="L489">			DecimalFormat df = new DecimalFormat(&quot;######0&quot;);</span>
+<span class="nc" id="L490">			canvas.setColor(Color.BLACK);</span>
+<span class="nc" id="L491">			canvas.fillOval(390, 390, 20, 20);</span>
+<span class="nc bnc" id="L492" title="All 2 branches missed.">			for (int i = 0; i &lt; this.c.getTracks().size(); i++) {</span>
+<span class="nc" id="L493">				int drawRadius = 40 * (i + 1);</span>
+<span class="nc" id="L494">				canvas.drawOval(400 - drawRadius, 400 - drawRadius, 2 * drawRadius, 2 * drawRadius);</span>
+<span class="nc bnc" id="L495" title="All 2 branches missed.">				for (PhysicalObject planet : this.c.getObjectsInTrack().get(this.c.getTracks().get(i))) {</span>
+<span class="nc" id="L496">					long time = (System.currentTimeMillis() - startTime) * 1000;</span>
+<span class="nc" id="L497">					double degree = planet.getDegree();</span>
+<span class="nc" id="L498">					boolean direct = planet.getDirect();</span>
+<span class="nc" id="L499">					double speed = planet.getSpeed();</span>
+<span class="nc" id="L500">					double radius = this.c.getTracks().get(i).getRadius();</span>
+<span class="nc" id="L501">					double theta = time * speed / radius;</span>
+<span class="nc bnc" id="L502" title="All 2 branches missed.">					double degree_ = direct ? degree + theta : degree - theta;</span>
+<span class="nc" id="L503">					degree_ = degree_ / Math.PI * 180 % 360;</span>
+
+<span class="nc" id="L505">					int x = 400 + Integer.parseInt(df.format(drawRadius * Math.cos(degree_ * Math.PI / 180)));</span>
+<span class="nc" id="L506">					int y = 400 - Integer.parseInt(df.format(drawRadius * Math.sin(degree_ * Math.PI / 180)));</span>
+<span class="nc" id="L507">					canvas.fillOval(x - 5, y - 5, 10, 10);</span>
+				}
+			}
+<span class="nc" id="L510">		}</span>
+
+		/**
+		 * 
+		 * @author Shen
+		 *
+		 */
+<span class="nc" id="L517">		private class VisualListener implements ActionListener {</span>
+			@Override
+			public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L520">				repaint();</span>
+<span class="nc" id="L521">			}</span>
+		}
+	}
+
+	/**
+	 * Log search.
+	 * 
+	 * @param file a log file
+	 */
+	public void logSearch(File file) {
+<span class="nc" id="L531">		Scanner in = new Scanner(System.in);</span>
+<span class="nc" id="L532">		logSearchMenu();</span>
+<span class="nc" id="L533">		int searchLogChoice = 0;</span>
+		try {
+<span class="nc" id="L535">			searchLogChoice = in.nextInt();</span>
+<span class="nc" id="L536">			in.nextLine();</span>
+<span class="nc" id="L537">		} catch (InputMismatchException e) {</span>
+<span class="nc" id="L538">			System.err.println(e.getMessage() + &quot;Return log search.&quot;);</span>
+<span class="nc" id="L539">			in.nextLine();</span>
+<span class="nc" id="L540">			return;</span>
+		}
+<span class="nc" id="L542">		String line1 = null, line2 = null;</span>
+<span class="nc" id="L543">		FileReader reader = null;</span>
+		try {
+<span class="nc" id="L545">			reader = new FileReader(new File(&quot;log/stellarSystemLog.log&quot;));</span>
+<span class="nc" id="L546">		} catch (FileNotFoundException e) {</span>
+<span class="nc" id="L547">			e.printStackTrace();</span>
+<span class="nc" id="L548">			return;</span>
+		}
+<span class="nc" id="L550">		BufferedReader br = new BufferedReader(reader);</span>
+<span class="nc bnc" id="L551" title="All 5 branches missed.">		switch (searchLogChoice) {</span>
+		case 1:
+<span class="nc" id="L553">			System.out.println(&quot;Please input start date as format below:&quot;);</span>
+<span class="nc" id="L554">			System.out.println(&quot;yyyy-mm-dd&quot;);</span>
+<span class="nc" id="L555">			String startDateString = in.nextLine();</span>
+<span class="nc" id="L556">			System.out.println(&quot;Please input start time as format below:&quot;);</span>
+<span class="nc" id="L557">			System.out.println(&quot;hh:mm:ss&quot;);</span>
+<span class="nc" id="L558">			String startTimeString = in.nextLine();</span>
+<span class="nc" id="L559">			Date startDate = Date.valueOf(startDateString);</span>
+<span class="nc" id="L560">			Time startTime = Time.valueOf(startTimeString);</span>
+<span class="nc" id="L561">			System.out.println(&quot;Please input start date as format below:&quot;);</span>
+<span class="nc" id="L562">			System.out.println(&quot;yyyy-mm-dd&quot;);</span>
+<span class="nc" id="L563">			String endDateString = in.nextLine();</span>
+<span class="nc" id="L564">			System.out.println(&quot;Please input start time as format below:&quot;);</span>
+<span class="nc" id="L565">			System.out.println(&quot;hh:mm:ss&quot;);</span>
+<span class="nc" id="L566">			String endTimeString = in.nextLine();</span>
+<span class="nc" id="L567">			Date endDate = Date.valueOf(endDateString);</span>
+<span class="nc" id="L568">			Time endTime = Time.valueOf(endTimeString);</span>
+			try {
+<span class="nc bnc" id="L570" title="All 2 branches missed.">				while ((line1 = br.readLine()) != null) {</span>
+<span class="nc" id="L571">					line2 = br.readLine();</span>
+<span class="nc" id="L572">					String dateInfo = line1.substring(line1.indexOf(&quot;[&quot;) + 1, line1.indexOf(&quot;]&quot;)).split(&quot; &quot;)[0];</span>
+<span class="nc" id="L573">					String timeInfo = line1.substring(line1.indexOf(&quot;[&quot;) + 1, line1.indexOf(&quot;]&quot;)).split(&quot; &quot;)[1];</span>
+<span class="nc" id="L574">					Date logDate = Date.valueOf(dateInfo);</span>
+<span class="nc" id="L575">					Time logTime = Time.valueOf(timeInfo);</span>
+<span class="nc bnc" id="L576" title="All 4 branches missed.">					if (startDate.equals(endDate) &amp;&amp; logDate.equals(startDate)</span>
+<span class="nc bnc" id="L577" title="All 4 branches missed.">							&amp;&amp; (!logTime.before(startTime) &amp;&amp; !logTime.after(endTime))) {</span>
+<span class="nc" id="L578">						System.out.println(line1);</span>
+<span class="nc" id="L579">						System.out.println(line2);</span>
+<span class="nc bnc" id="L580" title="All 4 branches missed.">					} else if (logDate.after(startDate) &amp;&amp; logDate.before(endDate)) {</span>
+<span class="nc" id="L581">						System.out.println(line1);</span>
+<span class="nc" id="L582">						System.out.println(line2);</span>
+<span class="nc bnc" id="L583" title="All 6 branches missed.">					} else if (logDate.equals(startDate) &amp;&amp; endDate.after(startDate) &amp;&amp; !logTime.before(startTime)) {</span>
+<span class="nc" id="L584">						System.out.println(line1);</span>
+<span class="nc" id="L585">						System.out.println(line2);</span>
+<span class="nc bnc" id="L586" title="All 6 branches missed.">					} else if (logDate.equals(endDate) &amp;&amp; startDate.before(endDate) &amp;&amp; !logTime.after(endTime)) {</span>
+<span class="nc" id="L587">						System.out.println(line1);</span>
+<span class="nc" id="L588">						System.out.println(line2);</span>
+					}
+				}
+<span class="nc" id="L591">			} catch (IOException e) {</span>
+<span class="nc" id="L592">				e.printStackTrace();</span>
+			}
+<span class="nc" id="L594">			break;</span>
+		case 2:
+<span class="nc" id="L596">			System.out.println(&quot;Please input log level(Info/Warning/Severe):&quot;);</span>
+<span class="nc" id="L597">			String logLevel = in.nextLine();</span>
+			try {
+<span class="nc bnc" id="L599" title="All 2 branches missed.">				while ((line1 = br.readLine()) != null) {</span>
+<span class="nc" id="L600">					line2 = br.readLine();</span>
+<span class="nc bnc" id="L601" title="All 2 branches missed.">					if (line2 == null) {</span>
+<span class="nc" id="L602">						System.out.println(&quot;Abort log reading. The number of lines in log may be odd.&quot;);</span>
+<span class="nc" id="L603">						break;</span>
+					}
+<span class="nc" id="L605">					String logLevelInfo = line2.substring(0, line2.indexOf(&quot;:&quot;));</span>
+<span class="nc bnc" id="L606" title="All 2 branches missed.">					if (logLevelInfo.equalsIgnoreCase(logLevel)) {</span>
+<span class="nc" id="L607">						System.out.println(line1);</span>
+<span class="nc" id="L608">						System.out.println(line2);</span>
+					}
+				}
+<span class="nc" id="L611">			} catch (IOException e) {</span>
+<span class="nc" id="L612">				e.printStackTrace();</span>
+			}
+<span class="nc" id="L614">			break;</span>
+		case 3:
+<span class="nc" id="L616">			System.out.println(&quot;Please input class information(Package.Class):&quot;);</span>
+<span class="nc" id="L617">			String info = in.nextLine();</span>
+<span class="nc" id="L618">			String packageInfo = info.split(&quot;\\.&quot;)[0];</span>
+<span class="nc" id="L619">			String classInfo = info.split(&quot;\\.&quot;)[1];</span>
+			try {
+<span class="nc bnc" id="L621" title="All 2 branches missed.">				while ((line1 = br.readLine()) != null) {</span>
+<span class="nc" id="L622">					line2 = br.readLine();</span>
+<span class="nc" id="L623">					String packageClassInfo = line1.split(&quot; &quot;)[2];</span>
+<span class="nc" id="L624">					String logPackageInfo = packageClassInfo.split(&quot;\\.&quot;)[0];</span>
+<span class="nc" id="L625">					String logClassInfo = packageClassInfo.split(&quot;\\.&quot;)[1];</span>
+<span class="nc bnc" id="L626" title="All 4 branches missed.">					if (logPackageInfo.equals(packageInfo) &amp;&amp; logClassInfo.equals(classInfo)) {</span>
+<span class="nc" id="L627">						System.out.println(line1);</span>
+<span class="nc" id="L628">						System.out.println(line2);</span>
+					}
+				}
+<span class="nc" id="L631">			} catch (IOException e) {</span>
+<span class="nc" id="L632">				e.printStackTrace();</span>
+			}
+<span class="nc" id="L634">			break;</span>
+		case 4:
+<span class="nc" id="L636">			System.out.println(&quot;Please input method name:&quot;);</span>
+<span class="nc" id="L637">			String methodName = in.nextLine();</span>
+			try {
+<span class="nc bnc" id="L639" title="All 2 branches missed.">				while ((line1 = br.readLine()) != null) {</span>
+<span class="nc" id="L640">					line2 = br.readLine();</span>
+<span class="nc" id="L641">					String logMethodName = line1.split(&quot; &quot;)[3];</span>
+<span class="nc bnc" id="L642" title="All 2 branches missed.">					if (logMethodName.equals(methodName)) {</span>
+<span class="nc" id="L643">						System.out.println(line1);</span>
+<span class="nc" id="L644">						System.out.println(line2);</span>
+					}
+				}
+<span class="nc" id="L647">			} catch (IOException e) {</span>
+<span class="nc" id="L648">				e.printStackTrace();</span>
+			}
+<span class="nc" id="L650">			break;</span>
+		default:
+			break;
+		}
+<span class="nc" id="L654">	}</span>
+
+	private static void logSearchMenu() {
+<span class="nc" id="L657">		System.out.println(&quot;1. Time period.&quot;);</span>
+<span class="nc" id="L658">		System.out.println(&quot;2. Log level.&quot;);</span>
+<span class="nc" id="L659">		System.out.println(&quot;3. Class.&quot;);</span>
+<span class="nc" id="L660">		System.out.println(&quot;4. Method.&quot;);</span>
+<span class="nc" id="L661">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>

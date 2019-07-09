@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Friend.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">physicalObject</a> &gt; <span class="el_source">Friend.java</span></div><h1>Friend.java</h1><pre class="source lang-java linenums">package physicalObject;
+
+import java.util.Random;
+
+<span class="pc bpc" id="L5" title="1 of 2 branches missed.">public class Friend implements PhysicalObject {</span>
+
+	protected final String name;
+	protected final int age;
+	protected final char sex;
+	private final double degree;
+
+	/*
+	 * Abstraction function:
+	 * 	AF(name) = name of this friend
+	 *  AF(age) = age of this friend
+	 *  AF(sex) = sex of this friend
+	 *  AF(degree) = degree of this friend position in track
+	 *  
+	 * Representation invariant:
+	 * 	name should be consist of only letters or numbers and shouldn't contain any blank space or any other characters.
+	 * 	age should be a positive integer.
+	 * 	sex should be either 'M' or 'F'. 'M' representing male and 'F' representing female.
+	 * 	degree is no less than 0 and less than 360, unit is degree
+	 * 
+	 * Safety from rep exposure:
+	 * 	All representations are defined private and final.
+	 * 	All representations in Observer are immutable.
+	 */
+	// checkRep
+	private void checkRep() {
+<span class="pc bpc" id="L31" title="2 of 4 branches missed.">		assert !this.name.contains(&quot;[^a-zA-Z0-9]&quot;);</span>
+<span class="pc bpc" id="L32" title="2 of 4 branches missed.">		assert this.age &gt; 0;</span>
+<span class="pc bpc" id="L33" title="2 of 6 branches missed.">		assert this.sex == 'M' || this.sex == 'F';</span>
+<span class="pc bpc" id="L34" title="3 of 6 branches missed.">		assert this.degree &gt;= 0 &amp;&amp; this.degree &lt; 360;</span>
+<span class="fc" id="L35">	}</span>
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param name Name of this friend. This must be consist of only letters or
+	 *             numbers and mustn't contain any blank space or any other
+	 *             characters.
+	 * @param age  Age of this friend. This must be a positive integer.
+	 * @param sex  Sex of this friend. This must be either 'M' or 'F'. 'M'
+	 *             representing male and 'F' representing female.
+	 */
+<span class="fc" id="L47">	public Friend(String name, int age, char sex) {</span>
+<span class="fc" id="L48">		Random random = new Random();</span>
+<span class="fc" id="L49">		this.name = name;</span>
+<span class="fc" id="L50">		this.age = age;</span>
+<span class="fc" id="L51">		this.sex = sex;</span>
+<span class="fc" id="L52">		this.degree = random.nextDouble() * 360;</span>
+<span class="fc" id="L53">		checkRep();</span>
+<span class="fc" id="L54">	}</span>
+
+	@Override
+	public String getName() {
+<span class="fc" id="L58">		String name = this.name;</span>
+<span class="fc" id="L59">		checkRep();</span>
+<span class="fc" id="L60">		return name;</span>
+	}
+
+	@Override
+	public double getDegree() {
+<span class="fc" id="L65">		double degree = this.degree;</span>
+<span class="fc" id="L66">		checkRep();</span>
+<span class="fc" id="L67">		return degree;</span>
+	}
+
+	/**
+	 * This method is non-existent in atom structure.
+	 */
+	@Override
+	public boolean getDirect() {
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">		assert false;</span>
+<span class="nc" id="L76">		return false;</span>
+	}
+
+	/**
+	 * This method is non-existent in atom structure.
+	 */
+	@Override
+	public double getSpeed() {
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">		assert false;</span>
+<span class="nc" id="L85">		return 0;</span>
+	}
+
+	/**
+	 * This method is non-existent in atom structure.
+	 */
+	@Override
+	public double getRaidus() {
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">		assert false;</span>
+<span class="nc" id="L94">		return 0;</span>
+	}
+
+	/**
+	 * Two friends are equal only when they have the same name.
+	 */
+	@Override
+	public boolean equals(Object friend) {
+<span class="pc bpc" id="L102" title="2 of 6 branches missed.">		return friend != null &amp;&amp; friend.getClass() == Friend.class &amp;&amp; this.name.equals(((Friend) friend).name);</span>
+	}
+
+	/**
+	 * Equality of friends only links with name, so hash code of friends can be
+	 * name's hash code.
+	 */
+	@Override
+	public int hashCode() {
+<span class="fc" id="L111">		return this.name.hashCode();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">applications</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">package applications;
+
+import java.io.IOException;
+import java.util.InputMismatchException;
+import java.util.Locale;
+import java.util.Scanner;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+
+/**
+ * 
+ * @author Shen
+ *
+ */
+<span class="nc" id="L17">public class Main {</span>
+
+<span class="nc" id="L19">	private static Scanner in = new Scanner(System.in);</span>
+<span class="nc" id="L20">	private static Logger atomStructureLogger = Logger.getLogger(&quot;AtomStructure Log&quot;);</span>
+<span class="nc" id="L21">	private static Logger stellarSystemLogger = Logger.getLogger(&quot;StellarSystem Log&quot;);</span>
+<span class="nc" id="L22">	private static Logger socialNetworkCircleLogger = Logger.getLogger(&quot;SocialNetworkCircle Log&quot;);</span>
+
+	/**
+	 * main
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+<span class="nc" id="L30">		Locale.setDefault(new Locale(&quot;en&quot;, &quot;EN&quot;));</span>
+<span class="nc" id="L31">		menu();</span>
+<span class="nc" id="L32">		atomStructureLogger.setLevel(Level.INFO);</span>
+<span class="nc" id="L33">		stellarSystemLogger.setLevel(Level.INFO);</span>
+<span class="nc" id="L34">		socialNetworkCircleLogger.setLevel(Level.INFO);</span>
+<span class="nc" id="L35">		FileHandler atomStructureHandler = null, stellarSystemHandler = null, socialNetworkCircleHandler = null;</span>
+		try {
+<span class="nc" id="L37">			atomStructureHandler = new FileHandler(&quot;log/atomStructureLog.log&quot;, true);</span>
+<span class="nc" id="L38">			stellarSystemHandler = new FileHandler(&quot;log/stellarSystemLog.log&quot;, true);</span>
+<span class="nc" id="L39">			socialNetworkCircleHandler = new FileHandler(&quot;log/socialNetworkCircleLog.log&quot;, true);</span>
+<span class="nc" id="L40">		} catch (SecurityException e) {</span>
+<span class="nc" id="L41">			e.printStackTrace();</span>
+<span class="nc" id="L42">			return;</span>
+<span class="nc" id="L43">		} catch (IOException e) {</span>
+<span class="nc" id="L44">			e.printStackTrace();</span>
+<span class="nc" id="L45">			return;</span>
+		}
+<span class="nc" id="L47">		atomStructureHandler.setFormatter(new SimpleFormatter());</span>
+<span class="nc" id="L48">		stellarSystemHandler.setFormatter(new SimpleFormatter());</span>
+<span class="nc" id="L49">		socialNetworkCircleHandler.setFormatter(new SimpleFormatter());</span>
+<span class="nc" id="L50">		atomStructureLogger.addHandler(atomStructureHandler);</span>
+<span class="nc" id="L51">		stellarSystemLogger.addHandler(stellarSystemHandler);</span>
+<span class="nc" id="L52">		socialNetworkCircleLogger.addHandler(socialNetworkCircleHandler);</span>
+<span class="nc" id="L53">		int choose = 0;</span>
+		try {
+<span class="nc" id="L55">			choose = in.nextInt();</span>
+<span class="nc" id="L56">			in.nextLine();</span>
+<span class="nc" id="L57">		} catch (InputMismatchException e) {</span>
+<span class="nc" id="L58">			System.out.println(&quot;Input mismatch. Please run again.&quot;);</span>
+<span class="nc" id="L59">			return;</span>
+		}
+<span class="nc bnc" id="L61" title="All 4 branches missed.">		switch (choose) {</span>
+		case 1:
+<span class="nc" id="L63">			atomStructureLogger.info(&quot;AtomStructure application activate.&quot;);</span>
+<span class="nc" id="L64">			AtomStructureAPP.application();</span>
+<span class="nc" id="L65">			break;</span>
+		case 2:
+<span class="nc" id="L67">			stellarSystemLogger.info(&quot;StellarSystem application activate.&quot;);</span>
+<span class="nc" id="L68">			StellarSystemAPP.application();</span>
+<span class="nc" id="L69">			break;</span>
+		case 3:
+<span class="nc" id="L71">			socialNetworkCircleLogger.info(&quot;SocialNetworkCircle application activate.&quot;);</span>
+<span class="nc" id="L72">			SocialNetworkCircleAPP.application();</span>
+<span class="nc" id="L73">			break;</span>
+		default:
+			break;
+		}
+<span class="nc" id="L77">		atomStructureHandler.close();</span>
+<span class="nc" id="L78">		stellarSystemHandler.close();</span>
+<span class="nc" id="L79">		socialNetworkCircleHandler.close();</span>
+<span class="nc" id="L80">	}</span>
+
+	/**
+	 * Menu which indicates user's choices on what kind of circular orbit
+	 */
+	private static void menu() {
+<span class="nc" id="L86">		System.out.println(&quot;1. Atom Structure.&quot;);</span>
+<span class="nc" id="L87">		System.out.println(&quot;2. Stellar System.&quot;);</span>
+<span class="nc" id="L88">		System.out.println(&quot;3. Social Network Circle.&quot;);</span>
+<span class="nc" id="L89">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>

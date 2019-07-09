@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>StellarSystemTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2) (2019-5-18 19:55:25)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1170301007</a> &gt; <a href="../index.html" class="el_bundle">test</a> &gt; <a href="index.source.html" class="el_package">circularOrbitTest</a> &gt; <span class="el_source">StellarSystemTest.java</span></div><h1>StellarSystemTest.java</h1><pre class="source lang-java linenums">package circularOrbitTest;
+
+import static org.junit.Assert.*;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import MyException.AtomElectronNumException;
+import MyException.AtomElementException;
+import MyException.AtomTrackNumException;
+import MyException.DataScientificNumberException;
+import MyException.DataSyntaxException;
+import MyException.IllegalIntimacyInSocialTieException;
+import centralObject.Star;
+import circularOrbit.CircularOrbit;
+import circularOrbit.StellarSystem;
+import circularOrbit.StellarSystemFactory;
+import physicalObject.ConcretePlanetFactory;
+import physicalObject.PhysicalObject;
+import physicalObject.PlanetFactory;
+import track.Track;
+import track.TrackFactory;
+
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">public class StellarSystemTest {</span>
+
+<span class="fc" id="L33">	private static StellarSystemFactory stellarSystemFactory = new StellarSystemFactory();</span>
+<span class="fc" id="L34">	private static TrackFactory trackFactory = new TrackFactory();</span>
+<span class="fc" id="L35">	private static CircularOrbit&lt;Star, PhysicalObject&gt; stellarSystem = stellarSystemFactory.produce();</span>
+<span class="fc" id="L36">	private static PlanetFactory planetFactory = new ConcretePlanetFactory();</span>
+
+	/*
+	 * Test strategy
+	 * 	All tests below are about tests in stellar system. 
+	 * 	@Before readFromFile
+	 * 		Before any test, stellarSystem should be initialized from StellarSystem.txt.
+	 * 		The test is all about stellar system from StellarSystem.txt.
+	 * 	testAddTrack
+	 * 		This tests addTrack.
+	 * 		Add a track to stellar system to see the change before and after adding.
+	 * 		Call getTracks to see if the test track is added.
+	 * 	testDeleteTrack
+	 * 		This tests deleteTrack.
+	 * 		Delete a track stellar system to see the change before and after deleting.
+	 * 		Call getTracks to see if the track in test position is missed.
+	 * 	testAddCentralObject
+	 * 		This tests addCentralObject.
+	 * 		Add a central object in stellar system to see the change before and after adding.
+	 * 		Call getCentralObject to see if the central object is the test one after adding.
+	 * 	testAddPhysicalObjectToTrack
+	 * 		This tests addPhysicalObjectToTrack.
+	 * 		Add a physical object to track to see the change before and after adding.
+	 * 		Call getObjectsInTrack to see if the test object shows in the corresponding track after adding.
+	 * 	testResetObjectsAndTrack
+	 * 		This tests resetObjectsAndTrack.
+	 * 		Call resetObjectsAndTrack and then see if the tracks and objectInTracks is empty.
+	 * 	testGetCentralObject
+	 * 		This tests getCentralObject.
+	 * 		See if the central object fits the data in file.
+	 * 	testGetTracks
+	 * 		This tests getTracks.
+	 * 		See if the tracks fits the data in file.
+	 * 	testGetObjectsInTrack
+	 * 		This tests getObjectInTrack.
+	 * 		See if the objects in tracks fits the data in file.
+	 * 	testParseNumber
+	 * 		This tests static method parseNumber in StellarSystem.
+	 * 		1. a number string without &quot;e&quot;, i.e. non-scientific notation.
+	 * 		2. a number string with &quot;e&quot;, i.e. scientific notatin.
+	 * 	testConstructSocialNetworkCircle
+	 * 		Test that stellar system shouldn't have constructSocialNetworkCircle method.
+	 * 	testSave
+	 * 		Test that stellar system shouldn't have save method.
+	 * 	testRestore
+	 * 		Test that stellar system shouldn't have restore method.
+	 * 	testAddRelationshipBetweenCentralAndPhysical
+	 * 		Test that stellar system shouldn't have addRelationshipBetweenCentralAndPhysical method.
+	 * 	testDeleteRelationshipBetweenPhysicalAndPhysical
+	 * 		Test that stellar system shouldn't have deleteRelationshipBetweenPhysicalAndPhysical method.
+	 * 	testGetRelationBetweenCentralAndObject
+	 * 		Test that stellar system shouldn't have getRelationBetweenCentralAndObject method.
+	 * 	testGetRelationBetweenObjects
+	 * 		Test that stellar system shouldn't have getRelationBetweenObjects method.
+	 */
+
+	@Test(expected = AssertionError.class)
+	public void testAssertionsEnabled() {
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">		assert false;</span>
+<span class="nc" id="L95">	}</span>
+
+	@Before
+	public void readFromFile() {
+<span class="fc" id="L99">		File file = new File(&quot;input/StellarSystem.txt&quot;);</span>
+		try {
+<span class="fc" id="L101">			stellarSystem.readFromFile(file);</span>
+<span class="pc" id="L102">		} catch (NumberFormatException e) {</span>
+<span class="nc" id="L103">			e.printStackTrace();</span>
+<span class="nc" id="L104">		} catch (FileNotFoundException e) {</span>
+<span class="nc" id="L105">			System.out.println(&quot;File not found. File: &quot; + file.getPath() + &quot;. &quot; + e.getMessage());</span>
+<span class="nc" id="L106">			e.printStackTrace();</span>
+<span class="nc" id="L107">		} catch (IOException e) {</span>
+<span class="nc" id="L108">			e.printStackTrace();</span>
+<span class="nc" id="L109">		} catch (DataSyntaxException e) {</span>
+<span class="nc" id="L110">			System.out.println(e.getMessage());</span>
+<span class="nc" id="L111">			e.printStackTrace();</span>
+<span class="nc" id="L112">		} catch (DataScientificNumberException e) {</span>
+<span class="nc" id="L113">			System.out.println(e.getMessage());</span>
+<span class="nc" id="L114">			e.printStackTrace();</span>
+		} catch (IllegalIntimacyInSocialTieException | AtomElementException | AtomTrackNumException
+<span class="nc" id="L116">				| AtomElectronNumException e) {</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">			assert false : &quot;shouldn't have this exception.&quot;;</span>
+<span class="nc" id="L118">			e.printStackTrace();</span>
+		}
+
+<span class="fc" id="L121">	}</span>
+
+	@Test
+	public void testAddTrack() {
+<span class="fc" id="L125">		assertEquals(&quot;expected 8&quot;, 8, stellarSystem.getTracks().size());</span>
+<span class="fc" id="L126">		stellarSystem.addTrack(trackFactory.produce(1.1e5));</span>
+<span class="fc" id="L127">		assertEquals(&quot;expected 9&quot;, 9, stellarSystem.getTracks().size());</span>
+<span class="fc" id="L128">		assertEquals(1.1e5, stellarSystem.getTracks().get(0).getRadius(), 1000);</span>
+<span class="fc" id="L129">	}</span>
+
+	@Test
+	public void testDeleteTrack() {
+<span class="fc" id="L133">		assertEquals(&quot;expected 8&quot;, 8, stellarSystem.getTracks().size());</span>
+<span class="fc" id="L134">		stellarSystem.deleteTrack(trackFactory.produce(1.49e5));</span>
+<span class="fc" id="L135">		assertEquals(&quot;expected 7&quot;, 7, stellarSystem.getTracks().size());</span>
+<span class="fc" id="L136">		assertEquals(1.49e6, stellarSystem.getTracks().get(0).getRadius(), 1000);</span>
+<span class="fc" id="L137">	}</span>
+
+	@Test
+	public void testAddCentralObject() {
+<span class="fc" id="L141">		Star star = new Star(&quot;Sun2&quot;, 7e5, 2e30);</span>
+<span class="fc" id="L142">		assertEquals(&quot;expected Sun&quot;, &quot;Sun&quot;, stellarSystem.getCentralObject().getName());</span>
+<span class="fc" id="L143">		stellarSystem.addCentralObject(star);</span>
+<span class="fc" id="L144">		assertEquals(&quot;expected Sun2&quot;, &quot;Sun2&quot;, stellarSystem.getCentralObject().getName());</span>
+<span class="fc" id="L145">	}</span>
+
+	@Test
+	public void testAddPhysicalObjectToTrack() {
+<span class="fc" id="L149">		PhysicalObject earth2 = planetFactory.produce(&quot;Earth2&quot;, &quot;Solid&quot;, &quot;Blue&quot;, 6400, 30, true, 10);</span>
+<span class="fc" id="L150">		assertEquals(&quot;expected 1&quot;, 1, stellarSystem.getObjectsInTrack().get(stellarSystem.getTracks().get(3)).size());</span>
+<span class="fc" id="L151">		stellarSystem.addPhysicalObjectToTrack(earth2, trackFactory.produce(1.49e8));</span>
+<span class="fc" id="L152">		assertEquals(&quot;expected 2&quot;, 2, stellarSystem.getObjectsInTrack().get(stellarSystem.getTracks().get(3)).size());</span>
+<span class="fc" id="L153">		assertTrue(stellarSystem.getObjectsInTrack().get(stellarSystem.getTracks().get(3)).contains(earth2));</span>
+<span class="fc" id="L154">	}</span>
+
+	@Test
+	public void testResetObjectsAndTrack() {
+<span class="fc" id="L158">		assertEquals(&quot;expected 1&quot;, 1, stellarSystem.getObjectsInTrack().get(stellarSystem.getTracks().get(0)).size());</span>
+<span class="fc" id="L159">		assertEquals(&quot;expected 8&quot;, 8, stellarSystem.getTracks().size());</span>
+<span class="fc" id="L160">		stellarSystem.resetObjectsAndTrack();</span>
+<span class="fc" id="L161">		assertTrue(stellarSystem.getTracks().isEmpty());</span>
+<span class="fc" id="L162">		assertTrue(stellarSystem.getObjectsInTrack().isEmpty());</span>
+<span class="fc" id="L163">	}</span>
+
+	@Test
+	public void testGetCentralObject() {
+<span class="fc" id="L167">		assertEquals(new Star(&quot;Sun&quot;, 6.96392e5, 1.9885e30), stellarSystem.getCentralObject());</span>
+<span class="fc" id="L168">	}</span>
+
+	@Test
+	public void testGetTracks() {
+<span class="fc" id="L172">		List&lt;Track&gt; tracks = stellarSystem.getTracks();</span>
+<span class="fc" id="L173">		assertEquals(&quot;expected 8&quot;, 8, tracks.size());</span>
+<span class="fc" id="L174">	}</span>
+
+	@Test
+	public void testGetObjectsInTrack() {
+<span class="fc" id="L178">		Map&lt;Track, List&lt;PhysicalObject&gt;&gt; objectsInTrack = stellarSystem.getObjectsInTrack();</span>
+<span class="fc" id="L179">		assertTrue(objectsInTrack.get(stellarSystem.getTracks().get(3))</span>
+<span class="fc" id="L180">				.contains(planetFactory.produce(&quot;Earth&quot;, &quot;Solid&quot;, &quot;Blue&quot;, 6378.137, 29.783, true, 0)));</span>
+<span class="fc" id="L181">		assertTrue(objectsInTrack.get(stellarSystem.getTracks().get(2))</span>
+<span class="fc" id="L182">				.contains(planetFactory.produce(&quot;Mercury&quot;, &quot;Solid&quot;, &quot;Dark&quot;, 1378.137, 69, true, 20.085)));</span>
+<span class="fc" id="L183">		assertTrue(objectsInTrack.get(stellarSystem.getTracks().get(1))</span>
+<span class="fc" id="L184">				.contains(planetFactory.produce(&quot;Saturn&quot;, &quot;Liquid&quot;, &quot;Red&quot;, 2178, 2.33e5, false, 39.21)));</span>
+<span class="fc" id="L185">		assertTrue(objectsInTrack.get(stellarSystem.getTracks().get(4))</span>
+<span class="fc" id="L186">				.contains(planetFactory.produce(&quot;Jupiter&quot;, &quot;Gas&quot;, &quot;Blue&quot;, 1637.007, 30, true, 70)));</span>
+<span class="fc" id="L187">		assertTrue(objectsInTrack.get(stellarSystem.getTracks().get(5))</span>
+<span class="fc" id="L188">				.contains(planetFactory.produce(&quot;Mars&quot;, &quot;Silid&quot;, &quot;Red&quot;, 637.137, 1000.93, false, 110)));</span>
+<span class="fc" id="L189">		assertTrue(objectsInTrack.get(stellarSystem.getTracks().get(0))</span>
+<span class="fc" id="L190">				.contains(planetFactory.produce(&quot;Neptune&quot;, &quot;Liquid&quot;, &quot;Blue&quot;, 6627.137, 9293.05, false, 359)));</span>
+<span class="fc" id="L191">		assertTrue(objectsInTrack.get(stellarSystem.getTracks().get(6))</span>
+<span class="fc" id="L192">				.contains(planetFactory.produce(&quot;Uranus&quot;, &quot;Gas&quot;, &quot;Blue&quot;, 637.137, 1e5, true, 359)));</span>
+<span class="fc" id="L193">		assertTrue(objectsInTrack.get(stellarSystem.getTracks().get(7))</span>
+<span class="fc" id="L194">				.contains(planetFactory.produce(&quot;Venus&quot;, &quot;Solid&quot;, &quot;Red&quot;, 6378.137, 203.24, false, 181.23)));</span>
+<span class="fc" id="L195">	}</span>
+
+	@Test
+	public void testParseNumber() throws Exception {
+<span class="fc" id="L199">		assertEquals(4.567, StellarSystem.parseNumber(&quot;4.567&quot;), 0.0001);</span>
+<span class="fc" id="L200">		assertEquals(4.567e10, StellarSystem.parseNumber(&quot;4.567e10&quot;), 1e6);</span>
+<span class="fc" id="L201">	}</span>
+
+	@Test(expected = AssertionError.class)
+	public void testConstructSocialNetworkCircle() {
+<span class="nc" id="L205">		stellarSystem.constructSocialNetworkCircle(null, null, null);</span>
+<span class="nc" id="L206">	}</span>
+
+	@Test(expected = AssertionError.class)
+	public void testSave() {
+<span class="nc" id="L210">		stellarSystem.save();</span>
+<span class="nc" id="L211">	}</span>
+
+	@Test(expected = AssertionError.class)
+	public void testRestore() {
+<span class="nc" id="L215">		stellarSystem.restore(null);</span>
+<span class="nc" id="L216">	}</span>
+
+	@Test(expected = AssertionError.class)
+	public void testAddRelationshipBetweenCentralAndPhysical() {
+<span class="nc" id="L220">		stellarSystem.addRelationshipBetweenCentralAndPhysical(null, true, 0);</span>
+<span class="nc" id="L221">	}</span>
+
+	@Test(expected = AssertionError.class)
+	public void testDeleteRelationshipBetweenPhysicalAndPhysical() {
+<span class="nc" id="L225">		stellarSystem.deleteRelationshipBetweenPhysicalAndPhysical(null, null);</span>
+<span class="nc" id="L226">	}</span>
+
+	@Test(expected = AssertionError.class)
+	public void testGetRelationBetweenCentralAndObject() {
+<span class="nc" id="L230">		stellarSystem.getRelationBetweenCentralAndObject();</span>
+<span class="nc" id="L231">	}</span>
+
+	@Test(expected = AssertionError.class)
+	public void testGetRelationBetweenObjects() {
+<span class="nc" id="L235">		stellarSystem.getRelationBetweenObjects();</span>
+<span class="nc" id="L236">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>test (2) (2019-5-18 19:55:25)</div></body></html>
